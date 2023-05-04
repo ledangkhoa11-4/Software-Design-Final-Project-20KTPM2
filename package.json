@@ -1,0 +1,29 @@
+{
+  "name": "software-design-final-project-20ktpm2",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Đồ án cuối kỳ môn Thiết kế phần mềm - Website chia sẽ công thức nấu ăn",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ledangkhoa11-4/Software-Design-Final-Project-20KTPM2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ledangkhoa11-4/Software-Design-Final-Project-20KTPM2/issues"
+  },
+  "homepage": "https://github.com/ledangkhoa11-4/Software-Design-Final-Project-20KTPM2#readme",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-async-errors": "^3.1.1",
+    "express-handlebars": "^7.0.7",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.22"
+  }
+}
