@@ -18,6 +18,7 @@ app.set('view engine', 'hbs');
 app.set('views', './views');
 
 app.use(morgan('dev'))
+
 app.use("/", (req, res, next)=>{
     res.render('home', {
         binding: "truyền data"
