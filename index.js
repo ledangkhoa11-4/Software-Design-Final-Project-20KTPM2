@@ -3,6 +3,8 @@ import express, { urlencoded } from "express";
 import { engine } from "express-handlebars";
 import asyncError from 'express-async-errors';
 import morgan from "morgan";
+import database from "./database/db.js"
+import express_handlebars_sections from "express-handlebars-sections";
 const app = express();
 
 app.use("/public", express.static("public"));
@@ -13,6 +15,9 @@ app.use(
 );
 app.engine('hbs', engine({
     extname: 'hbs',
+    helpers:{
+      section: express_handlebars_sections()
+    }
 }));
 app.set('view engine', 'hbs');
 app.set('views', './views');

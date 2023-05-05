@@ -1,1 +1,89 @@
-<h1>Header.hbs</h1>
+<link rel="stylesheet" href="/public/css/header.css">
+<nav class="navbar navbar-expand-custom navbar-mainbg">
+        <a href="">
+            <img style="width: 153px; height: 63px;" class="navbar-brand navbar-logo" src="/public/images/logo.png" alt="">
+        </a>
+       
+        <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars text-white"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent"  style="justify-content: flex-end;">
+            <ul class="navbar-nav ml-auto">
+                <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
+                <li class="nav-item active">
+                    <a class="nav-link" href="javascript:void(0);"><i class="bi bi-house"></i>Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript:void(0);"><i class="bi bi-search"></i>Search</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript:void(0);"><i class="fa-regular fa-bowl-food"></i>Share new recipe</a>
+                </li>
+                <li class="nav-item disable" style="pointer-events: none;">
+                    <a class="nav-link" href="javascript:void(0);"></i></a>
+                </li>
+            </ul>
+        </div>
+        <div class="authbar" style="margin-right:20px">
+            <button type="button" class="btn btn-light" style="margin-right: 16px;">Login</button>
+            <a href="" style="margin: 8px 0 12px 0; color: #fff";>Sign up</a>
+        </div>
+</nav>
+{{#section 'script'}}
+<script>
+function test(){
+	var tabsNewAnim = $('#navbarSupportedContent');
+	var selectorNewAnim = $('#navbarSupportedContent').find('li').length;
+	var activeItemNewAnim = tabsNewAnim.find('.active');
+	var activeWidthNewAnimHeight = activeItemNewAnim.innerHeight();
+	var activeWidthNewAnimWidth = activeItemNewAnim.innerWidth();
+	var itemPosNewAnimTop = activeItemNewAnim.position();
+	var itemPosNewAnimLeft = activeItemNewAnim.position();
+	$(".hori-selector").css({
+		"top":itemPosNewAnimTop.top + "px", 
+		"left":itemPosNewAnimLeft.left + "px",
+		"height": activeWidthNewAnimHeight + "px",
+		"width": activeWidthNewAnimWidth + "px"
+	});
+	$("#navbarSupportedContent").on("click","li",function(e){
+		$('#navbarSupportedContent ul li').removeClass("active");
+		$(this).addClass('active');
+		var activeWidthNewAnimHeight = $(this).innerHeight();
+		var activeWidthNewAnimWidth = $(this).innerWidth();
+		var itemPosNewAnimTop = $(this).position();
+		var itemPosNewAnimLeft = $(this).position();
+		$(".hori-selector").css({
+			"top":itemPosNewAnimTop.top + "px", 
+			"left":itemPosNewAnimLeft.left + "px",
+			"height": activeWidthNewAnimHeight + "px",
+			"width": activeWidthNewAnimWidth + "px"
+		});
+	});
+}
+$(document).ready(function(){
+	setTimeout(function(){ test(); });
+});
+$(window).on('resize', function(){
+	setTimeout(function(){ test(); }, 500);
+});
+$(".navbar-toggler").click(function(){
+	$(".navbar-collapse").slideToggle(300);
+	setTimeout(function(){ test(); });
+});
+
+jQuery(document).ready(function($){
+	// Get current path and find target link
+	var path = window.location.pathname.split("/").pop();
+
+	// Account for home page with empty path
+	if ( path == '' ) {
+		path = 'index.html';
+	}
+
+	var target = $('#navbarSupportedContent ul li a[href="'+path+'"]');
+	// Add active class to target link
+	target.parent().addClass('active');
+});
+
+</script>
+{{/section}}
