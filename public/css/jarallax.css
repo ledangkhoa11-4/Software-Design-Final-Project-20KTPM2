@@ -14,7 +14,7 @@
 .content h2 {
   font-size: 42px;
 }
-section {
+.parallax {
   position: relative;
   width: 100%;
   height: 450px;
@@ -26,7 +26,7 @@ section {
   border-bottom-left-radius: 55px;
   border-bottom-right-radius: 55px;
 }
-section::before {
+.parallax::before {
   content: "";
   position: absolute;
   bottom: 0;
@@ -35,7 +35,7 @@ section::before {
   
   z-index: 100;
 }
-section img {
+.parallax img {
   position: absolute;
   top:20%
 }

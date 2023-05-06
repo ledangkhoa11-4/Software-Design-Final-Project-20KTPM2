@@ -17,7 +17,7 @@ window.addEventListener("scroll", function () {
    right_cloud.style.transform = "translateX(" + val * 1.3 + "px)";
 //   bottom_cloud.style.transform = "translateX(" + val * 0.8 + "px)";
   stars.style.transform = "translateY(" + val * -1 + "px)";
-  text.style.transform = "translateY(" + val * 2 + "px)";
+  text.style.transform = "translateY(" + val * 1.5 + "px)";
 
   if (responsive <= 768) {
     text.style.transform = "scale(" + 0.7 + ") translateY(" + val * 1 + "px)";

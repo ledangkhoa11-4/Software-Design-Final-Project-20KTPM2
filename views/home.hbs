@@ -1,9 +1,310 @@
 <link rel="stylesheet" href="/public/css/jarallax.css">
-<section >   
-    
-    <img src="/public/images/text.png" id="text" style="    width: 45%;" />
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
+<link rel="stylesheet" href="/public/css/home.css">
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+<link rel="stylesheet" type="text/css" href="/public/css/slick.css">
+<style>
+  .swiper {
+      width: 100%;
+      height: 100%;
+    }
+
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .swiper-slide img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+</style>
+
+<section class="parallax" >   
+    <img src="/public/images/text.png" id="text" style="top:30%;    width: 45%;" />
   <img src="https://i.ibb.co/BZs8WZr/stars.png" id="stars" />
     <img src="/public/images/dishes.png" id="right_cloud" width="300px"/>
 </section>
-<h2 style="height: 1000px;"></h2>
+
+<section class="section section_offset" style="padding: 30px 40px 10px 40px;">
+  <div class="container-fluid" >
+    <div class="feedback">
+      <div class="row align-items-center">
+        <div class="col-xs-12 col-lg-3 mb-4 mb-lg-0 mr-3">
+          <h2 class="feedback__title">Popular Recipes</h2>
+          <i class="feedback__text">The dishes that receive the most positives from user as well as the most viewed.</i>
+        </div>
+        <div class="col-xs-12 col-lg">
+          <div class="swiper feedback__slider">
+            <div class="swiper-wrapper">
+              <div class="feedback__item swiper-slide" style="position: relative;">
+                <div class="card" style="width: 18rem;">
+                  <img src="..." class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                  </div>
+                </div>
+              </div>
+              <div class="feedback__item swiper-slide" style="position: relative;">
+                <div class="card" style="width: 18rem;">
+                  <img src="..." class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                  </div>
+                </div>
+              </div>
+              <div class="feedback__item swiper-slide" style="position: relative;">
+                <div class="card" style="width: 18rem;">
+                  <img src="..." class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container-fluid mb-4 mt-4" style="background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
+  <div class="row justify-content-center align-items-center mt-5" style="flex-direction: column;min-height:100px" >
+
+      <p class=" mt-2 mb-2" style="font-style: italic;
+    font-size: 21px;
+    font-family: cursive;
+    text-align: center;">Ready to share your specialty dish?</p>
+    <a href="" style="display: block; text-align:center">
+      <button  type="button" class="btn btn-warning" style="width: 100px;">Join us</button>
+    </a>
+  </div>
+</div>
+
+<div class="container-sm popular-courses ml-4 mr-4" style="padding-top: 50px;">
+  <h2 class="slider-title mb-3">Most people are viewing</h2>
+  <div class="container-sm ml-5 mr-5">
+    <div class="swiper single-Swiper">
+      <div class="swiper-wrapper">
+        <div class="card swiper-slide" style="width: 18rem; ">
+          <img src="..." class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+          </div>
+        </div>
+        <div class="card swiper-slide" style="width: 18rem; ">
+          <img src="..." class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+          </div>
+        </div>
+        <div class="card swiper-slide" style="width: 18rem;">
+          <img src="..." class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+          </div>
+        </div>
+        <div class="card swiper-slide" style="width: 18rem;">
+          <img src="..." class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+          </div>
+        </div>
+        <div class="card swiper-slide" style="width: 18rem;">
+          <img src="..." class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+          </div>
+        </div>
+      </div>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+    </div>
+    <div class="swiper-pagination_mostview" style="width: 80px;margin-left: auto;margin-right: auto;transform: translateX(0);"></div>
+  </div>
+</div>
+
+
+<div class="container-sm popular-courses ml-4 mr-4 mt-3" style="padding-top: 50px;">
+  <h2 class="slider-title mb-3">Newest Recipes</h2>
+  <div class="container-sm ml-5 mr-5">
+    <div class="card-deck slick-5">
+      
+      <div class="card" style="width: 18rem; margin: 0px 10px">
+        <img src="..." class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
+      <div class="card" style="width: 18rem; margin: 0px 10px">
+        <img src="..." class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
+      <div class="card" style="width: 18rem; margin: 0px 10px">
+        <img src="..." class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
+      <div class="card" style="width: 18rem; margin: 0px 10px">
+        <img src="..." class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
+      <div class="card" style="width: 18rem; margin: 0px 10px">
+        <img src="..." class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
+      <div class="card" style="width: 18rem; margin: 0px 10px">
+        <img src="..." class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
+      </div>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <img src="/public/images/image2.png" class="mt-4" width="100%" alt="">
+</div>
+{{#section 'script2'}}
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+<script>
+    $('.slick-5').slick({
+    dots: true,
+    infinite: true,
+    speed: 400,
+    autoplay: true,
+    autoplaySpeed: 2800,
+    slidesToShow: 4,
+    slidesToScroll: 4,
+    responsive: [
+      {
+        breakpoint: 1449,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 4,
+        }
+      },
+      {
+        breakpoint: 940,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3
+        }
+      },
+      {
+        breakpoint: 785,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          dots: false,
+          arrows: false
+        }
+      },
+      {
+        breakpoint: 575,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          dots: false,
+          arrows: false
+        }
+      }
+    ]
+  });
+</script>
+{{/section}}
+
 <script src="/public/script/jarallax.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
+<script>
+const feedback = document.querySelector('.feedback__slider');
+const feedback_offset = 150;
+
+function feedbackUpdateHeight(height) {
+  if (!height) return false;
+  feedback.style.height = `${height + feedback_offset}px`;
+}
+
+if (feedback) {
+  feedbackUpdateHeight(feedback.querySelector('.feedback__item').offsetHeight);
+
+  const feedback_slider = new Swiper(feedback, {
+    direction: 'vertical',
+    autoplay: true,
+    slidesPerView: 'auto',
+    autoHeight: true,
+    centeredSlides: true,
+    spaceBetween: 30,
+    grabCursor: true,
+    loop: true,
+    mousewheel: true,
+  });
+
+  feedback_slider.on('slideChange', () => {
+    setTimeout(() => {
+      feedbackUpdateHeight(feedback_slider.slides[feedback_slider.activeIndex].offsetHeight);
+    }, 300);
+  });
+}
+
+</script>
+  <script>
+    var swiper = new Swiper(".single-Swiper", {
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+      pagination: {
+        el: ".swiper-pagination_mostview",
+        dynamicBullets: true,
+      },
+    });
+  </script>
+
