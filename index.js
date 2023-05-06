@@ -5,6 +5,8 @@ import asyncError from 'express-async-errors';
 import morgan from "morgan";
 import database from "./database/db.js"
 import express_handlebars_sections from "express-handlebars-sections";
+import homeRoute from "./routes/homeRoute.js"
+import recipesRoute from "./routes/recipesRoute.js"
 const app = express();
 
 app.use("/public", express.static("public"));
@@ -24,11 +26,9 @@ app.set('views', './views');
 
 app.use(morgan('dev'))
 
-app.use("/", (req, res, next)=>{
-    res.render('home', {
-        binding: "truyền data"
-    })
-});
+
+app.use("/",homeRoute);
+app.use("/recipes", recipesRoute)
 // app.use((err,req,res, next)=> {
 //     console.log(err);
 //     next();

@@ -11,14 +11,14 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent"  style="justify-content: flex-end;">
             <ul class="navbar-nav ml-auto">
                 <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
-                <li class="nav-item active">
-                    <a class="nav-link" href="javascript:void(0);"><i class="bi bi-house"></i>Home</a>
+                <li class="nav-item active home-tab">
+                    <a class="nav-link" href="/"><i class="bi bi-house"></i>Home</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item search-tab">
                     <a class="nav-link" href="javascript:void(0);"><i class="bi bi-search"></i>Search</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0);"><i class="fa-regular fa-bowl-food"></i>Share new recipe</a>
+                <li class="nav-item add-tab">
+                    <a class="nav-link" href="/recipes/create"><i class="fa-regular fa-bowl-food"></i>Share new recipe</a>
                 </li>
                 <li class="nav-item disable" style="pointer-events: none;">
                     <a class="nav-link" href="javascript:void(0);"></i></a>
@@ -69,6 +69,21 @@ function test(){
 		});
 	});
 }
+function updateTab(classname){
+	$('#navbarSupportedContent ul li').removeClass("active");
+		let element = `.${classname}`
+		$(element).addClass('active');
+		var activeWidthNewAnimHeight = $(element).innerHeight();
+		var activeWidthNewAnimWidth = $(element).innerWidth();
+		var itemPosNewAnimTop = $(element).position();
+		var itemPosNewAnimLeft = $(element).position();
+		$(".hori-selector").css({
+			"top":itemPosNewAnimTop.top + "px", 
+			"left":itemPosNewAnimLeft.left + "px",
+			"height": activeWidthNewAnimHeight + "px",
+			"width": activeWidthNewAnimWidth + "px"
+		});
+}
 $(document).ready(function(){
 	setTimeout(function(){ test(); });
 });
@@ -79,6 +94,7 @@ $(".navbar-toggler").click(function(){
 	$(".navbar-collapse").slideToggle(300);
 	setTimeout(function(){ test(); });
 });
+
 
 jQuery(document).ready(function($){
 	// Get current path and find target link
