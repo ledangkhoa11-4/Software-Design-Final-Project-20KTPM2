@@ -210,7 +210,6 @@ font-size: 18px;
     display: none;
     color: red;
     right: 3%;
-    top: 44%;
 }
 
 .error i,
@@ -244,3 +243,8 @@ input[type="submit"]:hover {
 }
 
 
+.step-wrapper{
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+}

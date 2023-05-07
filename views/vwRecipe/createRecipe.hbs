@@ -11,8 +11,8 @@
             <span class="form__group-message email-message"></span>
         </div>
         <div class=" col s12 mt-4 form__group ">
-            <label for="FullDes"  style="margin-left: 16px;margin-bottom: 16px;">Detail Description:</label>
-            <textarea name="FullDes" id="FullDes"  rows="10" style="width: 100%"></textarea>
+            <label for="description"  style="margin-left: 16px;margin-bottom: 16px;">Detail Description:</label>
+            <textarea name="description" id="description"  rows="10" style="width: 100%"></textarea>
             <i class="fa-solid fa-triangle-exclamation error-icon"></i>
             <span class="form__group-message email-message"></span>
         </div>
@@ -43,11 +43,11 @@
                 <div class="input-field row s12 mt-3 form__group d-flex" style="padding-left: 0;">
                     <div class="col-9" style="position: relative;">
                         <label for="ingredient1-name" >Ingredient 1:</label>
-                        <input style="padding-left: 16px;" type="text" name="ingredient[1][name]" id="ingredient1-name" class="required">
+                        <input style="padding-left: 16px;" type="text" name="ingredient[1][name]" id="ingredient1-name" class="ingredient1-name required">
                     </div>
                     <div class="col" style="position: relative;">
                         <label for="calories1-name" >Calories:</label>
-                        <input style="padding-left: 16px;" value="0" type="number" min="0" name="ingredient[1][calories]" id="calories1-name" class="required">
+                        <input style="padding-left: 16px;" value="0" type="number" min="0" name="ingredient[1][calories]" id="calories1-name" class="calories1-name required">
                     </div>
                 </div>
             </div>
@@ -56,26 +56,40 @@
 
         <h2 class="mt-5" style="color: #000472;"><i>Cooking steps:</i> </h2>
         <hr>
-        {{!-- <div class="chapter-wrapper">
-            <div class="chapter-section container mb-4"  step="1">
-                <div class="input-field row s12 mt-3 form__group d-flex" style="padding-left: 0;">
-                    <div class="col-9" style="position: relative;">
-                        <label for="ingredient1-name" >Ingredient 1:</label>
-                        <input style="padding-left: 16px;" type="text" name="ingredient[1][name]" id="ingredient1-name" class="required">
-                    </div>
-                    <div class="col" style="position: relative;">
-                        <label for="fuMain">Finished dish image(s)</label>
-                        <input type="file" class="finishImage" name="step[1][image]" accept=".jpg,.png,.gif,.jpeg">
-                        <span class="form__group-message email-message"></span>
-                        <input style="padding-left: 16px;" value="0" type="number" min="0" name="ingredient[1][calories]" id="calories1-name" class="required">
-                    </div>
+        <div class="chapter-wrapper">
+            <div class="chapter-section container mb-4 step-wrapper"  step="1">
+                <div class="input-field col s12 mt-3 form__group d-flex" style="padding-left: 0;">
+                    <label for="step1-name" >Step 1:</label>
+                    <input style="padding-left: 16px;" type="text" name="step[1][name]" id="step1-name" class="step1-name required">
                 </div>
+                <div class="col" style="position: relative; padding: 0 50px">
+                    <input type="file" multiple class="step-image step1-image" name="step1-image" accept=".jpg,.png,.gif,.jpeg">
+                </div>
+                
             </div>
             <button onclick="addStep(this, event);" type="button" class="btn btn-light mt-2 mb-2 add-lecture" style="border: 1px solid rgb(219, 219, 219)"><i class="bi bi-plus-lg"></i> Add more step</button>
-        </div> --}}
+        </div>
+
+        <div class="row mt-5">
+        <div class="col">
+            <button type="submit" class="btn btn-lg btn-block" style="width:100% ;color: white; background-color: #000472;">Complete the course creation process</button>
+        </div>
+    </div>
     </form>
 </div>
 
+{{#if isAlert}}
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+	Swal.fire({
+		width: 600,
+		icon:`{{icon}}`,
+		title: `{{title}}`,
+		showConfirmButton: false,
+		timer: 2500
+	})
+</script>
+{{/if}}
 
 <script src="/public/script/validate.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
@@ -87,8 +101,14 @@
             error_message: ".form__group-message",
             rules: [
                 Validator.isRequire(".name"),
+                Validator.isRequire(".preparationTime"),
+                Validator.isRequire(".cookingTime"),
+                Validator.isRequire(".ingredient1-name"),
+                Validator.isRequire("calories1-name"),
+                Validator.isRequire(".step1-name"),
             ],
             onSubmit: function (data) {
+                console.log(123)
                 document.querySelector(".form-1").submit();
             }
         })
@@ -115,7 +135,7 @@ matterialInput()
 </script>
 <script>
     tinymce.init({
-      selector: '#FullDes',
+      selector: '#description',
       menubar: false,
       plugins: ['paste',  'link', 'autolink', 'lists','table'],
       toolbar: [
@@ -131,18 +151,35 @@ matterialInput()
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/sortable.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/fileinput.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/themes/fa4/theme.min.js"></script>
+
 <script>
   console.log(updateTab("add-tab"))
 
     $('.finishImage').fileinput({
         dropZoneEnabled: false,
         maxFileCount: 5,
+        theme: 'fa4',
         allowedFileExtensions: ['jpg', 'png', 'gif','jpeg'],
     });
+    $('.step-image').fileinput({
+        dropZoneEnabled: false,
+        maxFileCount: 5,
+        theme: 'fa4',
+        allowedFileExtensions: ['jpg', 'png', 'gif','jpeg'],
+    });
+    function applyFileInput(){
+         $('.step-image').fileinput({
+        dropZoneEnabled: false,
+        maxFileCount: 5,
+        theme: 'fa5',
+        allowedFileExtensions: ['jpg', 'png', 'gif','jpeg'],
+    });
+    }
 </script>
 
 <script>
     let numIngredients = 1;
+    let numStep = 1;
     function createElementFromHTML(elementStr){
         let div = document.createElement("div")
         div.innerHTML = elementStr.trim();
@@ -174,7 +211,32 @@ matterialInput()
         let button = createElementFromHTML(btnStr);
         parentDiv.appendChild(childHtml);
         parentDiv.appendChild(button);
-        matterialInput()        
+        matterialInput() 
+               
+    }
+    function addStep(element, event){
+        let curentStep = ++numStep
+        let parentDiv = element.parentNode;
+        let btnStr = `<button onclick="addStep(this, event);" type="button" class="btn btn-light mt-2 mb-2 add-lecture" style="border: 1px solid rgb(219, 219, 219)"><i class="bi bi-plus-lg"></i> Add more step</button>`
+        let htmlStr = `
+            <div class="chapter-section container mb-4 step-wrapper"  step="${curentStep}" >
+                <div class="input-field col s12 mt-3 form__group d-flex" style="padding-left: 0;">
+                    <label for="step${curentStep}-name" >Step ${curentStep}:</label>
+                    <input style="padding-left: 16px;" type="text" name="step[${curentStep}][name]" id="step${curentStep}-name" class="required">
+                </div>
+                <div class="col" style="position: relative; padding: 0 50px">
+                    <input type="file" multiple class="step-image step${curentStep}-image" name="step${curentStep}-image" id="step${curentStep}-image" accept=".jpg,.png,.gif,.jpeg">
+                </div>
+                <button style="position: absolute;top: 2px;right: 2px;" onclick="removeStep(this,event);" type="button" class="btn btn-light"><i class="fa-solid fa-xmark" style="margin:0; "></i> </button>
+            </div>
+        `
+        element.remove();
+        let childHtml = createElementFromHTML(htmlStr);
+        let button = createElementFromHTML(btnStr);
+        parentDiv.appendChild(childHtml);
+        parentDiv.appendChild(button);
+        matterialInput()    
+        applyFileInput()    
     }
     function removeIngredient(t,e){
         let curIngre = +t.parentNode.parentNode.parentNode.getAttribute('ingredient');
@@ -186,6 +248,17 @@ matterialInput()
         numIngredients -= 1; 
 
         t.parentNode.parentNode.remove();
+    }
+    function removeStep(t,e){
+        let curStep = +t.parentNode.getAttribute('step');
+        
+        if(curStep < numStep){
+            changeStepName(curStep)    
+        }
+            //changeIngreName(curLec);
+        numStep -= 1; 
+
+        t.parentNode.remove();
     }
     function changeIngreName(curIngre){
         for(let i = curIngre + 1; i <= numIngredients;i++){
@@ -202,7 +275,23 @@ matterialInput()
             inputs[0].name = `ingredient[${curIngre}][name]`;
             inputs[1].id = `calories${curIngre}-name`;
             inputs[1].name = `ingredient[${curIngre}][calories]`;
-
+        }
+    }
+    function changeStepName(curStep){
+        for(let i = curStep + 1; i <= numStep;i++){
+            let div = document.querySelector(`div[step ='${i}']`);
+            console.log(div)
+            let curStep = i-1;
+            div.setAttribute('step', curStep)
+            let labels = div.querySelectorAll('label');
+            labels[0].setAttribute('for',`step${curStep}-name`);
+            labels[0].textContent = `Step ${curStep}`
+           
+            let inputs = div.querySelectorAll('input');
+            inputs[0].id = `step${curStep}-name`;
+            inputs[0].name = `step[${curStep}][name]`;
+            inputs[1].id = `step${curStep}-image`;
+            inputs[1].name = `step${curStep}-image`;
         }
     }
 </script>
