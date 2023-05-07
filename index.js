@@ -7,6 +7,7 @@ import database from "./database/db.js"
 import express_handlebars_sections from "express-handlebars-sections";
 import homeRoute from "./routes/homeRoute.js"
 import recipesRoute from "./routes/recipesRoute.js"
+import profileRoute from "./routes/profileRoute.js"
 const app = express();
 
 app.use("/public", express.static("public"));
@@ -29,6 +30,7 @@ app.use(morgan('dev'))
 
 app.use("/",homeRoute);
 app.use("/recipes", recipesRoute)
+app.use("/profile",profileRoute)
 
 app.use((err,req,res, next)=> {
   console.log(err);
