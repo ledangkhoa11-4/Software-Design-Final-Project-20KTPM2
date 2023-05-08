@@ -19,7 +19,13 @@ app.use(
 app.engine('hbs', engine({
     extname: 'hbs',
     helpers:{
-      section: express_handlebars_sections()
+      section: express_handlebars_sections(),
+      addOne(num){
+        return num+1
+      },
+      isGreaterThanOne(num){
+        return num > 1 
+      }
     }
 }));
 app.set('view engine', 'hbs');

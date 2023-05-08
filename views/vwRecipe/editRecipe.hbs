@@ -1,30 +1,35 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/css/fileinput.min.css" />
 <link rel="stylesheet" href="/public/css/create-recipe.css">
+<style>
+    .file-caption-icon {
+    top: 6px;
+    }
+</style>
 <div class="container mt-5" style="margin-top: 20px">
     <h2 style="color: #000472;"><i>Recipe information</i> </h2>
         <hr>
     <form method="POST" enctype="multipart/form-data" id="form_table" class="form-1 mainForm mt-1" novalidate>
         <div class="input-field col s12 mt-4 form__group ">
-            <input type="text" name="Name" class="name pl-4" id="Name" autocomplete="none">
+            <input type="text" name="Name" class="name pl-4" id="Name" autocomplete="none" value="{{recipe.Name}}">
             <label for="Name" >Recipe name:</label>
             <i class="fa-solid fa-triangle-exclamation error-icon"></i>
             <span class="form__group-message email-message"></span>
         </div>
         <div class=" col s12 mt-4 form__group ">
             <label for="description"  style="margin-left: 16px;margin-bottom: 16px;">Detail Description:</label>
-            <textarea name="description" id="description"  rows="10" style="width: 100%"></textarea>
+            <textarea name="description" id="description"  rows="10" style="width: 100%" >{{recipe.description}}</textarea>
             <i class="fa-solid fa-triangle-exclamation error-icon"></i>
             <span class="form__group-message email-message"></span>
         </div>
         <div class="row mt-4" style="width: 100%">
             <div class="input-field col mt-4 form__group ">
-                <input type="text" name="preparationTime" class="preparationTime pl-4" id="preparationTime" autocomplete="none">
+                <input value="{{recipe.preparationTime}}" type="text" name="preparationTime" class="preparationTime pl-4" id="preparationTime" autocomplete="none">
                 <label for="preparationTime" >Preparation time:</label>
                 <i class="fa-solid fa-triangle-exclamation error-icon"></i>
                 <span class="form__group-message email-message"></span>
             </div>
             <div class="input-field col mt-4 form__group ">
-                <input type="text" name="cookingTime" class="cookingTime pl-4" id="cookingTime" autocomplete="none">
+                <input value="{{recipe.cookingTime}}" type="text" name="cookingTime" class="cookingTime pl-4" id="cookingTime" autocomplete="none">
                 <label for="cookingTime" >Cooking time:</label>
                 <i class="fa-solid fa-triangle-exclamation error-icon"></i>
                 <span class="form__group-message email-message"></span>
@@ -39,40 +44,52 @@
         <h2 class="mt-5" style="color: #000472;"><i>Ingredients</i> </h2>
         <hr>
         <div class="chapter-wrapper">
-            <div class="chapter-section container mb-4"  ingredient="1">
+            {{#each ingredients}}
+            <div class="chapter-section container mb-4"  ingredient="{{addOne @index}}">
                 <div class="input-field row s12 mt-3 form__group d-flex" style="padding-left: 0;">
                     <div class="col-9" style="position: relative;">
-                        <label for="ingredient1-name" >Ingredient 1:</label>
-                        <input style="padding-left: 16px;" type="text" name="ingredient[1][name]" id="ingredient1-name" class="ingredient1-name required">
+                        <label for="ingredient{{addOne @index}}-name" >Ingredient {{addOne @index}}:</label>
+                        <input value="{{this.name}}" style="padding-left: 16px;" type="text" name="ingredient[{{addOne @index}}][name]" id="ingredient{{addOne @index}}-name" class="ingredient{{addOne @index}}-name required">
                     </div>
                     <div class="col" style="position: relative;">
-                        <label for="calories1-name" >Calories:</label>
-                        <input style="padding-left: 16px;" value="0" type="number" min="0" name="ingredient[1][calories]" id="calories1-name" class="calories1-name required">
+                        <label for="calories{{addOne @index}}-name" >Calories:</label>
+                        <input value="{{this.calories}}" style="padding-left: 16px;" type="number" min="0" name="ingredient[{{addOne @index}}][calories]" id="calories{{addOne @index}}-name" class="calories{{addOne @index}}-name required">
                     </div>
+                     {{#if (isGreaterThanOne (addOne @index))}}
+                        <div class="col-auto d-flex align-items-center btn-wrapper">
+                            <button onclick="removeIngredient(this,event);" type="button" class="btn btn-light"><i class="fa-solid fa-xmark" style="margin:0"></i> </button>
+                        </div>
+                    {{/if}}
                 </div>
-            </div>
+            </div>            
+            {{/each}}
+
             <button onclick="addIngredient(this, event);" type="button" class="btn btn-light mt-2 mb-2 add-lecture" style="border: 1px solid rgb(219, 219, 219)"><i class="bi bi-plus-lg"></i> Add more ingredient</button>
         </div>
 
         <h2 class="mt-5" style="color: #000472;"><i>Cooking steps:</i> </h2>
         <hr>
         <div class="chapter-wrapper">
-            <div class="chapter-section container mb-4 step-wrapper"  step="1">
-                <div class="input-field col s12 mt-3 form__group d-flex" style="padding-left: 0;">
-                    <label for="step1-name" >Step 1:</label>
-                    <input style="padding-left: 16px;" type="text" name="step[1][name]" id="step1-name" class="step1-name required">
+            {{#each steps}}
+                <div class="chapter-section container mb-4 step-wrapper"  step="{{addOne @index}}">
+                    <div class="input-field col s12 mt-3 form__group d-flex" style="padding-left: 0;">
+                        <label for="step{{addOne @index}}-name" >Step {{addOne @index}}:</label>
+                        <input value="{{this.stepName}}" style="padding-left: 16px;" type="text" name="step[{{addOne @index}}][name]" id="step{{addOne @index}}-name" class="step{{addOne @index}}-name required">
+                    </div>
+                    <div class="col" style="position: relative; padding: 0 50px">
+                        <input type="file" multiple class="step-image step{{addOne @index}}-image" name="step{{addOne @index}}-image" accept=".jpg,.png,.gif,.jpeg">
+                    </div>
+                    {{#if (isGreaterThanOne (addOne @index))}}
+                        <button style="position: absolute;top: 2px;right: 2px;" onclick="removeStep(this,event);" type="button" class="btn btn-light"><i class="fa-solid fa-xmark" style="margin:0; "></i> </button>
+                    {{/if}}
                 </div>
-                <div class="col" style="position: relative; padding: 0 50px">
-                    <input type="file" multiple class="step-image step1-image" name="step1-image" accept=".jpg,.png,.gif,.jpeg">
-                </div>
-                
-            </div>
+            {{/each}}
             <button onclick="addStep(this, event);" type="button" class="btn btn-light mt-2 mb-2 add-lecture" style="border: 1px solid rgb(219, 219, 219)"><i class="bi bi-plus-lg"></i> Add more step</button>
         </div>
 
         <div class="row mt-5">
         <div class="col">
-            <button type="submit" class="btn btn-lg btn-block" style="width:100% ;color: white; background-color: #000472;">Complete the course creation process</button>
+            <button type="submit" class="btn btn-lg btn-block" style="width:100% ;color: white; background-color: #000472;">Apply Change</button>
         </div>
     </div>
     </form>
@@ -160,13 +177,31 @@ matterialInput()
         maxFileCount: 5,
         theme: 'fa4',
         allowedFileExtensions: ['jpg', 'png', 'gif','jpeg'],
+        initialPreview: [
+        {{#each finishImgs}}
+         "/public/images/recipes/{{this}}",
+        {{/each}}
+      ] ,
+        initialPreviewAsData: true, // identify if you are sending preview data only and not the raw markup
+        initialPreviewFileType: 'image',
     });
-    $('.step-image').fileinput({
+    {{#each steps}}
+    $('.step{{this.id}}-image').fileinput({
         dropZoneEnabled: false,
         maxFileCount: 5,
         theme: 'fa4',
         allowedFileExtensions: ['jpg', 'png', 'gif','jpeg'],
+        initialPreview: [
+            {{#each imgs}}
+            "/public/images/recipes/{{this}}",
+            {{/each}}
+        ] ,
+        initialPreviewAsData: true, // identify if you are sending preview data only and not the raw markup
+        initialPreviewFileType: 'image',
     });
+    {{/each}}
+    
+    
     function applyFileInput(){
          $('.step-image').fileinput({
         dropZoneEnabled: false,
@@ -178,8 +213,8 @@ matterialInput()
 </script>
 
 <script>
-    let numIngredients = 1;
-    let numStep = 1;
+    let numIngredients = {{numberIngres}};
+    let numStep = {{numberSteps}}
     function createElementFromHTML(elementStr){
         let div = document.createElement("div")
         div.innerHTML = elementStr.trim();
@@ -201,7 +236,7 @@ matterialInput()
                         <input style="padding-left: 16px;" type="number" min="0" value="0" name="ingredient[${curentIngre}][calories]" id="calories${curentIngre}-name" class="required">
                     </div>
                     <div class="col-auto d-flex align-items-center btn-wrapper">
-                    <button onclick="removeIngredient(this,event);" type="button" class="btn btn-light"><i class="fa-solid fa-xmark" style="margin:0"></i> </button>
+                        <button onclick="removeIngredient(this,event);" type="button" class="btn btn-light"><i class="fa-solid fa-xmark" style="margin:0"></i> </button>
                     </div>
                 </div>
             </div>
