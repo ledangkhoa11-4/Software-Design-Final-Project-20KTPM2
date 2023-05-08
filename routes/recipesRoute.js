@@ -78,4 +78,7 @@ Router.post('/create',async (req,res,next)=>{
     });
   
 })
+Router.get("/:id",async (req, res, next)=>{
+   res.render("vwRecipe/detail")
+})
 export default Router;
