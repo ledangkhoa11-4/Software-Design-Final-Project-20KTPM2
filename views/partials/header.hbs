@@ -25,20 +25,34 @@
                 </li>
             </ul>
         </div>
-        <div class="authbar" style="margin-right:20px">
-            <button type="button" class="btn btn-light" style="margin-right: 16px;">Login</button>
-			
-            <a href="" style="margin: 8px 0 12px 0; color: #fff";>Sign up</a>
+        <div class="authbar" style="margin-right:20px">	
+			{{#unless isLogged}}
+			<a href="/auth/login" type="button" class="btn btn-light mr-3" style="width: 100px; margin-bottom: 19px; margin-top:19px">
+				<span style="color: black">
+					<i class="fa fa-sign-in fa-sm" style="margin-right: 3px;"></i>
+					Login
+        		</span> 
+			</a>
+			<a href="/auth/register" type="button" class="btn btn-light mr-3" style="width: 100px">
+				<span style="color: black">
+					<i class="fa fa-user-plus fa-xs" style="margin-right: 0px;"></i>
+					Sign up
+        		</span> 
+			</a>
+			{{/unless}}
+			{{#if isLogged}}
 			<div class="dropdown">
-				<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-					Dropdown button
+				<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 204px;margin-bottom: 19px;margin-top: 19px;">
+					{{auth.fullname}}
 				</button>
 				<ul class="dropdown-menu">
 					<li><a class="dropdown-item" href="/profile/sharedrecipe">Shared Recipe</a></li>
 					<li><a class="dropdown-item" href="#">Another action</a></li>
 					<li><a class="dropdown-item" href="#">Something else here</a></li>
+					<li><a class="dropdown-item" href="/auth/logout">Logout</a></li>
 				</ul>
 			</div>
+			{{/if}}
         </div>
 		
 </nav>

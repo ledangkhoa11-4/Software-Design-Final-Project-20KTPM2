@@ -19,15 +19,22 @@
   },
   "homepage": "https://github.com/ledangkhoa11-4/Software-Design-Final-Project-20KTPM2#readme",
   "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-async-errors": "^3.1.1",
     "express-handlebars": "^7.0.7",
     "express-handlebars-sections": "^1.0.1",
+    "express-session": "^1.17.3",
     "knex": "^2.4.2",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
     "mysql": "^2.18.1",
-    "nodemon": "^2.0.22"
+    "nodemailer": "^6.9.1",
+    "nodemon": "^2.0.22",
+    "passport": "^0.6.0",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-local": "^1.0.0"
   }
 }

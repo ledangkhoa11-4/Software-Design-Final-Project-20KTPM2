@@ -5,12 +5,22 @@ import asyncError from 'express-async-errors';
 import morgan from "morgan";
 import database from "./database/db.js"
 import express_handlebars_sections from "express-handlebars-sections";
+import session from "express-session";
+import cookieParser from "cookie-parser";
+import passport from "passport";
+import settingStrategy from "./config/passport-Strategy.js";
+
+
+
+
 import homeRoute from "./routes/homeRoute.js"
 import recipesRoute from "./routes/recipesRoute.js"
 import profileRoute from "./routes/profileRoute.js"
+import authRoute from "./routes/authRoute.js"
 const app = express();
 
 app.use("/public", express.static("public"));
+app.use(cookieParser());
 app.use(
   express.urlencoded({
     extended: true,
@@ -24,13 +34,37 @@ app.engine('hbs', engine({
 }));
 app.set('view engine', 'hbs');
 app.set('views', './views');
+app.use(
+  session({
+    secret: "keyboard cat",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false },
+  })
+);
+settingStrategy(passport);
+app.use(passport.initialize());
+app.use(passport.session())
 
 app.use(morgan('dev'))
 
+app.use(async (req,res, next) =>{
+  if (req.cookies.user) {
+    res.locals.isLogged = true;
+    res.locals.auth = req.cookies.user;
+  }
+  if (req.session.passport && req.session.passport.user.status != "disabled") {
+    res.locals.isLogged = true;
+    res.locals.auth = req.session.passport.user;
+    res.cookie("user", req.session.passport.user);
+  }
+  next();
+})
 
 app.use("/",homeRoute);
 app.use("/recipes", recipesRoute)
 app.use("/profile",profileRoute)
+app.use("/auth",authRoute)
 
 app.use((err,req,res, next)=> {
   console.log(err);
