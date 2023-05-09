@@ -44,6 +44,9 @@ export default{
     removeIngredients: async(id)=>{
         const rowRemove = await database("ingredients").where({recipeID: id}).del()
         return rowRemove
+    },
+    addView: async(id)=>{
+        const update = await database.raw(`UPDATE Recipe SET view = view + 1 WHERE id = '${id}'`)
     }
 
 }

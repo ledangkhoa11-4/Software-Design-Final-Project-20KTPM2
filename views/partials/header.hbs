@@ -18,7 +18,7 @@
                     <a class="nav-link" href="javascript:void(0);"><i class="bi bi-search"></i>Search</a>
                 </li>
                 <li class="nav-item add-tab">
-                    <a class="nav-link" href="/recipes/create"><i class="fa-regular fa-bowl-food"></i>Share new recipe</a>
+                    <a class="nav-link" href="/recipes/create"><i class="fa-solid fa-bowl-food"></i>Share new recipe</a>
                 </li>
                 <li class="nav-item disable" style="pointer-events: none;">
                     <a class="nav-link" href="javascript:void(0);"></i></a>
@@ -27,7 +27,7 @@
         </div>
         <div class="authbar" style="margin-right:20px">	
 			{{#unless isLogged}}
-			<a href="/auth/login" type="button" class="btn btn-light mr-3" style="width: 100px; margin-bottom: 19px; margin-top:19px">
+			<a href="/auth/login" type="button" class="btn btn-light mr-3" style="width: 100px;">
 				<span style="color: black">
 					<i class="fa fa-sign-in fa-sm" style="margin-right: 3px;"></i>
 					Login
@@ -42,7 +42,7 @@
 			{{/unless}}
 			{{#if isLogged}}
 			<div class="dropdown">
-				<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 204px;margin-bottom: 19px;margin-top: 19px;">
+				<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 204px;">
 					{{auth.fullname}}
 				</button>
 				<ul class="dropdown-menu">

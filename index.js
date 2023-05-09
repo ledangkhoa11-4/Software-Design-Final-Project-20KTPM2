@@ -9,7 +9,7 @@ import session from "express-session";
 import cookieParser from "cookie-parser";
 import passport from "passport";
 import settingStrategy from "./config/passport-Strategy.js";
-
+import moment from "moment/moment.js";
 
 
 
@@ -35,6 +35,11 @@ app.engine('hbs', engine({
       },
       isGreaterThanOne(num){
         return num > 1 
+      },
+      convertDate(utcStr){
+        const dateFormated = moment(utcStr).format("hh:mm - MMMM D, YYYY")
+        console.log(dateFormated)
+        return dateFormated
       }
     }
 }));

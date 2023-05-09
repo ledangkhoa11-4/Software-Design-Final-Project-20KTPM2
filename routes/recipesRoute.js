@@ -1,8 +1,9 @@
 import express, { query, request } from 'express'
 import multer from 'multer';
 import recipesService from '../service/recipesService.js';
+import usersService from '../service/usersService.js';
 import fs from "fs"
-import { isBuffer } from 'util';
+import middlewares from '../middlewares/middlewares.js';
 const Router = express.Router();
 
 const storage = multer.diskStorage({
@@ -31,11 +32,14 @@ const storage = multer.diskStorage({
 const uploadCreate = multer({
    storage: storage,
  });
+
+Router.use(middlewares.isLogged)
 Router.get('/create', async (req,res,next) => {
    res.render("vwRecipe/createRecipe");
 })
 Router.post('/create',async (req,res,next)=>{
-   let newID = await createBlankRecipe("ldkhoa.11402@gmail.com")
+   let userEmail = res.locals.auth.email
+   let newID = await createBlankRecipe(userEmail)
    const folderName = `./public/images/recipes/${newID}`;
    fs.mkdir(folderName, (err) => {
       if (err) {
@@ -80,7 +84,44 @@ Router.post('/create',async (req,res,next)=>{
   
 })
 Router.get("/:id",async (req, res, next)=>{
-   res.render("vwRecipe/detail")
+   let data = {}
+   const regex = /step(\d+)/;
+   const recipe = await recipesService.getRecipe(req.params.id)
+   if(!recipe)
+      return next("Recipe not found")
+   let steps = await recipesService.getSteps(recipe.id)
+   steps = steps.map(item => ({ ...item, imgs: [] }));
+   const ingredients = await recipesService.getIngredients(recipe.id)
+   let finishImgs = []
+   fs.readdirSync(`./public/images/recipes/${recipe.id}`).forEach(file => {
+      if(file.includes("finishImage"))
+         finishImgs.push(`/public/images/recipes/${recipe.id}/${file}`)
+      if(file.includes("step")){
+         let match = file.match(regex)
+         if(match){
+            let imageAtStep = match[1]
+            steps[imageAtStep-1].imgs.push(`/public/images/recipes/${recipe.id}/${file}`)
+         }
+      }
+    });
+   let user = await usersService.findUserByEmail(recipe.poster)
+   data.recipe = recipe
+   data.steps = steps
+   data.ingredients = ingredients
+   data.finishImgs = finishImgs
+   data.user = user
+   let fullUrl = `${req.protocol + '://' + req.get('host') + req.originalUrl}`
+   fullUrl = fullUrl.replace("localhost","127.0.0.1")
+   data.mailInfo = {
+      subject: `Cookery - Cách làm món ${recipe.Name}`,
+      body: `Món này ngon cực! Bạn xem thử nhé?%0A%0A${fullUrl}
+      `
+   }
+   data.facebookInfo = {
+      info: `https://www.facebook.com/sharer/sharer.php?u=${fullUrl}`
+   }
+   res.render("vwRecipe/detail",data)
+   await recipesService.addView(recipe.id)
 })
 Router.get("/edit/:id",async (req, res, next)=>{
    const recipeID = req.params.id
