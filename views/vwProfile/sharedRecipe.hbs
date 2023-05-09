@@ -1,298 +1,80 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/css/fileinput.min.css" />
-<link rel="stylesheet" href="/public/css/create-recipe.css">
-<div class="container mt-5" style="margin-top: 20px">
-    <h2 style="color: #000472;"><i>Recipe information</i> </h2>
-        <hr>
-    <form method="POST" enctype="multipart/form-data" id="form_table" class="form-1 mainForm mt-1" novalidate>
-        <div class="input-field col s12 mt-4 form__group ">
-            <input type="text" name="Name" class="name pl-4" id="Name" autocomplete="none">
-            <label for="Name" >Recipe name:</label>
-            <i class="fa-solid fa-triangle-exclamation error-icon"></i>
-            <span class="form__group-message email-message"></span>
-        </div>
-        <div class=" col s12 mt-4 form__group ">
-            <label for="description"  style="margin-left: 16px;margin-bottom: 16px;">Detail Description:</label>
-            <textarea name="description" id="description"  rows="10" style="width: 100%"></textarea>
-            <i class="fa-solid fa-triangle-exclamation error-icon"></i>
-            <span class="form__group-message email-message"></span>
-        </div>
-        <div class="row mt-4" style="width: 100%">
-            <div class="input-field col mt-4 form__group ">
-                <input type="text" name="preparationTime" class="preparationTime pl-4" id="preparationTime" autocomplete="none">
-                <label for="preparationTime" >Preparation time:</label>
-                <i class="fa-solid fa-triangle-exclamation error-icon"></i>
-                <span class="form__group-message email-message"></span>
-            </div>
-            <div class="input-field col mt-4 form__group ">
-                <input type="text" name="cookingTime" class="cookingTime pl-4" id="cookingTime" autocomplete="none">
-                <label for="cookingTime" >Cooking time:</label>
-                <i class="fa-solid fa-triangle-exclamation error-icon"></i>
-                <span class="form__group-message email-message"></span>
-            </div>
-        </div>
-        <div class=" col s12 mt-2 form__group ">
-            <label for="fuMain">Finished dish image(s)</label>
-            <input type="file" multiple class="finishImage" name="finishImage" accept=".jpg,.png,.gif,.jpeg">
-            <span class="form__group-message email-message"></span>
-        </div>
 
-        <h2 class="mt-5" style="color: #000472;"><i>Ingredients</i> </h2>
-        <hr>
-        <div class="chapter-wrapper">
-            <div class="chapter-section container mb-4"  ingredient="1">
-                <div class="input-field row s12 mt-3 form__group d-flex" style="padding-left: 0;">
-                    <div class="col-9" style="position: relative;">
-                        <label for="ingredient1-name" >Ingredient 1:</label>
-                        <input style="padding-left: 16px;" type="text" name="ingredient[1][name]" id="ingredient1-name" class="ingredient1-name required">
-                    </div>
-                    <div class="col" style="position: relative;">
-                        <label for="calories1-name" >Calories:</label>
-                        <input style="padding-left: 16px;" value="0" type="number" min="0" name="ingredient[1][calories]" id="calories1-name" class="calories1-name required">
-                    </div>
-                </div>
-            </div>
-            <button onclick="addIngredient(this, event);" type="button" class="btn btn-light mt-2 mb-2 add-lecture" style="border: 1px solid rgb(219, 219, 219)"><i class="bi bi-plus-lg"></i> Add more ingredient</button>
-        </div>
-
-        <h2 class="mt-5" style="color: #000472;"><i>Cooking steps:</i> </h2>
-        <hr>
-        <div class="chapter-wrapper">
-            <div class="chapter-section container mb-4 step-wrapper"  step="1">
-                <div class="input-field col s12 mt-3 form__group d-flex" style="padding-left: 0;">
-                    <label for="step1-name" >Step 1:</label>
-                    <input style="padding-left: 16px;" type="text" name="step[1][name]" id="step1-name" class="step1-name required">
-                </div>
-                <div class="col" style="position: relative; padding: 0 50px">
-                    <input type="file" multiple class="step-image step1-image" name="step1-image" accept=".jpg,.png,.gif,.jpeg">
-                </div>
-                
-            </div>
-            <button onclick="addStep(this, event);" type="button" class="btn btn-light mt-2 mb-2 add-lecture" style="border: 1px solid rgb(219, 219, 219)"><i class="bi bi-plus-lg"></i> Add more step</button>
-        </div>
-
-        <div class="row mt-5">
-        <div class="col">
-            <button type="submit" class="btn btn-lg btn-block" style="width:100% ;color: white; background-color: #000472;">Complete the course creation process</button>
-        </div>
-    </div>
-    </form>
+<link rel="stylesheet" href="/public/css/shared-recipe.css">
+<link rel="stylesheet" href="/public/css/pagination.css">
+<h1>Shared Recipe</h1>
+<div class="container mt-5 row" style="margin-top: 20px">
+   <div class="col-3"></div>
+   {{#if this.isEmpty}}
+   {{else}}
+      <div class="col-9 d-flex flex-wrap">
+            {{#each this.list}}
+            
+               <div class="card sharedrecipe" >
+               
+                  <div class="card-body">
+                     <h5 class="card-title">{{Name}}</h5>
+                     <img class="card-img-top " src="/public/images/recipes/{{id}}/{{id}}_finishImage_1.jpg" alt="...">
+                     {{{description}}}
+                  </div>
+               
+                  <div class="card-body">
+                     <a href="#" class="card-link">Card link</a>
+                     <a href="#" class="card-link">Another link</a>
+                  </div>
+               </div>
+            {{/each}}
+             {{#each this.list}}
+            
+               <div class="card sharedrecipe" >
+               
+                  <div class="card-body">
+                     <h5 class="card-title">{{Name}}</h5>
+                     <img class="card-img-top " src="/public/images/recipes/{{id}}/{{id}}_finishImage_1.jpg" alt="...">
+                     {{{description}}}
+                  </div>
+               
+                  <div class="card-body">
+                     <a href="#" class="card-link">Card link</a>
+                     <a href="#" class="card-link">Another link</a>
+                  </div>
+               </div>
+            {{/each}}
+             {{#each this.list}}
+            
+               <div class="card sharedrecipe" >
+               
+                  <div class="card-body">
+                     <h5 class="card-title">{{Name}}</h5>
+                     <img class="card-img-top " src="/public/images/recipes/{{id}}/{{id}}_finishImage_1.jpg" alt="...">
+                     {{{description}}}
+                  </div>
+               
+                  <div class="card-body">
+                     <a href="#" class="card-link">Card link</a>
+                     <a href="#" class="card-link">Another link</a>
+                  </div>
+               </div>
+            {{/each}}
+            
+            
+         </div>
+      {{/if}}
+       <div class="page-container">
+                <a class="first-page">
+                <i class="fas fa-angle-double-left"></i>
+                </a>
+                <a class="prev-page">
+                <i class="fas fa-angle-left"></i>
+                </a>
+                <div id="pagination"></div>
+                <a class="next-page">
+                <i class="fas fa-angle-right"></i>
+                </a>
+                <a class="last-page">
+                <i class="fas fa-angle-double-right"></i>
+                </a>
+      </div>
 </div>
 
-{{#if isAlert}}
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-	Swal.fire({
-		width: 600,
-		icon:`{{icon}}`,
-		title: `{{title}}`,
-		showConfirmButton: false,
-		timer: 2500
-	})
-</script>
-{{/if}}
 
-<script src="/public/script/validate.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-<script src="https://cdn.tiny.cloud/1/mkaemydy8btg089p8s8hb1ok60gyatj2vdic9oibqqlru367/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-
-<script>
-    Validator({
-            form: ".form-1",
-            error_message: ".form__group-message",
-            rules: [
-                Validator.isRequire(".name"),
-                Validator.isRequire(".preparationTime"),
-                Validator.isRequire(".cookingTime"),
-                Validator.isRequire(".ingredient1-name"),
-                Validator.isRequire("calories1-name"),
-                Validator.isRequire(".step1-name"),
-            ],
-            onSubmit: function (data) {
-                console.log(123)
-                document.querySelector(".form-1").submit();
-            }
-        })
-</script>
-<script>
-    function matterialInput(){
-    let inputs = document.querySelectorAll('input[type]:not([type="checkbox"])');
-    Array.from(inputs).forEach(input =>{
-            let label = document.querySelector(`label[for='${input.id}']`)
-            if(label && input.value.length != ""){
-                label.classList.toggle('active', true)
-            }
-            input.onclick = ()=>{
-                if(label)
-                    label.classList.toggle('active', true);}
-        
-            input.onblur = ()=>{
-                if(label && input.value.length == 0)
-                    label.classList.toggle('active', false);}
-        }
-    )
-}
-matterialInput()
-</script>
-<script>
-    tinymce.init({
-      selector: '#description',
-      menubar: false,
-      plugins: ['paste',  'link', 'autolink', 'lists','table'],
-      toolbar: [
-        'undo redo | bold italic underline strikethrough | numlist bullist | alignleft aligncenter alignright | forecolor backcolor | table link image media',
-      ],
-    }); 
-</script>
-
-{{#section 'script2'}}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/buffer.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/filetype.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/piexif.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/sortable.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/fileinput.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/themes/fa4/theme.min.js"></script>
-
-<script>
-  console.log(updateTab("add-tab"))
-
-    $('.finishImage').fileinput({
-        dropZoneEnabled: false,
-        maxFileCount: 5,
-        theme: 'fa4',
-        allowedFileExtensions: ['jpg', 'png', 'gif','jpeg'],
-    });
-    $('.step-image').fileinput({
-        dropZoneEnabled: false,
-        maxFileCount: 5,
-        theme: 'fa4',
-        allowedFileExtensions: ['jpg', 'png', 'gif','jpeg'],
-    });
-    function applyFileInput(){
-         $('.step-image').fileinput({
-        dropZoneEnabled: false,
-        maxFileCount: 5,
-        theme: 'fa5',
-        allowedFileExtensions: ['jpg', 'png', 'gif','jpeg'],
-    });
-    }
-</script>
-
-<script>
-    let numIngredients = 1;
-    let numStep = 1;
-    function createElementFromHTML(elementStr){
-        let div = document.createElement("div")
-        div.innerHTML = elementStr.trim();
-        return div.firstChild;
-    }
-    function addIngredient(element, event){
-        let curentIngre = ++numIngredients
-        let parentDiv = element.parentNode;
-        let btnStr = `<button onclick="addIngredient(this, event);" type="button" class="btn btn-light mt-2 mb-2 add-lecture" style="border: 1px solid rgb(219, 219, 219)"><i class="bi bi-plus-lg"></i> Add more ingredient</button>`
-        let htmlStr = `
-            <div class="chapter-section container mb-4"  ingredient="${curentIngre}">
-                <div class="input-field row s12 mt-3 form__group d-flex" style="padding-left: 0;">
-                    <div class="col-9" style="position: relative;">
-                        <label for="ingredient${curentIngre}-name" >Ingredient ${curentIngre}:</label>
-                        <input style="padding-left: 16px;" type="text" name="ingredient[${curentIngre}][name]" id="ingredient${curentIngre}-name" class="required">
-                    </div>
-                    <div class="col" style="position: relative;">
-                        <label for="calories${curentIngre}-name" >Calories:</label>
-                        <input style="padding-left: 16px;" type="number" min="0" value="0" name="ingredient[${curentIngre}][calories]" id="calories${curentIngre}-name" class="required">
-                    </div>
-                    <div class="col-auto d-flex align-items-center btn-wrapper">
-                    <button onclick="removeIngredient(this,event);" type="button" class="btn btn-light"><i class="fa-solid fa-xmark" style="margin:0"></i> </button>
-                    </div>
-                </div>
-            </div>
-        `
-        element.remove();
-        let childHtml = createElementFromHTML(htmlStr);
-        let button = createElementFromHTML(btnStr);
-        parentDiv.appendChild(childHtml);
-        parentDiv.appendChild(button);
-        matterialInput() 
-               
-    }
-    function addStep(element, event){
-        let curentStep = ++numStep
-        let parentDiv = element.parentNode;
-        let btnStr = `<button onclick="addStep(this, event);" type="button" class="btn btn-light mt-2 mb-2 add-lecture" style="border: 1px solid rgb(219, 219, 219)"><i class="bi bi-plus-lg"></i> Add more step</button>`
-        let htmlStr = `
-            <div class="chapter-section container mb-4 step-wrapper"  step="${curentStep}" >
-                <div class="input-field col s12 mt-3 form__group d-flex" style="padding-left: 0;">
-                    <label for="step${curentStep}-name" >Step ${curentStep}:</label>
-                    <input style="padding-left: 16px;" type="text" name="step[${curentStep}][name]" id="step${curentStep}-name" class="required">
-                </div>
-                <div class="col" style="position: relative; padding: 0 50px">
-                    <input type="file" multiple class="step-image step${curentStep}-image" name="step${curentStep}-image" id="step${curentStep}-image" accept=".jpg,.png,.gif,.jpeg">
-                </div>
-                <button style="position: absolute;top: 2px;right: 2px;" onclick="removeStep(this,event);" type="button" class="btn btn-light"><i class="fa-solid fa-xmark" style="margin:0; "></i> </button>
-            </div>
-        `
-        element.remove();
-        let childHtml = createElementFromHTML(htmlStr);
-        let button = createElementFromHTML(btnStr);
-        parentDiv.appendChild(childHtml);
-        parentDiv.appendChild(button);
-        matterialInput()    
-        applyFileInput()    
-    }
-    function removeIngredient(t,e){
-        let curIngre = +t.parentNode.parentNode.parentNode.getAttribute('ingredient');
-
-        if(curIngre < numIngredients){
-            changeIngreName(curIngre)    
-        }
-            //changeIngreName(curLec);
-        numIngredients -= 1; 
-
-        t.parentNode.parentNode.remove();
-    }
-    function removeStep(t,e){
-        let curStep = +t.parentNode.getAttribute('step');
-        
-        if(curStep < numStep){
-            changeStepName(curStep)    
-        }
-            //changeIngreName(curLec);
-        numStep -= 1; 
-
-        t.parentNode.remove();
-    }
-    function changeIngreName(curIngre){
-        for(let i = curIngre + 1; i <= numIngredients;i++){
-            let div = document.querySelector(`div[ingredient = '${i}']`);
-            let curIngre = i-1;
-            div.setAttribute('ingredient', curIngre)
-            let labels = div.querySelectorAll('label');
-            labels[0].setAttribute('for',`ingredient${curIngre}-name`);
-            labels[0].textContent = `Ingredient ${curIngre}`
-            labels[1].setAttribute('for',`calories${curIngre}-name`);
-           
-            let inputs = div.querySelectorAll('input');
-            inputs[0].id = `ingredient${curIngre}-name`;
-            inputs[0].name = `ingredient[${curIngre}][name]`;
-            inputs[1].id = `calories${curIngre}-name`;
-            inputs[1].name = `ingredient[${curIngre}][calories]`;
-        }
-    }
-    function changeStepName(curStep){
-        for(let i = curStep + 1; i <= numStep;i++){
-            let div = document.querySelector(`div[step ='${i}']`);
-            console.log(div)
-            let curStep = i-1;
-            div.setAttribute('step', curStep)
-            let labels = div.querySelectorAll('label');
-            labels[0].setAttribute('for',`step${curStep}-name`);
-            labels[0].textContent = `Step ${curStep}`
-           
-            let inputs = div.querySelectorAll('input');
-            inputs[0].id = `step${curStep}-name`;
-            inputs[0].name = `step[${curStep}][name]`;
-            inputs[1].id = `step${curStep}-image`;
-            inputs[1].name = `step${curStep}-image`;
-        }
-    }
-</script>
-{{/section}}

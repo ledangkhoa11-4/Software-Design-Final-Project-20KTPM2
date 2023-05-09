@@ -81,4 +81,32 @@ Router.post('/create',async (req,res,next)=>{
 Router.get("/:id",async (req, res, next)=>{
    res.render("vwRecipe/detail")
 })
+Router.get("/edit/:id",async (req, res, next)=>{
+   const recipeID = req.params.id
+   const recipe = await recipesService.getRecipe(recipeID)
+   const ingredients = await recipesService.getIngredients(recipeID)
+   let steps = await recipesService.getSteps(recipeID)
+   steps = steps.map(item => ({ ...item, imgs: [] }));
+   const regex = /step(\d+)/;
+   const data = {}
+   let finishImgs = []
+   fs.readdirSync(`./public/images/recipes/${recipeID}`).forEach(file => {
+      if(file.includes("finishImage"))
+         finishImgs.push(`${recipeID}/${file}`)
+      if(file.includes("step")){
+         let match = file.match(regex)
+         if(match){
+            let imageAtStep = match[1]
+            steps[imageAtStep-1].imgs.push(`${recipeID}/${file}`)
+         }
+      }
+    });
+   data.recipe = recipe
+   data.finishImgs = finishImgs
+   data.ingredients = ingredients
+   data.numberIngres = ingredients.length
+   data.numberSteps = steps.length
+   data.steps = steps
+   res.render("vwRecipe/editRecipe", data);
+})
 export default Router;

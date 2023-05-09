@@ -6,6 +6,7 @@
   rel="stylesheet"
   href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css"
 />
+<link rel="stylesheet" href="/public/css/loveBtn.css">
 <style>
 
     .swiper {
@@ -69,9 +70,27 @@
             <div class="swiper-button-prev"></div>
             <div class="swiper-pagination"></div>
         </div>
-        <div class="border-wrapper mt-4">
+        <div class="border-wrapper mt-4" style="padding: 10px 12px; display: flex; align-items: center;justify-content: space-between;">
             <div class="recipe-name">
                 Phở bò Hà Nội
+            </div>
+            <div class="reaction d-flex align-items-center">
+                <span style="font-size: 13px;color: #333;">You and 132 people love this</span>
+                <button class="btn-love ms-2 act">
+                    <span class="fa fa-heart"></span>
+                    <div class="small-ornament">
+                        <div class="ornament o-1"></div>
+                        <div class="ornament o-2"></div>
+                        <div class="ornament o-3"></div>
+                        <div class="ornament o-4"></div>
+                        <div class="ornament o-5"></div>
+                        <div class="ornament o-6"></div>
+                    </div>
+                    <div class="circle">
+                        <svg ><ellipse id="eclipse" rx="50" ry="50" cx="67.5" cy="67.5" fill-opacity="1" stroke-linecap="" stroke-dashoffset="" fill="transparent" stroke-dasharray="" stroke-opacity="1" stroke-width="0" stroke="#988ADE"></ellipse></svg>
+                    </div>
+                </button>
+                
             </div>
         </div>
         <div class="border-wrapper mt-4">
@@ -163,6 +182,50 @@
                 </div>
             </div>
         </div>
+        <div class="border-wrapper mt-4">
+            <p style="font-weight: bold;">Comments:</p>
+            <div class="comment-textbox" style="display: flex; align-items: center; margin: 0 20px;">
+                <img class="me-3" style="border-radius:50%" src="/public/images/demo_avt.png" width="32" height="32" alt="">
+                <div class="input-text d-flex" style="flex: 1;padding: 5px 16px;border-radius: 20px;border: 1px solid #ccc;">
+                    <input class="input-comment" type="text" >
+                    <button style="background: transparent;border: none;font-size: 18px;"><i class="bi bi-send"></i></button> 
+                </div>
+            </div>
+            <div class="list-comment-wrapper mt-4">
+                <div class="comment-item">
+                    <img src="/public/images/demo_avt.png" width="32px" height="32px" style="border-radius: 50%; margin:6px 16px 0 0" alt="">
+                    <div class="col">
+                        <p class="author-name">Đăng Khoa</p>
+                        <span class="time-comment">3 hours ago</span>
+                        <p class="comment-content">Bài đăng chia sẻ công thức nấu ăn này rất hữu ích và thú vị! Các bước hướng dẫn rõ ràng và dễ hiểu, cho phép người đọc tự tay thực hiện các bước để tạo ra món ăn ngon. Tôi rất đánh giá cao việc chia sẻ kiến thức nấu ăn của tác giả, vì nó giúp cho cộng đồng có thêm nhiều lựa chọn cho các bữa ăn trong gia đình. Đây là một bài viết rất đáng để đọc và chia sẻ với mọi người!</p>
+                    </div>
+                </div>
+                <div class="comment-item">
+                    <img src="/public/images/demo_avt.png" width="32px" height="32px" style="border-radius: 50%; margin:6px 16px 0 0" alt="">
+                    <div class="col">
+                        <p class="author-name">Đăng Khoa</p>
+                        <span class="time-comment">3 hours ago</span>
+                        <p class="comment-content">Bài đăng chia sẻ công thức nấu ăn này rất hữu ích và thú vị! Các bước hướng dẫn rõ ràng và dễ hiểu, cho phép người đọc tự tay thực hiện các bước để tạo ra món ăn ngon. Tôi rất đánh giá cao việc chia sẻ kiến thức nấu ăn của tác giả, vì nó giúp cho cộng đồng có thêm nhiều lựa chọn cho các bữa ăn trong gia đình. Đây là một bài viết rất đáng để đọc và chia sẻ với mọi người!</p>
+                    </div>
+                </div>
+                <div class="comment-item">
+                    <img src="/public/images/demo_avt.png" width="32px" height="32px" style="border-radius: 50%; margin:6px 16px 0 0" alt="">
+                    <div class="col">
+                        <p class="author-name">Đăng Khoa</p>
+                        <span class="time-comment">3 hours ago</span>
+                        <p class="comment-content">Bài đăng chia sẻ công thức nấu ăn này rất hữu ích và thú vị! Các bước hướng dẫn rõ ràng và dễ hiểu, cho phép người đọc tự tay thực hiện các bước để tạo ra món ăn ngon. Tôi rất đánh giá cao việc chia sẻ kiến thức nấu ăn của tác giả, vì nó giúp cho cộng đồng có thêm nhiều lựa chọn cho các bữa ăn trong gia đình. Đây là một bài viết rất đáng để đọc và chia sẻ với mọi người!</p>
+                    </div>
+                </div>
+                <div class="comment-item">
+                    <img src="/public/images/demo_avt.png" width="32px" height="32px" style="border-radius: 50%; margin:6px 16px 0 0" alt="">
+                    <div class="col">
+                        <p class="author-name">Đăng Khoa</p>
+                        <span class="time-comment">3 hours ago</span>
+                        <p class="comment-content">Bài đăng chia sẻ công thức nấu ăn này rất hữu ích và thú vị! Các bước hướng dẫn rõ ràng và dễ hiểu, cho phép người đọc tự tay thực hiện các bước để tạo ra món ăn ngon. Tôi rất đánh giá cao việc chia sẻ kiến thức nấu ăn của tác giả, vì nó giúp cho cộng đồng có thêm nhiều lựa chọn cho các bữa ăn trong gia đình. Đây là một bài viết rất đáng để đọc và chia sẻ với mọi người!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="col">
         <div class="right-panel " role="group" aria-label="Vertical button group">
@@ -185,6 +248,10 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/ScrollTrigger.min.js"></script>
+
+<script src="/public/script/loveBtn.js"></script>
 <script>
     var swiper = new Swiper(".mySwiper", {
       slidesPerView: 1,
@@ -214,7 +281,7 @@
     slidesToScroll: 3,
     responsive: [
       {
-        breakpoint: 1000,
+        breakpoint: 1400,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
@@ -222,7 +289,7 @@
         }
       },
       {
-        breakpoint: 575,
+        breakpoint: 1000,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,

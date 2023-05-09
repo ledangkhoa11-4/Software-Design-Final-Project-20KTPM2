@@ -1,0 +1,10 @@
+.sharedrecipe{
+    width: 10rem;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    height: 22rem;
+    min-width: 18rem;
+    min-height: 25rem;
+    max-width: 20rem;
+    max-height: 32rem;
+}
