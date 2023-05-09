@@ -21,5 +21,21 @@ export default{
         const list=await database('Recipe')
         
         return list
+    },
+    getRecipe: async(id)=>{
+        const recipe = await database("Recipe").where({id})
+        if(recipe)
+            return recipe[0]
+    },
+    getIngredients: async(id)=>{
+        const ingre = await database("ingredients").where({recipeID: id})
+        if(ingre)
+            return ingre
+    },
+    getSteps: async(id)=>{
+        const steps = await database("steps").where({recipeID: id})
+        if(steps)
+            return steps
     }
+
 }

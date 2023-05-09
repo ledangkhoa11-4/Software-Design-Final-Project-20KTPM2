@@ -1,0 +1,75 @@
+.btn-love {
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    font-size: 27px;
+    outline: none;
+    color: #c0c1c3;
+    position: relative;
+}
+.btn-love .fa {
+    position: relative;
+    z-index: 1;
+}
+.btn-love .small-ornament {
+    width: 135px;
+    height: 135px;
+    position: absolute;
+    margin-left: -67.5px;
+    margin-top: -67.5px;
+    left: 50%;
+    transform: scale(0);
+    top: 50%;
+}
+.btn-love .small-ornament .ornament {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    margin-left: -8px;
+    margin-top: -8px;
+    opacity: 0.6;
+    left: 50%;
+    top: 50%;
+    border-radius: 8px;
+    transform-origin: 50% 50% 0px;
+}
+.btn-love .small-ornament .ornament.o-1 {
+    background: #988ade;
+    transform: translate(-90px, -50px);
+}
+.btn-love .small-ornament .ornament.o-2 {
+    background: #de8aa0;
+    transform: translate(0px, -100px);
+}
+.btn-love .small-ornament .ornament.o-3 {
+    background: #8aaede;
+    transform: translate(90px, -50px);
+}
+.btn-love .small-ornament .ornament.o-4 {
+    background: #8adead;
+    transform: translate(90px, 50px);
+}
+.btn-love .small-ornament .ornament.o-5 {
+    background: #dec58a;
+    transform: translate(0px, 100px);
+}
+.btn-love .small-ornament .ornament.o-6 {
+    background: #8ad1de;
+    transform: translate(-90px, 50px);
+}
+.btn-love .circle {
+    position: absolute;
+    width: 135px;
+    height: 135px;
+    margin-left: -67.5px;
+    margin-top: -67.5px;
+    border-radius: 50%;
+    opacity: 0;
+    left: 50%;
+    top: 50%;
+    transform: translate(0px, 0px) rotate(0deg) scale(0);
+    transform-origin: 50% 50% 0px;
+}
+.btn-love.act .fa{
+    color: rgb(227, 39, 77);
+}
