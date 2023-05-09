@@ -16,5 +16,10 @@ export default{
     addStep: async(data)=>{
         const addedStep = await database('steps').insert(data)
         return addedStep[0];
+    },
+    getAllRecipe:async()=>{
+        const list=await database('Recipe')
+        
+        return list
     }
 }
