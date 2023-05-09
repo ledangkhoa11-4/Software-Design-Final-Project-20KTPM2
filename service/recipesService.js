@@ -36,6 +36,14 @@ export default{
         const steps = await database("steps").where({recipeID: id})
         if(steps)
             return steps
+    },
+    removeSteps: async(id)=>{
+        const rowRemove = await database("steps").where({recipeID: id}).del()
+        return rowRemove
+    },
+    removeIngredients: async(id)=>{
+        const rowRemove = await database("ingredients").where({recipeID: id}).del()
+        return rowRemove
     }
 
 }
