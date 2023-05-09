@@ -41,9 +41,9 @@
 			</a>
 			{{/unless}}
 			{{#if isLogged}}
-			<div class="dropdown">
-				<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 204px;">
-					{{auth.fullname}}
+			<div class="dropdown" >
+				<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 204px;border:none;text-align:right; background: transparent;">
+					Hello, {{auth.fullname}}
 				</button>
 				<ul class="dropdown-menu">
 					<li><a class="dropdown-item" href="/profile/sharedrecipe">Shared Recipe</a></li>
