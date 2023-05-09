@@ -2,6 +2,7 @@ import express, { query, request } from 'express'
 import multer from 'multer';
 import recipesService from '../service/recipesService.js';
 import fs from "fs"
+import { isBuffer } from 'util';
 const Router = express.Router();
 
 const storage = multer.diskStorage({
@@ -22,6 +23,7 @@ const storage = multer.diskStorage({
    },
  });
 
+
  async function createBlankRecipe(poster){
    let addedRecipeID = await recipesService.addRecipe({poster})
    return addedRecipeID
@@ -29,7 +31,6 @@ const storage = multer.diskStorage({
 const uploadCreate = multer({
    storage: storage,
  });
- 
 Router.get('/create', async (req,res,next) => {
    res.render("vwRecipe/createRecipe");
 })
@@ -108,5 +109,48 @@ Router.get("/edit/:id",async (req, res, next)=>{
    data.numberSteps = steps.length
    data.steps = steps
    res.render("vwRecipe/editRecipe", data);
+})
+Router.post("/edit/:id",(req,res,next)=>{
+   req.newestImage = []
+   req.RecipeID = req.params.id
+   req.imageCount = {}
+   next()
+
+},uploadCreate.any(),async (req, res,next)=>{
+   const recipeID =  req.RecipeID
+   const regex = /^[\d]+_([a-zA-Z0-9-]+)_([0-9]+)\.jpg$/;
+   fs.readdirSync(`./public/images/recipes/${recipeID}`).forEach(file => {
+      let matchPattern = file.match(regex)
+      if(matchPattern[2] > req.imageCount[matchPattern[1]])
+         fs.unlinkSync(`./public/images/recipes/${recipeID}/${file}`)
+   });
+   let steps = req.body.step
+   let ingredients = req.body.ingredient
+   delete(req.body.step)
+   delete(req.body.ingredient)
+   let updateData = await recipesService.updateRecipe(recipeID, req.body)
+   let removeStep = await recipesService.removeSteps(recipeID)
+   let removeIngredients = await recipesService.removeIngredients(recipeID)
+   for(let i = 1; i < steps.length; i++){
+      let stepDesc = steps[i].name
+      let obj = {
+         recipeID: recipeID,
+         id: i,
+         stepName: stepDesc
+      }
+      let updateStep = await recipesService.addStep(obj)
+   }
+   for(let i = 1; i < ingredients.length; i++){
+      let ingredientName = ingredients[i].name 
+      let ingredientCalories = ingredients[i].calories 
+      let obj = {
+         recipeID: recipeID,
+         id: i,
+         name: ingredientName,
+         calories: ingredientCalories
+      }
+      let updateIngre = await recipesService.addIngredient(obj)
+   }
+   res.json(req.body)
 })
 export default Router;
