@@ -24,7 +24,7 @@ function addSuccess(content){
     h3.classList.add("my-toast__status");
     const textStatus = document.createTextNode("Success");
     h3.appendChild(textStatus);
-    const p = document.createElement("p");
+    const p = document.createElement("p"); 
     p.classList.add("my-toast__msg");
     const textMsg = document.createTextNode(content);
     p.appendChild(textMsg);
