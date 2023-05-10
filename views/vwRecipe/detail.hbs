@@ -357,8 +357,10 @@ Swal.fire(
         e.preventDefault()
         $('.submit-modal-btn').addClass('disabled');
         let reasonRp = document.querySelector("#report-text").value
-        if(reasonRp.length == 0)
+        if(reasonRp.length == 0){
+            $('.submit-modal-btn').removeClass('disabled')
             return addError("Please not leave Reason blank!!!")
+        }
         $.post("/recipes/report/{{recipe.id}}",
         {
             reason: reasonRp
