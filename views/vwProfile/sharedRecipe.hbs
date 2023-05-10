@@ -10,34 +10,34 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
    {{else}}
       <div class="col-9 ">
          <div class="card">
-            <div class="card-header">
-               <h1 style="margin-left: 1rem;">My Shared Recipes</h1>
+            <div class="card-header d-flex align-items-center">
+               <h3 style="margin-left: 1rem; margin-bottom:0">My Shared Recipes</h3>
             </div>
             <div class="card-body d-flex flex-wrap">
                   {{#each this.list}}            
-                     <div class="card sharedrecipe" >
-                        <div class="card-body ">
-                           <a class="recipeName" href="/recipes/{{id}}">
-                           <h5 class="card-title ">{{Name}}</h5>
-                           <img class="card-img-top " width="100px" height="150px" src="/public/images/recipes/{{id}}/{{id}}_finishImage_1.jpg" alt="...">
-                           </a>
-                           <div>
-                                 {{{description}}} 
+
+                     <div class="card sharedrecipe" style="width: 18rem;">
+                        <a class="stretched-anchor" href="/recipes/{{this.id}}"></a>
+                        <img style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;" src="/public/images/recipes/{{this.id}}/{{this.id}}_finishImage_1.jpg" class="card-img-top" alt="...">
+                        <div class="card-body mt-2">
+                           <h5 class="recipe_name">{{this.Name}}</h5>
+                           <div class="recipe_des">{{{description}}}</div>
+                           <div class="bottom-card">
+                           <div class="one-third">
+                              <div class="stat">{{this.numSteps}}</div>
+                              <div class="stat-value">Steps</div>
                            </div>
-                           
-                           <div>
-                              <a>
-                              <i class="fa-regular fa-clock"></i>
-                              Cooking Time: {{cookingTime}}
-                           </a>
+                           <div class="one-third">
+                              <div class="stat">{{this.numIngres}}</div>
+                              <div class="stat-value">Ingredients</div>
                            </div>
-                           <div>
-                           <a>
-                              <i class="fa-regular fa-thumbs-up" style="color: #5161ce;"></i>
-                              0
-                           </a>
+                           <div class="one-third no-border">
+                              <div class="stat">{{totalCalories}}</div>
+                              <div class="stat-value">Calories</div>
                            </div>
                         </div>
+                        </div>
+                        
                      </div>
                    {{/each}}
                    
