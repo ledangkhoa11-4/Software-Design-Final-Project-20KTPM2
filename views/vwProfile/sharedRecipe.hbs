@@ -1,61 +1,67 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/css/fileinput.min.css" />
 
+<link rel="stylesheet" 
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="stylesheet" href="/public/css/shared-recipe.css">
 <link rel="stylesheet" href="/public/css/pagination.css">
-<h1>Shared Recipe</h1>
-<div class="container mt-5 row" style="margin-top: 20px">
-   <div class="col-3"></div>
+
+
+
+<div class="container mt-5 row" style="max-width: 99;">
+   <h1 style="margin-left: 22rem;">Shared Recipe</h1>
+   <div class="col-3">
+      <div class="card" style="width: 18rem;">
+                  <div class="card-header">
+                     Menu
+                  </div>
+                  <ul class="list-group list-group-flush">
+                     <a name="" id="" class="list-group-item" href="/profile/sharedrecipe?p=1" role="button">
+                     <i class="fa-solid fa-list" style="color: #5161ce;"></i>
+                     
+                     My Recipe</a>
+                     <a name="" id="" class="list-group-item" href="/profile/favorite?p=1" role="button">
+                     <i class="fa-solid fa-bookmark" style="color: #5161ce;">
+
+                     </i>Favorite Recipe</a>
+                     <a name="" id="" class="list-group-item" href="/profile/favorite?p=1" role="button">
+                     <i class="fa-solid fa-pencil" style="color: #5161ce;"></i> Edit Ìnormation</a>
+                  </ul>
+                  
+      </div>  
+   </div>
    {{#if this.isEmpty}}
    {{else}}
-      <div class="col-9 d-flex flex-wrap">
+      <div class="col-9 d-flex">
             {{#each this.list}}
             
                <div class="card sharedrecipe" >
                
                   <div class="card-body">
-                     <h5 class="card-title">{{Name}}</h5>
-                     <img class="card-img-top " src="/public/images/recipes/{{id}}/{{id}}_finishImage_1.jpg" alt="...">
-                     {{{description}}}
-                  </div>
-               
-                  <div class="card-body">
-                     <a href="#" class="card-link">Card link</a>
-                     <a href="#" class="card-link">Another link</a>
+                     <a class="recipeName" href="/recipes/{{id}}">
+                     <h5 class="card-title ">{{Name}}</h5>
+                     <img class="card-img-top " width="100px" height="150px" src="/public/images/recipes/{{id}}/{{id}}_finishImage_1.jpg" alt="...">
+                     </a>
+                     
+                     <div>
+                           {{{description}}} 
+                     </div>
+                     
+                     <div>
+                        <a>
+                        <i class="fa-regular fa-clock"></i>
+                        Cooking Time: {{cookingTime}}
+                     </a>
+                     </div>
+                     <div>
+                     <a>
+                        <i class="fa-regular fa-thumbs-up" style="color: #5161ce;"></i>
+                        0
+                     </a>
+                     </div>
+  
                   </div>
                </div>
             {{/each}}
-             {{#each this.list}}
             
-               <div class="card sharedrecipe" >
-               
-                  <div class="card-body">
-                     <h5 class="card-title">{{Name}}</h5>
-                     <img class="card-img-top " src="/public/images/recipes/{{id}}/{{id}}_finishImage_1.jpg" alt="...">
-                     {{{description}}}
-                  </div>
-               
-                  <div class="card-body">
-                     <a href="#" class="card-link">Card link</a>
-                     <a href="#" class="card-link">Another link</a>
-                  </div>
-               </div>
-            {{/each}}
-             {{#each this.list}}
-            
-               <div class="card sharedrecipe" >
-               
-                  <div class="card-body">
-                     <h5 class="card-title">{{Name}}</h5>
-                     <img class="card-img-top " src="/public/images/recipes/{{id}}/{{id}}_finishImage_1.jpg" alt="...">
-                     {{{description}}}
-                  </div>
-               
-                  <div class="card-body">
-                     <a href="#" class="card-link">Card link</a>
-                     <a href="#" class="card-link">Another link</a>
-                  </div>
-               </div>
-            {{/each}}
             
             
          </div>

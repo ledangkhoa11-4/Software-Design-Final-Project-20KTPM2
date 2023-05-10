@@ -1,10 +1,30 @@
 .sharedrecipe{
-    width: 10rem;
-    margin-left: 10px;
-    margin-bottom: 10px;
+    width: 18rem;
+    margin-left: 5px;
     height: 22rem;
     min-width: 18rem;
     min-height: 25rem;
-    max-width: 20rem;
+    max-width: 25rem;
     max-height: 32rem;
+}
+p {
+    overflow:hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+h5 {
+    overflow:hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 1;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+.recipeName{
+    text-decoration: none;
+    color: black;
+}
+.recipeName:hover{
+    color: #5161ce
 }
