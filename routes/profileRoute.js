@@ -19,6 +19,7 @@ Router.get('/sharedrecipe', async (req,res,next) => {
    const list=await recipesService.getRecipesByUser(email,offset,limit)
    const url=`/profile/sharedrecipe?email=${email}`
    res.render("vwProfile/sharedRecipe", {
+      layout: 'profile',
       nPage,
       page:p,
       url,
@@ -41,6 +42,7 @@ Router.get('/favorite',async(req,res,next)=>{
    }
    const url=`/profile/favorite?email=${email}`
    res.render("vwProfile/favoriteRecipe",{
+      layout: 'profile',
       list:recipeList,
       nPage,
       page,

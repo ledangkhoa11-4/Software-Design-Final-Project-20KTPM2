@@ -6,89 +6,75 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
 
 
 
-<div class="container mt-5 row" style="max-width: 99;">
-   <h1 style="margin-left: 22rem;">My Favorite Recipes</h1>
-   <div class="col-3">
-      <div class="card" style="width: 18rem;">
-                  <div class="card-header">
-                     Menu
-                  </div>
-                 <ul class="list-group list-group-flush">
-                     <a name="" id="" class="list-group-item" href="/profile/sharedrecipe?email={{this.auth.email}}&p=1" role="button">
-                     <i class="fa-solid fa-list" style="color: #5161ce;"></i>
-                     
-                     My Recipe</a>
-                     <a name="" id="" class="list-group-item" href="/profile/favorite?email={{this.auth.email}}&p=1" role="button">
-                     <i class="fa-solid fa-bookmark" style="color: #5161ce;">
 
-                     </i>Favorite Recipe</a>
-                     <a name="" id="" class="list-group-item" href="/profile/favorite?p=1" role="button">
-                     <i class="fa-solid fa-pencil" style="color: #5161ce;"></i> Edit Ìnormation</a>
-                  </ul>
-                  
-      </div>  
-   </div>
    {{#if this.isEmpty}}
    {{else}}
-      <div class="col-9 d-flex">
-            {{#each this.list}}
+      <div class="col-9 ">
+         <div class="card">
+            <div class="card-header">
+               <h1 style="margin-left: 1rem;">My Favorite Recipes</h1>
+            </div>
+            <div class="card-body d-flex flex-wrap">
+                  {{#each this.list}}
             
-               <div class="card sharedrecipe" >
-               
-                  <div class="card-body">
-                     <a class="recipeName" href="/recipes/{{id}}">
-                     <h5 class="card-title ">{{Name}}</h5>
-                     <img class="card-img-top " width="100px" height="150px" src="/public/images/recipes/{{id}}/{{id}}_finishImage_1.jpg" alt="...">
-                     </a>
-                     <div>
-                           {{{description}}} 
-                     </div>
+                     <div class="card sharedrecipe" >
                      
-                     <div>
-                        <a>
-                        <i class="fa-regular fa-clock"></i>
-                        Cooking Time: {{cookingTime}}
-                     </a>
+                        <div class="card-body ">
+                           <a class="recipeName" href="/recipes/{{id}}">
+                           <h5 class="card-title ">{{Name}}</h5>
+                           <img class="card-img-top " width="100px" height="150px" src="/public/images/recipes/{{id}}/{{id}}_finishImage_1.jpg" alt="...">
+                           </a>
+                           <div>
+                                 {{{description}}} 
+                           </div>
+                           
+                           <div>
+                              <a>
+                              <i class="fa-regular fa-clock"></i>
+                              Cooking Time: {{cookingTime}}
+                           </a>
+                           </div>
+                           <div>
+                           <a>
+                              <i class="fa-regular fa-thumbs-up" style="color: #5161ce;"></i>
+                              0
+                           </a>
+                           </div>
+                           <div>
+                              <form action="" method="post">
+                                 <button class="btn btn-danger" formaction="/profile/favorite/remove?email={{../this.auth.email}}&recipeID={{id}}">
+                                 <i class="fa-solid fa-heart-circle-minus" style="color: #ffff;"></i> Remove
+                                 </button>
+                              </form>
+                              
+                           </div>
+      
+                        </div>
                      </div>
-                     <div>
-                     <a>
-                        <i class="fa-regular fa-thumbs-up" style="color: #5161ce;"></i>
-                        0
-                     </a>
-                     </div>
-                     <div>
-                        <form action="" method="post">
-                           <button class="btn btn-danger" formaction="/profile/favorite/remove?email={{../this.auth.email}}&recipeID={{id}}">
-                           <i class="fa-solid fa-heart-circle-minus" style="color: #ffff;"></i> Remove
-                           </button>
-                        </form>
-                        
-                     </div>
-  
+                   {{/each}}
+                   
+                   
+            </div>
+            <div class="card-footer">
+                     <div class="page-container">
+                        <a class="first-page">
+                        <i class="fas fa-angle-double-left"></i>
+                        </a>
+                        <a class="prev-page">
+                        <i class="fas fa-angle-left"></i>
+                        </a>
+                        <div id="pagination"></div>
+                        <a class="next-page">
+                        <i class="fas fa-angle-right"></i>
+                        </a>
+                        <a class="last-page">
+                        <i class="fas fa-angle-double-right"></i>
+                        </a>
                   </div>
-               </div>
-            {{/each}}
-            
-            
-            
-         </div>
-      {{/if}}
-       <div class="page-container">
-                <a class="first-page">
-                <i class="fas fa-angle-double-left"></i>
-                </a>
-                <a class="prev-page">
-                <i class="fas fa-angle-left"></i>
-                </a>
-                <div id="pagination"></div>
-                <a class="next-page">
-                <i class="fas fa-angle-right"></i>
-                </a>
-                <a class="last-page">
-                <i class="fas fa-angle-double-right"></i>
-                </a>
+            </div>
+         </div> 
       </div>
-</div>
+      {{/if}}
 <script src="/public/script/pagination.js">
 
 </script>
