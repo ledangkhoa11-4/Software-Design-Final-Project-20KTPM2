@@ -47,6 +47,26 @@ export default{
     },
     addView: async(id)=>{
         const update = await database.raw(`UPDATE Recipe SET view = view + 1 WHERE id = '${id}'`)
+    },
+    getFavoriteRecipes:async(email)=>{
+        const favorite=await database('favoriteRecipes').where({userEmail:email});
+        return favorite;
+    },
+    removeFavorite:async(email, id)=>{
+        const rowRemove=await database('favoriteRecipes').where({userEmail:email, recipeID:id}).del()
+        return rowRemove
+    },
+    getRecipesByUser:async(email,offset,limit)=>{
+        const list=await database('Recipe').where({poster:email}).offset(offset).limit(limit)
+        return list
+    },
+    CountRecipeSharedByUser:async(email)=>{
+        const count=await database.raw(`SELECT count(*) as c FROM Recipe WHERE poster='${email}'`)
+        return count[0][0].c
+    },
+    CountFavoriteRecipe:async(email)=>{
+        const count=await database.raw(`SELECT count(*) as c FROM favoriteRecipes WHERE userEmail='${email}'`)
+        return count[0][0].c
     }
 
 }
