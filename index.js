@@ -60,6 +60,7 @@ app.use(passport.session())
 app.use(morgan('dev'))
 
 app.use(async (req,res, next) =>{
+  res.locals.isLogged = false;
   if (req.cookies.user) {
     res.locals.isLogged = true;
     res.locals.auth = req.cookies.user;

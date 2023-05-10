@@ -68,5 +68,4 @@ export default{
         const count=await database.raw(`SELECT count(*) as c FROM favoriteRecipes WHERE userEmail='${email}'`)
         return count[0][0].c
     }
-
 }
