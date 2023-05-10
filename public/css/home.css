@@ -143,3 +143,32 @@
     right: 0;
     z-index: 99;
 }
+
+.border-none{
+    border: none;
+}
+.text-align-right{
+    text-align: right;
+}
+.text-align-left{
+    text-align: left;
+}
+.bold-text{
+    font-weight: bold;
+}
+.ellipsis{
+    width:100%;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    background:#fff;
+}
+.ellipsis-single{
+    width:100%;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    background:#fff;
+}

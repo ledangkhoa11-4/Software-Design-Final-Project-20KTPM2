@@ -1,7 +1,9 @@
 import express, { query, request } from 'express'
 import multer from 'multer';
 import recipesService from '../service/recipesService.js';
+import usersService from '../service/usersService.js';
 import fs from "fs"
+import middlewares from '../middlewares/middlewares.js';
 const Router = express.Router();
 
 const storage = multer.diskStorage({
@@ -22,6 +24,7 @@ const storage = multer.diskStorage({
    },
  });
 
+
  async function createBlankRecipe(poster){
    let addedRecipeID = await recipesService.addRecipe({poster})
    return addedRecipeID
@@ -29,12 +32,14 @@ const storage = multer.diskStorage({
 const uploadCreate = multer({
    storage: storage,
  });
- 
+
+Router.use(middlewares.isLogged)
 Router.get('/create', async (req,res,next) => {
    res.render("vwRecipe/createRecipe");
 })
 Router.post('/create',async (req,res,next)=>{
-   let newID = await createBlankRecipe("ldkhoa.11402@gmail.com")
+   let userEmail = res.locals.auth.email
+   let newID = await createBlankRecipe(userEmail)
    const folderName = `./public/images/recipes/${newID}`;
    fs.mkdir(folderName, (err) => {
       if (err) {
@@ -79,7 +84,44 @@ Router.post('/create',async (req,res,next)=>{
   
 })
 Router.get("/:id",async (req, res, next)=>{
-   res.render("vwRecipe/detail")
+   let data = {}
+   const regex = /step(\d+)/;
+   const recipe = await recipesService.getRecipe(req.params.id)
+   if(!recipe)
+      return next("Recipe not found")
+   let steps = await recipesService.getSteps(recipe.id)
+   steps = steps.map(item => ({ ...item, imgs: [] }));
+   const ingredients = await recipesService.getIngredients(recipe.id)
+   let finishImgs = []
+   fs.readdirSync(`./public/images/recipes/${recipe.id}`).forEach(file => {
+      if(file.includes("finishImage"))
+         finishImgs.push(`/public/images/recipes/${recipe.id}/${file}`)
+      if(file.includes("step")){
+         let match = file.match(regex)
+         if(match){
+            let imageAtStep = match[1]
+            steps[imageAtStep-1].imgs.push(`/public/images/recipes/${recipe.id}/${file}`)
+         }
+      }
+    });
+   let user = await usersService.findUserByEmail(recipe.poster)
+   data.recipe = recipe
+   data.steps = steps
+   data.ingredients = ingredients
+   data.finishImgs = finishImgs
+   data.user = user
+   let fullUrl = `${req.protocol + '://' + req.get('host') + req.originalUrl}`
+   fullUrl = fullUrl.replace("localhost","127.0.0.1")
+   data.mailInfo = {
+      subject: `Cookery - Cách làm món ${recipe.Name}`,
+      body: `Món này ngon cực! Bạn xem thử nhé?%0A%0A${fullUrl}
+      `
+   }
+   data.facebookInfo = {
+      info: `https://www.facebook.com/sharer/sharer.php?u=${fullUrl}`
+   }
+   res.render("vwRecipe/detail",data)
+   await recipesService.addView(recipe.id)
 })
 Router.get("/edit/:id",async (req, res, next)=>{
    const recipeID = req.params.id
@@ -108,5 +150,48 @@ Router.get("/edit/:id",async (req, res, next)=>{
    data.numberSteps = steps.length
    data.steps = steps
    res.render("vwRecipe/editRecipe", data);
+})
+Router.post("/edit/:id",(req,res,next)=>{
+   req.newestImage = []
+   req.RecipeID = req.params.id
+   req.imageCount = {}
+   next()
+
+},uploadCreate.any(),async (req, res,next)=>{
+   const recipeID =  req.RecipeID
+   const regex = /^[\d]+_([a-zA-Z0-9-]+)_([0-9]+)\.jpg$/;
+   fs.readdirSync(`./public/images/recipes/${recipeID}`).forEach(file => {
+      let matchPattern = file.match(regex)
+      if(matchPattern[2] > req.imageCount[matchPattern[1]])
+         fs.unlinkSync(`./public/images/recipes/${recipeID}/${file}`)
+   });
+   let steps = req.body.step
+   let ingredients = req.body.ingredient
+   delete(req.body.step)
+   delete(req.body.ingredient)
+   let updateData = await recipesService.updateRecipe(recipeID, req.body)
+   let removeStep = await recipesService.removeSteps(recipeID)
+   let removeIngredients = await recipesService.removeIngredients(recipeID)
+   for(let i = 1; i < steps.length; i++){
+      let stepDesc = steps[i].name
+      let obj = {
+         recipeID: recipeID,
+         id: i,
+         stepName: stepDesc
+      }
+      let updateStep = await recipesService.addStep(obj)
+   }
+   for(let i = 1; i < ingredients.length; i++){
+      let ingredientName = ingredients[i].name 
+      let ingredientCalories = ingredients[i].calories 
+      let obj = {
+         recipeID: recipeID,
+         id: i,
+         name: ingredientName,
+         calories: ingredientCalories
+      }
+      let updateIngre = await recipesService.addIngredient(obj)
+   }
+   res.json(req.body)
 })
 export default Router;

@@ -18,20 +18,32 @@
                     <a class="nav-link" href="javascript:void(0);"><i class="bi bi-search"></i>Search</a>
                 </li>
                 <li class="nav-item add-tab">
-                    <a class="nav-link" href="/recipes/create"><i class="fa-regular fa-bowl-food"></i>Share new recipe</a>
+                    <a class="nav-link" href="/recipes/create"><i class="fa-solid fa-bowl-food"></i>Share new recipe</a>
                 </li>
                 <li class="nav-item disable" style="pointer-events: none;">
                     <a class="nav-link" href="javascript:void(0);"></i></a>
                 </li>
             </ul>
         </div>
-        <div class="authbar" style="margin-right:20px">
-            <button type="button" class="btn btn-light" style="margin-right: 16px;">Login</button>
-			
-            <a href="" style="margin: 8px 0 12px 0; color: #fff";>Sign up</a>
-			<div class="dropdown">
-				<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-					Dropdown button
+        <div class="authbar" style="margin-right:20px">	
+			{{#unless isLogged}}
+			<a href="/auth/login" type="button" class="btn btn-light mr-3" style="width: 100px;">
+				<span style="color: black">
+					<i class="fa fa-sign-in fa-sm" style="margin-right: 3px;"></i>
+					Login
+        		</span> 
+			</a>
+			<a href="/auth/register" type="button" class="btn btn-light mr-3" style="width: 100px">
+				<span style="color: black">
+					<i class="fa fa-user-plus fa-xs" style="margin-right: 0px;"></i>
+					Sign up
+        		</span> 
+			</a>
+			{{/unless}}
+			{{#if isLogged}}
+			<div class="dropdown" >
+				<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 204px;border:none;text-align:right; background: transparent;">
+					Hello, {{auth.fullname}}
 				</button>
 				<ul class="dropdown-menu">
 					<a name="" id="" class="dropdown-item" href="/profile/sharedrecipe?p=1" role="button">
@@ -46,6 +58,7 @@
                      <i class="fa-solid fa-pencil" style="color: #5161ce;"></i> Edit Ìnormation</a>
 				</ul>
 			</div>
+			{{/if}}
         </div>
 		
 </nav>
