@@ -75,7 +75,7 @@ Router.post('/create',async (req,res,next)=>{
       let obj = {
          recipeID: idupdate,
          id: i,
-         name: ingredientName,
+         name: ingredientName, 
          calories: ingredientCalories
       }
       let updateIngre = await recipesService.addIngredient(obj)
