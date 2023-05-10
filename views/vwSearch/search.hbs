@@ -1,0 +1,27 @@
+<link rel="stylesheet" href="/public/css/search.css">
+<div class="container-fluid">
+    <div class="row mt-5" style="    justify-content: center;">
+        <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" class="search-bar" placeholder="Find by dish name or ingredient name">
+            <button type="button" class="btn search-btn">Search</button>
+        </div>
+    </div>
+    <div class="relevent row mt-2" style="width:60%; margin: auto auto">
+        <div>
+            <span class="text-muted" style="text-transform: uppercase; font-weight:bold">Recently searched dishes</span>
+        </div>
+        <div>
+            <a class="recently-search" href="">Cơm chiên</a>
+
+            <a class="recently-search" href="">Cơm chiên</a>
+
+        </div>
+    </div>
+</div>
+
+{{#section 'script2'}}
+<script>  
+    console.log(updateTab("search-tab"))
+</script>
+{{/section}}

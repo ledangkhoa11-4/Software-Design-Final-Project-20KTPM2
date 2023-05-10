@@ -17,6 +17,7 @@ import homeRoute from "./routes/homeRoute.js"
 import recipesRoute from "./routes/recipesRoute.js"
 import profileRoute from "./routes/profileRoute.js"
 import authRoute from "./routes/authRoute.js"
+import searchRoute from "./routes/searchRoute.js"
 const app = express();
 
 app.use("/public", express.static("public"));
@@ -77,6 +78,7 @@ app.use("/",homeRoute);
 app.use("/recipes", recipesRoute)
 app.use("/profile",profileRoute)
 app.use("/auth",authRoute)
+app.use("/search",searchRoute)
 
 app.use((err,req,res, next)=> {
   console.log(err);
