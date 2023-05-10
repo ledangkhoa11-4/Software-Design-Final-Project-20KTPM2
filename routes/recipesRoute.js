@@ -4,6 +4,10 @@ import recipesService from '../service/recipesService.js';
 import usersService from '../service/usersService.js';
 import fs from "fs"
 import middlewares from '../middlewares/middlewares.js';
+import puppeteer from 'puppeteer';
+import path from 'path';
+import handlebars from 'handlebars';
+import { isDataView } from 'util/types';
 const Router = express.Router();
 
 const storage = multer.diskStorage({
@@ -33,8 +37,8 @@ const uploadCreate = multer({
    storage: storage,
  });
 
-Router.use(middlewares.isLogged)
-Router.get('/create', async (req,res,next) => {
+
+Router.get('/create',middlewares.isLogged, async (req,res,next) => {
    res.render("vwRecipe/createRecipe");
 })
 Router.post('/create',async (req,res,next)=>{
@@ -112,6 +116,7 @@ Router.get("/:id",async (req, res, next)=>{
    data.user = user
    let fullUrl = `${req.protocol + '://' + req.get('host') + req.originalUrl}`
    fullUrl = fullUrl.replace("localhost","127.0.0.1")
+   data.fullUrl = fullUrl
    data.mailInfo = {
       subject: `Cookery - Cách làm món ${recipe.Name}`,
       body: `Món này ngon cực! Bạn xem thử nhé?%0A%0A${fullUrl}
@@ -122,6 +127,14 @@ Router.get("/:id",async (req, res, next)=>{
    }
    res.render("vwRecipe/detail",data)
    await recipesService.addView(recipe.id)
+})
+Router.get("/:id/print",async (req, res, next)=>{
+   const data = await getDataRecipe(req.params.id)
+   let pdf = await convertPdf(data)
+   res.setHeader('Content-Type', 'application/pdf');
+   res.setHeader('Content-Disposition', `inline; filename=cookery.pdf`);
+   res.send(pdf);
+  
 })
 Router.get("/edit/:id",async (req, res, next)=>{
    const recipeID = req.params.id
@@ -194,4 +207,46 @@ Router.post("/edit/:id",(req,res,next)=>{
    }
    res.json(req.body)
 })
+async function getDataRecipe(id){
+   let data = {}
+   const regex = /step(\d+)/;
+   const recipe = await recipesService.getRecipe(id)
+   if(!recipe)
+      return data
+   let steps = await recipesService.getSteps(recipe.id)
+   steps = steps.map(item => ({ ...item, imgs: [] }));
+   const ingredients = await recipesService.getIngredients(recipe.id)
+   let finishImgs = []
+   fs.readdirSync(`./public/images/recipes/${recipe.id}`).forEach(file => {
+      let base64 = fs.readFileSync(`./public/images/recipes/${recipe.id}/${file}`).toString("base64")
+      if(file.includes("finishImage")){
+         finishImgs.push(base64)
+      }
+      if(file.includes("step")){
+         let match = file.match(regex)
+         if(match){
+            let imageAtStep = match[1]
+            steps[imageAtStep-1].imgs.push(base64)
+         }
+      }
+    });
+   let user = await usersService.findUserByEmail(recipe.poster)
+   data.recipe = recipe
+   data.steps = steps
+   data.ingredients = ingredients
+   data.finishImgs = finishImgs
+   data.user = user
+   return data
+}
+async function convertPdf(data){
+   const templateSource = fs.readFileSync('./views/vwRecipe/formatPdf.hbs', 'utf8');
+   const template = handlebars.compile(templateSource);
+   const html = template(data);
+  const browser = await puppeteer.launch({headless: "new", args: ['--disable-network']});
+  const page = await browser.newPage();
+  await page.setContent(html);
+  const pdf = await page.pdf({ format: 'A4' });
+  await browser.close();
+ return pdf
+}
 export default Router;
