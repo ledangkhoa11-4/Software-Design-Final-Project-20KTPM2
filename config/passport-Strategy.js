@@ -53,6 +53,8 @@ export default function (passport, strategy){
         password: "",
         role: 2,
         otp: 0,
+        avatar:'/public/images/users/avatar/undifine.jpg',
+        cover:'/public/images/users/cover/undifine.jpg',
       }
       process.nextTick(async function () {
         const user = await userService.getUserByEmail(email);
@@ -67,8 +69,7 @@ export default function (passport, strategy){
           }
           userDat.IDUser = user[0].IDUser;
         }
-        delete userDat.Bio;
-        delete userDat.Password;
+        delete userDat.password;
         return done(null, userDat);
       });
     }
