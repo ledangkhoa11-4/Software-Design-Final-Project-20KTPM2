@@ -23,18 +23,25 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
                      </tr>
                   </thead>
                   <tbody>
-                     <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        
-                     </tr>
+                     {{#each this.list}}                    
+                        <tr>
+                           <td ><a href="" style="text-decoration: none;">{{fullname}}</a></td>
+                           <td><a href="" style="text-decoration: none;">{{email}}</a></td>
+                           <td>
+                             <form action="/admin/course/disabled?id={{ID}}" method="POST" class="justify-content-center">
+                                 
+                                 <button type="submit" name="status" value="disable" class="btn btn-sm btn-outline-danger justify-content-center">
+                                    <i class="bi bi-heartbreak"></i></i> Unfollow</button>
+                                 
+                              </form>
+                           </td>
+                        </tr>
+                     {{/each}}
+                     
+                     
                   </tbody>
                   </table>
-                  {{#each this.list}}
                   
-                     
-                   {{/each}}
-                   
                    
             </div>
             <div class="card-footer">

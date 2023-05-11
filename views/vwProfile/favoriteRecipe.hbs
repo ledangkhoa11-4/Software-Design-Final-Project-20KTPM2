@@ -22,7 +22,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
                         <div class="card-body ">
                            <a class="recipeName" href="/recipes/{{id}}">
                            <h5 class="card-title ">{{Name}}</h5>
-                           <img class="card-img-top " width="100px" height="150px" src="/public/images/recipes/{{id}}/{{id}}_finishImage_1.jpg" alt="...">
+                           <img class="card-img-top " style="border-bottom-left-radius:5px ; border-bottom-right-radius:5px ;" width="100px" height="150px" src="/public/images/recipes/{{id}}/{{id}}_finishImage_1.jpg" alt="...">
                            </a>
                            <div>
                                  {{{description}}} 
@@ -42,8 +42,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
                            </div>
                            <div>
                               <form action="" method="post">
-                                 <button class="btn btn-danger" formaction="/profile/favorite/remove?email={{../this.auth.email}}&recipeID={{id}}">
-                                 <i class="fa-solid fa-heart-circle-minus" style="color: #ffff;"></i> Remove
+                                 <button class="btn btn-outline-danger" formaction="/profile/favorite/remove?email={{../this.auth.email}}&recipeID={{id}}">
+                                 <i class="bi bi-heartbreak"></i></i> Remove
                                  </button>
                               </form>
                               

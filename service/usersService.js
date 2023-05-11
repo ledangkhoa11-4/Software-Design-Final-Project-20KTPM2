@@ -1,3 +1,4 @@
+import database from '../database/db.js';
 import db from '../database/db.js';
 
 export default{
@@ -43,4 +44,12 @@ export default{
          )
         return result[0];
     },
+    GetFollowingUser:async(email,offset,limit)=>{
+        const list=await db('follows').select('followedUser').where({follower:email}).offset(offset).limit(limit)
+        return list
+    },
+    CountFollowingUser:async(email)=>{
+        const count= await db.raw(`Select count(*) as c from follows where follower='${email}'`)
+        return count[0][0].c
+    }
 }
