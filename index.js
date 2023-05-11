@@ -41,6 +41,9 @@ app.engine('hbs', engine({
         const dateFormated = moment(utcStr).format("hh:mm - MMMM D, YYYY")
         console.log(dateFormated)
         return dateFormated
+      },
+      eq(a,b){
+        return a==b
       }
     }
 }));

@@ -9,5 +9,10 @@ export default{
         const total = await database.raw(`SELECT COUNT(*) as num_ingredients, SUM(calories) as total_calories FROM ingredients WHERE recipeID = ${id}
         `)
         if (total) return total[0]
+    },
+    getTotalLike: async(id)=>{
+        const total = await database.raw(`SELECT COUNT(*) AS num_likes FROM likes WHERE recipeID = ${id};
+        `)
+        if (total) return total[0]
     }
 }
