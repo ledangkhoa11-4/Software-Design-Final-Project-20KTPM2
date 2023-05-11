@@ -239,6 +239,28 @@ Router.post("/report/:id",async (req, res,next)=>{
    }
    res.json(resData)
 })
+Router.post("/like/:id", async(req,res,next)=>{
+   let type = req.body.type
+   let status = "Success"
+   let msg = ""
+   const data = {
+      userEmail: res.locals.auth.email,
+      recipeID: req.params.id, 
+   }
+   try{
+      if(type == 'true' || type == true){
+         const update = await recipesService.addLike(data)
+         msg = "Thank you for loving this post!!!"
+      }else{
+         const update = await recipesService.removeLike(data)
+         msg = "Unlove successfully!!!"
+      }
+   }catch(err){
+      msg = err.toString()
+      status = "Error"
+   }
+   res.json({msg, status})
+})
 async function getDataRecipe(id){
    let data = {}
    const regex = /step(\d+)/;
