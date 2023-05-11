@@ -41,7 +41,13 @@ app.engine('hbs', engine({
         const dateFormated = moment(utcStr).format("hh:mm - MMMM D, YYYY")
         console.log(dateFormated)
         return dateFormated
-      }
+      },
+      ifeq: function(a, b, options){
+        if (a === b) {
+          return options.fn(this);
+          }
+        return options.inverse(this);
+      },
     }
 }));
 app.set('view engine', 'hbs');

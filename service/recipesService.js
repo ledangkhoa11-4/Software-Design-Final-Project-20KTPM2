@@ -131,4 +131,26 @@ export default{
         `)
         return result[0]
     }, 
+    saveRecipe: async(data)=>{
+        const result = await database("favoriteRecipes").insert(data);
+        return result
+    },
+    unsaveRecipe: async(data)=>{
+        const result = await database("favoriteRecipes").where(data).del();
+        return result
+    },
+    checkSaveRecipe: async(email,recipeID)=>{
+        const list = await database.raw(`Select * From favoriteRecipes where favoriteRecipes.userEmail LiKE '${email}' and favoriteRecipes.recipeID like '${recipeID}'`);
+        if(list){
+            return (list[0].length !== 0);
+        }
+        return null;
+    },
+    checkLikeRecipe: async(email,recipeID)=>{
+        const list = await database.raw(`Select * From likes where likes.userEmail LiKE '${email}' and likes.recipeID like '${recipeID}'`);
+        if(list){
+            return (list[0].length !== 0);
+        }
+        return null;
+    }
 }
