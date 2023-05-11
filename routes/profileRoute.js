@@ -56,7 +56,10 @@ Router.post('/favorite/remove',async(req,res,next)=>{
    const result= await recipesService.removeFavorite(email,recipeID)
    res.redirect(`/profile/favorite?email=${email}`)
 })
+Router.get('/follows',async(req,res,next)=>{
 
+   res.render('vwProfile/follows')
+})
 Router.get('/account', async (req,res,next) =>{
    // const infos = await userService.getInfo(res.locals.auth.IDUser || 0);
    res.render('vwProfile/account');
