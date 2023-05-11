@@ -89,5 +89,46 @@ export default{
         FROM Recipe r WHERE ${whereClause} ${limitClause} ${offsetClause}
         `)
         return result[0]
-    }
+    },
+    addLike: async(data)=>{
+        const result = await database("likes").insert(data);
+        return result
+    },
+    removeLike: async(data)=>{
+        const result = await database("likes").where(data).del();
+        return result
+    },
+    getBestLike: async()=>{
+        const result = await database.raw(`
+        SELECT r.*, a.fullname, 
+        (SELECT COUNT(*) FROM ingredients i WHERE i.recipeID = r.id GROUP BY r.id) as numIngres, 
+        (SELECT SUM(i.calories) FROM ingredients i WHERE i.recipeID = r.id GROUP BY r.id) as totalCalories, 
+        (SELECT COUNT(*) FROM steps s WHERE s.recipeID = r.id GROUP BY r.id) as numSteps,
+        IFNULL((SELECT COUNT(*) FROM likes l WHERE l.recipeID = r.id GROUP BY r.id),0) as numLikes
+    FROM Recipe r LEFT JOIN Account a ON a.email = r.poster WHERE 1 ORDER BY numLikes DESC LIMIT 5
+        `)
+        return result[0]
+    },
+    getBestView: async()=>{
+        const result = await database.raw(`
+        SELECT r.*, a.fullname, 
+        (SELECT COUNT(*) FROM ingredients i WHERE i.recipeID = r.id GROUP BY r.id) as numIngres, 
+        (SELECT SUM(i.calories) FROM ingredients i WHERE i.recipeID = r.id GROUP BY r.id) as totalCalories, 
+        (SELECT COUNT(*) FROM steps s WHERE s.recipeID = r.id GROUP BY r.id) as numSteps,
+        IFNULL((SELECT COUNT(*) FROM likes l WHERE l.recipeID = r.id GROUP BY r.id),0) as numLikes
+    FROM Recipe r LEFT JOIN Account a ON a.email = r.poster WHERE 1 ORDER BY r.view DESC LIMIT 5
+        `)
+        return result[0]
+    }, 
+    getNewest: async()=>{
+        const result = await database.raw(`
+        SELECT r.*, a.fullname, 
+        (SELECT COUNT(*) FROM ingredients i WHERE i.recipeID = r.id GROUP BY r.id) as numIngres, 
+        (SELECT SUM(i.calories) FROM ingredients i WHERE i.recipeID = r.id GROUP BY r.id) as totalCalories, 
+        (SELECT COUNT(*) FROM steps s WHERE s.recipeID = r.id GROUP BY r.id) as numSteps,
+        IFNULL((SELECT COUNT(*) FROM likes l WHERE l.recipeID = r.id GROUP BY r.id),0) as numLikes
+    FROM Recipe r LEFT JOIN Account a ON a.email = r.poster WHERE 1 ORDER BY r.datePosted DESC LIMIT 10
+        `)
+        return result[0]
+    }, 
 }

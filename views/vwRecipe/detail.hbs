@@ -120,7 +120,7 @@
                     
                     <div class="step-img-wrapper slick-4">
                         {{#each imgs}}
-                            <a href="{{this}}" data-fancybox="step-{{this.id}}" data-caption="Step {{this.id}} photo">
+                            <a href="{{this}}" data-fancybox="step-{{addOne @../index}}" data-caption="Step {{addOne @../index}} photo">
                                 <img src="{{this}}" alt="">
                             </a>
                         {{/each}} 
@@ -323,6 +323,34 @@
 
 </script>
 
+<script>
+    let isLoved = false
+    let isLogged = {{isLogged}}
+    $(function() {
+        $(".heart").on("click", function() {
+            if(isLogged)
+                $(this).toggleClass("is-active");
+        });
+    });
+    function addToFavorite(){
+        if(isLogged == false){
+            return addError("Please login before report!!!")
+        }
+        $.post("/recipes/like/{{recipe.id}}",
+            {
+                type: !isLoved
+            },
+            function(data, status){
+                if(data.status == "failure"){
+                    addError(data.msg)
+                }else{
+                    addSuccess(data.msg)
+                }
+            });
+        isLoved = !isLoved
+    }
+</script>
+
 {{/section}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 {{#if recipe.isbaned}}
@@ -342,16 +370,7 @@ Swal.fire(
 </script>
 {{/if}}
 <script src="/public/script/toast.js"></script>
-<script>
-    let isLoved = false
-    function addToFavorite(){
-        if(isLoved)
-            addInfo("You have removed the post from your favorites list!")
-        else
-            addSuccess("Recipe has been successfully added to your favorites list.")
-        isLoved = !isLoved
-    }
-</script>
+
 <script>
     function reportFormSubmit(e){
         e.preventDefault()

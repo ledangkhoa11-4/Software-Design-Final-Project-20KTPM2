@@ -160,7 +160,7 @@
     width:100%;
     overflow: hidden;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     background:#fff;
 }
@@ -171,4 +171,12 @@
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     background:#fff;
+}
+.anchor-stretch{
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 1;
 }
