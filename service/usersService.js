@@ -44,6 +44,10 @@ export default{
          )
         return result[0];
     },
+    updateInfo: async(email, infos)=>{
+        const result = await db('Account').where({email: email}).update(infos);
+        return result[0]
+    },
     GetFollowingUser:async(email,offset,limit)=>{
         const list=await db('follows').select('followedUser').where({follower:email}).offset(offset).limit(limit)
         return list

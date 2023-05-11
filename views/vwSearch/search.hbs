@@ -1,27 +1,238 @@
 <link rel="stylesheet" href="/public/css/search.css">
+
 <div class="container-fluid">
-    <div class="row mt-5" style="    justify-content: center;">
-        <div class="search-box">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" class="search-bar" placeholder="Find by dish name or ingredient name">
-            <button type="button" class="btn search-btn">Search</button>
-        </div>
-    </div>
-    <div class="relevent row mt-2" style="width:60%; margin: auto auto">
-        <div>
-            <span class="text-muted" style="text-transform: uppercase; font-weight:bold">Recently searched dishes</span>
-        </div>
-        <div>
-            <a class="recently-search" href="">Cơm chiên</a>
+    <div class="row">
+        <div class="col-3" style="justify-content:center;">
+            <style>
+                .cd-filter-block h4 {
+                    position: relative;
+                    text-transform: uppercase;
+                }
 
-            <a class="recently-search" href="">Cơm chiên</a>
+                .cd-filter-block select,
+                .cd-filter-block .radio-label::before {
+                    border-radius: 5px;
+                    background-color: #ffffff;
+                    border: 2px solid #e6e6e6;
+                    margin-bottom: 20px;
+                    font-size: 20px;
+                    display: flex;
+                    text-align: center;
+                }
 
+                .cd-filter-block select {
+                    width: 100%;
+                    box-shadow: #9a9a9a;
+                    margin-botttom: 20px;
+                    font-size: 20px;
+                }
+
+                .cd-filter-block .list li {
+                    list-style: none;
+                    position: relative;
+                }
+            </style>
+            <div class="card"
+                style="color: rgb(243, 243, 243);
+            background:url('https://thietbiketnoi.com/wp-content/uploads/2020/01/tong-hop-hinh-nen-background-vector-designer-dep-do-phan-giai-fhd-2k-4k-moi-nhat-5-1024x697.jpg'); 
+            padding:20px; margin:0px; position:fixed; top:15%; left:3%; height:80%; width:20%; display:flex; justify-content:center; text-align:center;">
+
+                <div class="cd-filter">
+                    <form action="/search" method="POST">
+                        <div class="cd-filter-block">
+                            <h4 style="font-size:30px">Sort by</h4>
+                            <div class="cd-filter-content">
+                                <div class="cd-select cd-filters">
+                                    <select class="filter" name="selectThis" id="selectThis">
+                                        <option value="">Choose an attribute</option>
+                                        <option value="name" {{#if (eq sortKey "name" )}}selected{{/if}}>Name</option>
+                                        <option value="like" {{#if (eq sortKey "like" )}}selected{{/if}}>Like</option>
+                                        <option value="calories" {{#if (eq sortKey "calories" )}}selected{{/if}}>
+                                            Calories</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cd-filter-block">
+                            <h4 style="font-size:30px">Options</h4>
+                            <ul class="cd-filter-content cd-filters list" style="font-size:25px">
+                                {{#if sortType}}
+                                <li>
+                                    <input class="filter" data-filter="" type="radio" name="radioButton" id="radio1"
+                                        value="normal" checked>
+                                    <label class="radio-label" for="radio1">Normal</label>
+                                </li>
+                                <li>
+                                    <input class="filter" data-filter=".radio2" type="radio" name="radioButton"
+                                        value="ascending" id="radio2" {{#if (eq sortType "ascending" )}}checked{{/if}}>
+                                    <label class="radio-label" for="radio2">Ascending</label>
+                                </li>
+                                <li>
+                                    <input class="filter" data-filter=".radio3" type="radio" name="radioButton"
+                                        value="descending" id="radio3" {{#if (eq sortType "descending"
+                                        )}}checked{{/if}}>
+                                    <label class="radio-label" for="radio3">Descending</label>
+                                </li>
+                                {{else}}
+                                <li>
+                                    <input class="filter" data-filter="" type="radio" name="radioButton" id="radio1"
+                                        value="normal" checked>
+                                    <label class="radio-label" for="radio1">Normal</label>
+                                </li>
+                                <li>
+                                    <input class="filter" data-filter=".radio2" type="radio" name="radioButton"
+                                        value="ascending" id="radio2">
+                                    <label class="radio-label" for="radio2">Ascending</label>
+                                </li>
+                                <li>
+                                    <input class="filter" data-filter=".radio3" type="radio" name="radioButton"
+                                        value="descending" id="radio3">
+                                    <label class="radio-label" for="radio3">Descending</label>
+                                </li>
+                                {{/if}}
+
+                            </ul>
+                            <!-- cd-filter-content -->
+                        </div>
+                        <input type="hidden" name="search-key" value="{{this.searchKey}}">
+                        <button type="submit" class="btn btn-primary" style="font-size: 20px; margin-top:50px">Apply
+                            filter</button>
+
+                    </form>
+                    <script>
+
+                    </script>
+                </div>
+                <!-- cd-filter -->
+
+            </div>
+            <!-- cd-main-content -->
+        </div>
+        <div class="col-9">
+            <form action="/search" method="POST">
+                <div class="row mt-5" style="    justify-content: left;">
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+
+                        <input type="text" class="search-bar" placeholder="Find by dish name or ingredient name"
+                            name="search-key">
+                        <button type="submit" class="btn search-btn">Search</button>
+
+                    </div>
+                </div>
+            </form>
+            <div class="relevent row mt-2" style="width:60%;">
+                <div>
+                    <span class="text-muted" style="text-transform: uppercase; font-weight:bold">Recently searched
+                        dishes</span>
+                </div>
+                <div>
+                    <a class="recently-search" href="">Cơm chiên</a>
+
+                    <a class="recently-search" href="">Cơm chiên</a>
+
+                </div>
+            </div>
+            <div class="row">
+                <h2 class="col" style="margin-top:30px">{{listRecipe.length}} results for
+                    “{{this.searchKey}}”</h2>
+            </div>
+            {{#if this.isEmpty}}
+
+            {{else}}
+            {{#each this.listRecipe as |recipe|}}
+            <div class="card" style="margin:50px;margin-left:0px">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="{{recipe.thumbnail}}" class="img-fluid rounded-start rounded-end" alt="...">
+                    </div>
+                    <div class="col-md-8 text-align-left">
+                        <div class="card-body">
+                            <a href="/recipes/{{recipe.id}}" style="text-decoration: none; cusor:pointer">
+                                <h5 class="card-title bold-text mt-3">{{recipe.Name}}</h5>
+                            </a>
+                            <div class="d-flex align-items-center mt-3" style="justify-content: flex-start;">
+                                <div><img style="border-radius:50%; width: 32px; height: 32px"
+                                        src="/public/images/demo_avt.png" alt=""></div>
+                                <div style="font-size: 13px;" class="text-muted">
+                                    <div class="row">
+                                        <span>{{recipe.posterName}}</span>
+                                    </div>
+                                    <div class="row">
+                                        <span>{{recipe.datePosted}}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p class="card-text ellipsis mt-3" style="font-size: 16px; ">{{{this.description}}}</p>
+                            <div class="d-flex text-muted mt-3 mb-4"
+                                style="align-items: center; justify-content: flex-end;    font-size: 14px;">
+                                <div class="me-3">
+                                    <i class="fa-solid fa-stairs"></i>
+                                    {{recipe.num_steps}} Steps
+                                </div>
+                                <div class="me-3">
+                                    <i class="fa-solid fa-carrot"></i>
+                                    {{recipe.num_ingredients}} Ingredients
+                                </div>
+                                <div class="me-3">
+                                    <img src="/public/images/apron.png"
+                                        style="display: inline;width: 18px;margin-right: 10px;" width="21px" alt="">
+                                    {{recipe.preparationTime}}
+                                </div>
+                                <div>
+                                    <i class="fa-solid fa-clock"></i>
+                                    {{recipe.cookingTime}}
+                                </div>
+                            </div>
+
+                            <div class="text-muted"
+                                style="display: flex;align-items: center;font-size: 14px; position: absolute;top: 8px;right: 16px;">
+                                <img src="/public/images/calories.png" style="    width: 30px;" alt="">
+                                {{recipe.total_calories}} calories
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+            {{/if}}
         </div>
     </div>
 </div>
-
 {{#section 'script2'}}
-<script>  
+<script>
     console.log(updateTab("search-tab"))
+    const searchBar = document.querySelector('.search-bar');
+
+    searchBar.addEventListener('keyup', function (event) {
+        if (event.keyCode === 13) {
+            const searchValue = searchBar.value;
+            const url = '/search';
+            const data = { 'search-key': searchValue };
+            const options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            };
+
+            fetch(url, options)
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    throw new Error('Network response was not ok.');
+                })
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    });
 </script>
 {{/section}}

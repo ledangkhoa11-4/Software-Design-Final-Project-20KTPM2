@@ -57,6 +57,8 @@ Validator.isRequire = function (selector) {
     return {
         selector,
         test: function (value) {
+            console.log("test");
+            console.log(value.trim());
             return value.trim() ? undefined : "Please not leave this field blank";
         }
     }
