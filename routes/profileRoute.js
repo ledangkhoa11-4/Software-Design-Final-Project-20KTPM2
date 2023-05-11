@@ -7,6 +7,8 @@ import bcrypt from 'bcrypt'
 
 import middlewares from '../middlewares/middlewares.js';
 import { log } from 'console';
+import usersService from '../service/usersService.js';
+
 const Router = express.Router();
 Router.use(middlewares.isLogged);
 const storageAvatar = multer.diskStorage({
@@ -60,7 +62,7 @@ Router.get('/favorite',async(req,res,next)=>{
    const nitems=await recipesService.CountFavoriteRecipe(email)
    const nPage=Math.ceil(parseInt(nitems)/limit);
    
-   const favRecipeList=await recipesService.getFavoriteRecipes(email)
+   const favRecipeList=await recipesService.getFavoriteRecipes(email,offset,limit)
    var recipeList=[favRecipeList.length]
    for(var i=0;i<favRecipeList.length;i++){
       recipeList[i]=await recipesService.getRecipe(favRecipeList[i].recipeID)
@@ -82,8 +84,37 @@ Router.post('/favorite/remove',async(req,res,next)=>{
    res.redirect(`/profile/favorite?email=${email}`)
 })
 Router.get('/follows',async(req,res,next)=>{
+   const email=req.query.email
+   const page=parseInt(req.query.p)||1
+   const limit=5
+   const offset=(page-1)*limit
+   const nfollows=await usersService.CountFollowingUser(email)
+   const list=await usersService.GetFollowingUser(email,offset,limit)
+   
+   const followList=[list.length]
+   for(var i=0;i<list.length;i++){
+      followList[i]=await usersService.findUserByEmail(list[i].followedUser)
+   }
+   const nPage=Math.ceil(parseInt(nfollows)/limit)
+   const url=`/profile/follows?email=${email}`
+   res.render('vwProfile/follows',{
+      layout: 'profile',
+      list:followList,
+      nPage,
+      page,
+      url,
+      isEmpty:list.length===0
+   })
+})
+Router.get('/:email',async(req,res,next)=>{
 
-   res.render('vwProfile/follows')
+   const list=await recipesService.getRecipesByUserEmail(req.params.email)
+   const user=await usersService.findUserByEmail(req.params.email)
+   console.log(list);
+   res.render("vwProfile/userProfile",{
+      list,
+      user
+   });
 })
 
 

@@ -42,6 +42,10 @@ app.engine('hbs', engine({
         console.log(dateFormated)
         return dateFormated
       },
+      eq(a,b){
+        return a==b
+      }
+      },
       ifeq: function(a, b, options){
         if (a === b) {
           return options.fn(this);

@@ -1,0 +1,111 @@
+
+<link rel="stylesheet" href="/public/css/shared-recipe.css">
+<link rel="stylesheet" href="/public/css/userProfile.css">
+
+<div class="container-profile">
+    <div class="profile-header" style="background-image: url('/public/images/background.png'); background-size: cover;  background-repeat: no-repeat;
+        width: 80%;">
+        <div class="profile-img">
+            <img src="/public/images/demo_avt.png" width="150" alt="Profile Image">
+        </div>
+        <div class="profile-nav-info">
+            <h3 class="user-name">{{this.user.fullname}}
+                <div class="btn-group">
+                <button class="btn btn-lg " type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                   <i class="fa-solid fa-ellipsis-vertical"></i>
+                </button>
+                <ul class="dropdown-menu ">
+                        <li class="dropdown-item">Follow</li>
+                        <li class="dropdown-item report">
+                            <a name="" id="" class="btn btn-sm btn-danger" href="#"><i class="fa-solid fa-circle-exclamation"></i>Report</a>
+                        </li>
+                       
+                    </ul>
+                </div>
+            </h3>
+            <div class="address">
+                <p class="user-mail"> {{this.user.email}}</p>
+            </div>
+
+        </div>
+    </div>
+    
+    <div class="container">
+        <div id="carouselExampleControls" class="carousel" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {{#each list}}
+                <div class="carousel-item active">
+                     <div class="card sharedrecipe" style=" border-radius: 14px; ">
+                        <a class="stretched-anchor" href="/recipes/{{this.id}}"></a>
+                        <div class="img-wrapper">
+                            <img class="card-img-top d-block w-100" style="border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;" src="/public/images/recipes/{{this.id}}/{{this.id}}_finishImage_1.jpg"  alt="...">
+                        </div>
+                        
+                        <div class="card-body mt-2">
+                           <h5 class="recipe_name">{{this.Name}}</h5>
+                           <div class="recipe_des">{{{description}}}</div>
+                           <div class="bottom-card">
+                           <div class="one-third">
+                              <div class="stat">{{this.numSteps}}</div>
+                              <div class="stat-value">Steps</div>
+                           </div>
+                           <div class="one-third">
+                              <div class="stat">{{this.numIngres}}</div>
+                              <div class="stat-value">Ingredients</div>
+                           </div>
+                           <div class="one-third no-border">
+                              <div class="stat">{{totalCalories}}</div>
+                              <div class="stat-value">Calories</div>
+                           </div>
+                        </div>
+                        </div>
+                        
+                     </div>
+               
+                </div>
+                {{/each}}
+
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+
+            
+        
+           
+     
+      
+    </div>
+   
+   
+</div>
+<script>
+        const multipleItemCarousel = document.querySelector("#carouselExampleControls");
+        
+      
+            var carouselWidth = $(".carousel-inner")[0].scrollWidth;
+            var cardWidth = $(".carousel-item").width();
+            var scrollPosition = 0;
+
+            $(".carousel-control-next").on("click", function () {
+                if (scrollPosition < carouselWidth - cardWidth * 4) {
+                scrollPosition = scrollPosition + cardWidth;
+                $(".carousel-inner").animate({ scrollLeft: scrollPosition }, 1000);
+                }
+            });
+            $(".carousel-control-prev").on("click", function () {
+                if (scrollPosition > 0) {
+                scrollPosition = scrollPosition - cardWidth;
+                $(".carousel-inner").animate({ scrollLeft: scrollPosition }, 1000);
+                }
+            });
+        
+</script>
+

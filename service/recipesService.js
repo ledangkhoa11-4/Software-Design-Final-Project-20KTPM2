@@ -1,3 +1,4 @@
+
 import database from "../database/db.js"
 
 export default{
@@ -48,8 +49,8 @@ export default{
     addView: async(id)=>{
         const update = await database.raw(`UPDATE Recipe SET view = view + 1 WHERE id = '${id}'`)
     },
-    getFavoriteRecipes:async(email)=>{
-        const favorite=await database('favoriteRecipes').where({userEmail:email});
+    getFavoriteRecipes:async(email,offset,limit)=>{
+        const favorite=await database('favoriteRecipes').where({userEmail:email}).offset(offset).limit(limit);
         return favorite;
     },
     removeFavorite:async(email, id)=>{
@@ -87,6 +88,22 @@ export default{
             (SELECT COUNT(*) FROM steps s WHERE s.recipeID = r.id GROUP BY r.id) as numSteps,
             IFNULL((SELECT COUNT(*) FROM likes l WHERE l.recipeID = r.id GROUP BY r.id),0) as numLikes
         FROM Recipe r WHERE ${whereClause} ${limitClause} ${offsetClause}
+        `)
+        return result[0]
+    },
+    getRecipesByUserEmail:async(email)=>{
+        let whereClause = ' '
+        console.log(email);
+        if(email != undefined)
+            whereClause += `r.poster='${email}'`
+        
+        const result = await database.raw(`
+        SELECT *, 
+            (SELECT COUNT(*) FROM ingredients i WHERE i.recipeID = r.id GROUP BY r.id) as numIngres, 
+            (SELECT SUM(i.calories) FROM ingredients i WHERE i.recipeID = r.id GROUP BY r.id) as totalCalories, 
+            (SELECT COUNT(*) FROM steps s WHERE s.recipeID = r.id GROUP BY r.id) as numSteps,
+            IFNULL((SELECT COUNT(*) FROM likes l WHERE l.recipeID = r.id GROUP BY r.id),0) as numLikes
+        FROM Recipe r WHERE ${whereClause}
         `)
         return result[0]
     },
