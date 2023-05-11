@@ -89,7 +89,9 @@ Router.post('/register',async (req,res, next)=>{
         Email: user.email,
         Password: hashedPassword,
         Role: 2,
-        OTP: OTP
+        OTP: OTP,
+        avatar: '/public/images/users/avatar/undifine.jpg',
+        cover: '/public/images/users/cover/undifine.jpg',
     })
     var mailOptions = {
       from: 'Cookery@gmail.com',
@@ -99,15 +101,15 @@ Router.post('/register',async (req,res, next)=>{
       <div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2">
     <div style="margin:50px auto;width:70%;padding:20px 0">
     <div style="border-bottom:1px solid #eee">
-      <a href="" style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">AcadeMall</a>
+      <a href="" style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">Cookery</a>
     </div>
     <p style="font-size:1.1em">Hi, ${user.name}</p>
-    <p>Thank you for choosing AcadeMall. Use the following OTP to complete your Sign Up procedures. If you cannot see mail in your inbox, please check junk box, it may be in here. Sorry for the inconvenience</p>
+    <p>Thank you for choosing Cookery. Use the following OTP to complete your Sign Up procedures. If you cannot see mail in your inbox, please check junk box, it may be in here. Sorry for the inconvenience</p>
     <h2 style="background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">${OTP}</h2>
-    <p style="font-size:0.9em;">Regards,<br />AcadeMall</p>
+    <p style="font-size:0.9em;">Regards,<br />Cookery</p>
     <hr style="border:none;border-top:1px solid #eee" />
     <div style="float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300">
-      <p>AcadeMall Inc</p>
+      <p>Cookery Inc</p>
       <p>227 Nguyen Van Cu Ho Chi Minh City</p>
       <p>Viet Nam</p>
     </div>
@@ -150,5 +152,17 @@ Router.post('/check-current-name', async (req, res) =>{
     let exists = await userService.isNameExists(req.body.name, name);
     res.json({exists});
 })
+Router.post('/check-current-email', async (req, res)=>{
+  const email = req.body.email;
+  console.log(res.locals.auth.email);
+  let exists = false;
+  if(email == res.locals.auth.email){
+    res.json({exists})
+  }
+  else{
+    exists = await userService.isEmailExists(email); 
+    res.json({exists});
+  }
+});
 export default Router;
   

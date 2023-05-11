@@ -43,4 +43,8 @@ export default{
          )
         return result[0];
     },
+    updateInfo: async(email, infos)=>{
+        const result = await db('Account').where({email: email}).update(infos);
+        return result[0]
+    },
 }
