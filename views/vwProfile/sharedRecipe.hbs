@@ -1,80 +1,82 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/css/fileinput.min.css" />
 
+<link rel="stylesheet" 
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="stylesheet" href="/public/css/shared-recipe.css">
 <link rel="stylesheet" href="/public/css/pagination.css">
-<h1>Shared Recipe</h1>
-<div class="container mt-5 row" style="margin-top: 20px">
-   <div class="col-3"></div>
-   {{#if this.isEmpty}}
-   {{else}}
-      <div class="col-9 d-flex flex-wrap">
-            {{#each this.list}}
-            
-               <div class="card sharedrecipe" >
-               
-                  <div class="card-body">
-                     <h5 class="card-title">{{Name}}</h5>
-                     <img class="card-img-top " src="/public/images/recipes/{{id}}/{{id}}_finishImage_1.jpg" alt="...">
-                     {{{description}}}
-                  </div>
-               
-                  <div class="card-body">
-                     <a href="#" class="card-link">Card link</a>
-                     <a href="#" class="card-link">Another link</a>
-                  </div>
-               </div>
-            {{/each}}
-             {{#each this.list}}
-            
-               <div class="card sharedrecipe" >
-               
-                  <div class="card-body">
-                     <h5 class="card-title">{{Name}}</h5>
-                     <img class="card-img-top " src="/public/images/recipes/{{id}}/{{id}}_finishImage_1.jpg" alt="...">
-                     {{{description}}}
-                  </div>
-               
-                  <div class="card-body">
-                     <a href="#" class="card-link">Card link</a>
-                     <a href="#" class="card-link">Another link</a>
-                  </div>
-               </div>
-            {{/each}}
-             {{#each this.list}}
-            
-               <div class="card sharedrecipe" >
-               
-                  <div class="card-body">
-                     <h5 class="card-title">{{Name}}</h5>
-                     <img class="card-img-top " src="/public/images/recipes/{{id}}/{{id}}_finishImage_1.jpg" alt="...">
-                     {{{description}}}
-                  </div>
-               
-                  <div class="card-body">
-                     <a href="#" class="card-link">Card link</a>
-                     <a href="#" class="card-link">Another link</a>
-                  </div>
-               </div>
-            {{/each}}
-            
-            
-         </div>
-      {{/if}}
-       <div class="page-container">
-                <a class="first-page">
-                <i class="fas fa-angle-double-left"></i>
-                </a>
-                <a class="prev-page">
-                <i class="fas fa-angle-left"></i>
-                </a>
-                <div id="pagination"></div>
-                <a class="next-page">
-                <i class="fas fa-angle-right"></i>
-                </a>
-                <a class="last-page">
-                <i class="fas fa-angle-double-right"></i>
-                </a>
-      </div>
-</div>
 
+
+
+{{#if this.isEmpty}}
+   {{else}}
+      <div class="col-9 ">
+         <div class="card">
+            <div class="card-header d-flex align-items-center">
+               <h3 style="margin-left: 1rem; margin-bottom:0">My Shared Recipes</h3>
+            </div>
+            <div class="card-body d-flex flex-wrap">
+                  {{#each this.list}}            
+
+                     <div class="card sharedrecipe" style="width: 18rem;">
+                        <a class="stretched-anchor" href="/recipes/{{this.id}}"></a>
+                        <img style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;" src="/public/images/recipes/{{this.id}}/{{this.id}}_finishImage_1.jpg" class="card-img-top" alt="...">
+                        <div class="card-body mt-2">
+                           <h5 class="recipe_name">{{this.Name}}</h5>
+                           <div class="recipe_des">{{{description}}}</div>
+                           <div class="bottom-card">
+                           <div class="one-third">
+                              <div class="stat">{{this.numSteps}}</div>
+                              <div class="stat-value">Steps</div>
+                           </div>
+                           <div class="one-third">
+                              <div class="stat">{{this.numIngres}}</div>
+                              <div class="stat-value">Ingredients</div>
+                           </div>
+                           <div class="one-third no-border">
+                              <div class="stat">{{totalCalories}}</div>
+                              <div class="stat-value">Calories</div>
+                           </div>
+                        </div>
+                        </div>
+                        
+                     </div>
+                   {{/each}}
+                   
+                   
+            </div>
+            <div class="card-footer">
+                     <div class="page-container">
+                        <a class="first-page">
+                        <i class="fas fa-angle-double-left"></i>
+                        </a>
+                        <a class="prev-page">
+                        <i class="fas fa-angle-left"></i>
+                        </a>
+                        <div id="pagination"></div>
+                        <a class="next-page">
+                        <i class="fas fa-angle-right"></i>
+                        </a>
+                        <a class="last-page">
+                        <i class="fas fa-angle-double-right"></i>
+                        </a>
+                  </div>
+            </div>
+         </div> 
+      </div>
+      {{/if}}
+<script src="/public/script/pagination.js">
+
+</script>
+<script>
+  {{#if nPage}}
+   const valuePage = {
+    totalPages: {{this.nPage}},
+    curPage: {{this.page}},
+    truncate: true,
+        numLinksTwoSide: 1,
+        url: `{{url}}`
+    };
+    pagination(valuePage);
+  {{/if}}
+    
+</script>
 

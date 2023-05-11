@@ -9,7 +9,7 @@ import session from "express-session";
 import cookieParser from "cookie-parser";
 import passport from "passport";
 import settingStrategy from "./config/passport-Strategy.js";
-
+import moment from "moment/moment.js";
 
 
 
@@ -17,6 +17,7 @@ import homeRoute from "./routes/homeRoute.js"
 import recipesRoute from "./routes/recipesRoute.js"
 import profileRoute from "./routes/profileRoute.js"
 import authRoute from "./routes/authRoute.js"
+import searchRoute from "./routes/searchRoute.js"
 const app = express();
 
 app.use("/public", express.static("public"));
@@ -35,6 +36,11 @@ app.engine('hbs', engine({
       },
       isGreaterThanOne(num){
         return num > 1 
+      },
+      convertDate(utcStr){
+        const dateFormated = moment(utcStr).format("hh:mm - MMMM D, YYYY")
+        console.log(dateFormated)
+        return dateFormated
       }
     }
 }));
@@ -55,6 +61,7 @@ app.use(passport.session())
 app.use(morgan('dev'))
 
 app.use(async (req,res, next) =>{
+  res.locals.isLogged = false;
   if (req.cookies.user) {
     res.locals.isLogged = true;
     res.locals.auth = req.cookies.user;
@@ -71,6 +78,7 @@ app.use("/",homeRoute);
 app.use("/recipes", recipesRoute)
 app.use("/profile",profileRoute)
 app.use("/auth",authRoute)
+app.use("/search",searchRoute)
 
 app.use((err,req,res, next)=> {
   console.log(err);

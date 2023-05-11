@@ -32,7 +32,7 @@
         </div>
         <div class=" col s12 mt-2 form__group ">
             <label for="fuMain">Finished dish image(s)</label>
-            <input type="file" multiple class="finishImage" name="finishImage" accept=".jpg,.png,.gif,.jpeg">
+            <input type="file" multiple class="finishImage" name="finishImage" accept=".jpg,.png,.gif,.jpeg,.webp,.webp">
             <span class="form__group-message email-message"></span>
         </div>
 
@@ -43,7 +43,7 @@
                 <div class="input-field row s12 mt-3 form__group d-flex" style="padding-left: 0;">
                     <div class="col-9" style="position: relative;">
                         <label for="ingredient1-name" >Ingredient 1:</label>
-                        <input style="padding-left: 16px;" type="text" name="ingredient[1][name]" id="ingredient1-name" class="ingredient1-name required">
+                        <input style="padding-left: 16px;" value="250gr Beef meat" type="text" name="ingredient[1][name]" id="ingredient1-name" class="ingredient1-name required">
                     </div>
                     <div class="col" style="position: relative;">
                         <label for="calories1-name" >Calories:</label>
@@ -63,7 +63,7 @@
                     <input style="padding-left: 16px;" type="text" name="step[1][name]" id="step1-name" class="step1-name required">
                 </div>
                 <div class="col" style="position: relative; padding: 0 50px">
-                    <input type="file" multiple class="step-image step1-image" name="step1-image" accept=".jpg,.png,.gif,.jpeg">
+                    <input type="file" multiple class="step-image step1-image" name="step1-image" accept=".jpg,.png,.gif,.jpeg,.webp,.webp">
                 </div>
                 
             </div>
@@ -159,20 +159,20 @@ matterialInput()
         dropZoneEnabled: false,
         maxFileCount: 5,
         theme: 'fa4',
-        allowedFileExtensions: ['jpg', 'png', 'gif','jpeg'],
+        allowedFileExtensions: ['jpg', 'png', 'gif','jpeg','webp'],
     });
     $('.step-image').fileinput({
         dropZoneEnabled: false,
         maxFileCount: 5,
         theme: 'fa4',
-        allowedFileExtensions: ['jpg', 'png', 'gif','jpeg'],
+        allowedFileExtensions: ['jpg', 'png', 'gif','jpeg','webp'],
     });
     function applyFileInput(){
          $('.step-image').fileinput({
         dropZoneEnabled: false,
         maxFileCount: 5,
         theme: 'fa5',
-        allowedFileExtensions: ['jpg', 'png', 'gif','jpeg'],
+        allowedFileExtensions: ['jpg', 'png', 'gif','jpeg','webp'],
     });
     }
 </script>
@@ -225,7 +225,7 @@ matterialInput()
                     <input style="padding-left: 16px;" type="text" name="step[${curentStep}][name]" id="step${curentStep}-name" class="required">
                 </div>
                 <div class="col" style="position: relative; padding: 0 50px">
-                    <input type="file" multiple class="step-image step${curentStep}-image" name="step${curentStep}-image" id="step${curentStep}-image" accept=".jpg,.png,.gif,.jpeg">
+                    <input type="file" multiple class="step-image step${curentStep}-image" name="step${curentStep}-image" id="step${curentStep}-image" accept=".jpg,.png,.gif,.jpeg,.webp">
                 </div>
                 <button style="position: absolute;top: 2px;right: 2px;" onclick="removeStep(this,event);" type="button" class="btn btn-light"><i class="fa-solid fa-xmark" style="margin:0; "></i> </button>
             </div>
