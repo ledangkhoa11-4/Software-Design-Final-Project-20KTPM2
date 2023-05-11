@@ -1,0 +1,30 @@
+.search-box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60%;
+    padding: 8px 16px;
+    border: 1px solid #ccc;
+    border-radius: 16px;
+}
+.search-bar{
+    flex: 1;
+    outline: none;
+    border:none
+}
+.search-btn{
+    color: white;
+    background: #FF5E14;
+}
+.search-btn:hover{
+    background: #82320e;
+    color: white;
+}
+.footer-section{
+    display: none;
+}
+.recently-search{
+    text-decoration: none;
+    font-size: 14px;
+    margin-right: 4px;
+}

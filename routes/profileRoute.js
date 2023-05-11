@@ -16,7 +16,9 @@ Router.get('/sharedrecipe', async (req,res,next) => {
    const email=req.query.email
    const nitems= await recipesService.CountRecipeSharedByUser(email)
    const nPage=Math.ceil(parseInt(nitems)/limit);
-   const list=await recipesService.getRecipesByUser(email,offset,limit)
+   const list = await recipesService.getAllBriefRecipe({
+      email, offset, limit
+   })
    const url=`/profile/sharedrecipe?email=${email}`
    res.render("vwProfile/sharedRecipe", {
       layout: 'profile',

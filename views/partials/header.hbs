@@ -15,7 +15,7 @@
                     <a class="nav-link" href="/"><i class="bi bi-house"></i>Home</a>
                 </li>
                 <li class="nav-item search-tab">
-                    <a class="nav-link" href="javascript:void(0);"><i class="bi bi-search"></i>Search</a>
+                    <a class="nav-link" href="/search"><i class="bi bi-search"></i>Search</a>
                 </li>
                 <li class="nav-item add-tab">
                     <a class="nav-link" href="/recipes/create"><i class="fa-solid fa-bowl-food"></i>Share new recipe</a>
@@ -41,23 +41,30 @@
 			</a>
 			{{/unless}}
 			{{#if isLogged}}
-			<div class="dropdown" >
-				<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 204px;border:none;text-align:right; background: transparent;">
-					Hello, {{auth.fullname}}
-				</button>
-				<ul class="dropdown-menu">
-					<a name="" id="" class="dropdown-item" href="/profile/sharedrecipe?email={{this.auth.email}}&p=1" role="button">
-                     <i class="fa-solid fa-list" style="color: #5161ce;"></i>
-                     
-                     My Recipe</a>
-                     <a name="" id="" class="dropdown-item" href="/profile/favorite?email={{this.auth.email}}&p=1" role="button">
-                     <i class="fa-solid fa-bookmark" style="color: #5161ce;">
-
-                     </i>Favorite Recipe</a>
-                     <a name="" id="" class="dropdown-item" href="/profile/sharedrecipe?email={{this.auth.email}}&p=1" role="button">
-                     <i class="fa-solid fa-pencil" style="color: #5161ce;"></i> Edit Information</a>
-				</ul>
-			</div>
+			
+<div class="action">
+    <div class="username nav-link dropdown-toggle profile d-flex justify-content-center align-items-center" onclick="menuToggle();" style=" width: 204.04px; height: 40px; color:white">
+        Wellcome, {{auth.fullname}}
+    </div>
+    <div class="menu">
+        <h3 >{{auth.fullname}} <br> <span>{{auth.email}}</span></h3>
+        
+        <ul style="padding-left: 10px;">
+          <li>
+            <a href="/profile/sharedrecipe?email={{this.auth.email}}&p=1"><i class="fa-solid fa-list"></i>My recipe</a>
+          </li>
+          <li>
+            <a href="/profile/favorite?email={{this.auth.email}}&p=1"><i class="bi bi-bookmark-star mr-3"></i>My favorite</a>
+          </li>
+          <li>
+            <a href=""><i class="bi bi-person-gear mr-3"></i>Profile</a>
+          </li>
+          <li>
+            <a href="/auth/logout"><i class="fa-solid fa-right-from-bracket mr-3"></i>Logout</a>
+          </li>
+        </ul>
+    </div>
+</div>
 			{{/if}}
         </div>
 		
@@ -69,7 +76,12 @@
         document.querySelector(".logo-svg").classList.add("active")
     }, 10)
 </script>
-
+<script>
+	 function menuToggle() {
+        const toggleMenu = document.querySelector(".menu");
+        toggleMenu.classList.toggle("active");
+      }
+</script>
 {{#section 'script'}}
 <script>
 function test(){

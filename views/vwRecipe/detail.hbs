@@ -2,11 +2,14 @@
 <link rel="stylesheet" href="/public/css/detailRecipe.css">
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
 <link rel="stylesheet" type="text/css" href="/public/css/slick.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link
   rel="stylesheet"
   href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css"
 />
 <link rel="stylesheet" href="/public/css/loveBtn.css">
+<link rel="stylesheet" href="/public/css/toast.css">
+<link rel="stylesheet" href="/public/css/myModal.css">
 <style>
 
     .swiper {
@@ -34,7 +37,7 @@
       margin-right: auto;
     }
 </style>
-
+ <div id="my-toast"></div>
 <div class="container-sm mt-5" style="margin-bottom: 100px;">
   <div class="row">
     <div class="col-9">
@@ -59,7 +62,7 @@
             </div>
             <div class="reaction d-flex align-items-center" style="    margin-right: -30px;">
                 <span style="font-size: 13px;color: #333; margin-right: -25px;">You and 132 people love this</span>
-                <div class="placement">
+                <div class="placement" onclick="addToFavorite()">
                     <div class="heart"></div>
                 </div>
                 
@@ -180,7 +183,7 @@
             <div class="row">
                 <div class="col-9">
                     <div class="dropdown-center">
-                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="btn btn-secondary dropdown-toggle" href="#"  data-bs-toggle="dropdown" aria-expanded="false">
                            <i class="fa-solid fa-share"></i>
                             Share
                         </a>
@@ -191,11 +194,44 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col">
-                    <button type="button"><i class="fa-solid fa-ellipsis" style="margin: 0;"></i></button>
+                <div class="col" style="    padding-left: 0;">
+
+                    <button data-bs-toggle="dropdown"  type="button"><i class="fa-solid fa-ellipsis"  style="margin: 0;"></i></button>
+                    <ul class="dropdown-menu">
+                        <li class="report-btn" id="one"><a class="dropdown-item">Report</a></li>
+                        {{#if isOwn}}
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" target="_blank" href="/recipes/edit/{{recipe.id}}">Edit</a></li>
+                        {{/if}}
+                    </ul>
+
                 </div>
             </div>
         </div>
+    </div>
+  </div>
+</div>
+
+<div id="my-modal-container">
+  <div class="my-modal-background">
+    <div class="my-modal" onclick="event.stopPropagation()"> 
+        <h2>REPORT RECIPE</h2>
+        <form method="post" action="/recipes/report/{{recipe.id}}">
+            <div class="modal-body">
+                <div class="mb-3">
+                    <input type="text" value="{{recipe.id}}" hidden>
+                    <input type="text" disabled class="form-control" id="recipient-name" value='Report post: "{{recipe.Name}}"'>
+                </div>
+                <div class="mb-3">
+                    <label for="message-text" class="col-form-label">Reason:</label>
+                    <textarea class="form-control" id="report-text" name="reportReason" required></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary close-modal" data-bs-dismiss="modal">Close</button>
+                <button type="submit" onclick="reportFormSubmit(event)" class="btn btn-primary ms-3 submit-modal-btn">Send report</button>
+            </div>
+        </form>
     </div>
   </div>
 </div>
@@ -264,6 +300,28 @@
        window.open(`{{fullUrl}}/print`)
     }
 </script>
+<script>
+
+    $('.report-btn').click(function(){
+        let isLogged = {{isLogged}}
+        if(isLogged == false){
+            return addError("Please login before report!!!")
+        }
+        var buttonId = $(this).attr('id');
+        $('#my-modal-container').removeAttr('class').addClass(buttonId);
+        $('body').addClass('my-modal-active');
+    })
+
+    $('#my-modal-container').click(function(){
+    $(this).addClass('out');
+    $('body').removeClass('my-modal-active');
+    });
+    $('.close-modal').click(function(){
+        $('#my-modal-container').addClass('out');
+        $('body').removeClass('my-modal-active');
+    });
+
+</script>
 
 {{/section}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -283,3 +341,39 @@ Swal.fire(
 })
 </script>
 {{/if}}
+<script src="/public/script/toast.js"></script>
+<script>
+    let isLoved = false
+    function addToFavorite(){
+        if(isLoved)
+            addInfo("You have removed the post from your favorites list!")
+        else
+            addSuccess("Recipe has been successfully added to your favorites list.")
+        isLoved = !isLoved
+    }
+</script>
+<script>
+    function reportFormSubmit(e){
+        e.preventDefault()
+        $('.submit-modal-btn').addClass('disabled');
+        let reasonRp = document.querySelector("#report-text").value
+        if(reasonRp.length == 0){
+            $('.submit-modal-btn').removeClass('disabled')
+            return addError("Please not leave Reason blank!!!")
+        }
+        $.post("/recipes/report/{{recipe.id}}",
+        {
+            reason: reasonRp
+        },
+        function(data, status){
+            if(data.status == "failure"){
+                addError(data.msg)
+            }else{
+                 addSuccess("Reported successfully")
+            }
+        $('#my-modal-container').addClass('out');
+        $('body').removeClass('my-modal-active');
+        $('.submit-modal-btn').removeClass('disabled');
+        });
+     }
+</script>

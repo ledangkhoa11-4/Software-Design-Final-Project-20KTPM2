@@ -2,6 +2,7 @@ import express, { query, request } from 'express'
 import multer from 'multer';
 import recipesService from '../service/recipesService.js';
 import usersService from '../service/usersService.js';
+import reportService from '../service/reportService.js';
 import fs from "fs"
 import middlewares from '../middlewares/middlewares.js';
 import puppeteer from 'puppeteer';
@@ -75,7 +76,7 @@ Router.post('/create',async (req,res,next)=>{
       let obj = {
          recipeID: idupdate,
          id: i,
-         name: ingredientName,
+         name: ingredientName, 
          calories: ingredientCalories
       }
       let updateIngre = await recipesService.addIngredient(obj)
@@ -122,6 +123,10 @@ Router.get("/:id",async (req, res, next)=>{
       body: `Món này ngon cực! Bạn xem thử nhé?%0A%0A${fullUrl}
       `
    }
+   if(res.locals.auth)
+      data.isOwn = data.user.email == res.locals.auth.email
+   else
+      data.isOwn = false
    data.facebookInfo = {
       info: `https://www.facebook.com/sharer/sharer.php?u=${fullUrl}`
    }
@@ -136,7 +141,7 @@ Router.get("/:id/print",async (req, res, next)=>{
    res.send(pdf);
   
 })
-Router.get("/edit/:id",async (req, res, next)=>{
+Router.get("/edit/:id",middlewares.isOwnRecipe,async (req, res, next)=>{
    const recipeID = req.params.id
    const recipe = await recipesService.getRecipe(recipeID)
    const ingredients = await recipesService.getIngredients(recipeID)
@@ -206,6 +211,33 @@ Router.post("/edit/:id",(req,res,next)=>{
       let updateIngre = await recipesService.addIngredient(obj)
    }
    res.json(req.body)
+})
+Router.post("/report/:id",async (req, res,next)=>{
+   let reporter = res.locals.auth.email
+   let idRecipe = req.params.id
+   let reason = req.body.reason
+   const data = {
+      UserReport: reporter,
+      recipeReported: idRecipe,
+      reason
+   }
+   let resData = {
+      status: "",
+      msg: ""
+   }
+   try{
+      const addReport = await reportService.addReport(data)
+      resData = {
+         status: "success",
+         msg: ""
+      }
+   }catch(err){
+      resData = {
+         status: "failure",
+         msg: "You have already reported this recipe"
+      }
+   }
+   res.json(resData)
 })
 async function getDataRecipe(id){
    let data = {}
