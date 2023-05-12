@@ -55,5 +55,21 @@ export default{
     CountFollowingUser:async(email)=>{
         const count= await db.raw(`Select count(*) as c from follows where follower='${email}'`)
         return count[0][0].c
-    }
+    },
+    getUsersByPage: async (limit, offset) => {
+        const list = await db("Account")
+          .where('role',2)
+          .limit(limit)
+          .offset(offset);
+        return list;
+    },
+    getUsersAmount: async () => {
+        const list = await db("Account").where("role",2).count({amount: "email"});
+        return list[0].amount;
+    },
+    disabledUser: (email, status) => {
+        return db.raw(
+          `Update Account set isbaned=${status} where Account.email='${email}'`
+        );
+    },
 }
