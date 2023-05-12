@@ -7,7 +7,6 @@ import bcrypt from 'bcrypt'
 
 import middlewares from '../middlewares/middlewares.js';
 import { log } from 'console';
-import usersService from '../service/usersService.js';
 
 const Router = express.Router();
 Router.use(middlewares.isLogged);
