@@ -168,5 +168,18 @@ export default{
             return (list[0].length !== 0);
         }
         return null;
-    }
+    },
+    getAllCmt: async(id)=>{
+        const listCmt = await database.raw(`SELECT a.fullname, a.avatar ,c.* FROM comments c JOIN Account a ON c.userEmail = a.email WHERE c.recipeID = ${id};`)
+        if (listCmt) return listCmt[0]
+    },
+    saveComment: async (recipeId, cmt, email, date) => {
+        const res = await database.raw(`INSERT INTO comments (userEmail, recipeID, content, date)
+          VALUES ('${email}', ${recipeId}, '${cmt}', NOW())
+          ON DUPLICATE KEY UPDATE content = '${cmt}', date = NOW();
+        `);
+        return res;
+      }
+      
+      
 }

@@ -39,7 +39,16 @@ const uploadCreate = multer({
    storage: storage,
  });
 
-
+ Router.post("/comment/:id",middlewares.isLogged,async(req,res,next)=>{
+   const cmt = req.body.comment
+   const email = res.locals.auth.email
+   const date = new Date();
+ 
+   const saveCmt = await recipesService.saveComment(req.params.id, cmt, email, date)
+   const url = "/recipes/" + req.params.id
+   if (saveCmt)res.redirect(url)
+   else res.json({404:"ERROR"})
+})
 Router.get('/create',middlewares.isLogged, async (req,res,next) => {
    res.render("vwRecipe/createRecipe");
 })
@@ -137,6 +146,8 @@ Router.get("/:id",async (req, res, next)=>{
    data.facebookInfo = {
       info: `https://www.facebook.com/sharer/sharer.php?u=${fullUrl}`
    }
+   data.comments = await recipesService.getAllCmt(recipe.id)
+   console.log(data);
    res.render("vwRecipe/detail",data)
    await recipesService.addView(recipe.id)
 })
@@ -290,6 +301,7 @@ Router.post("/save/:id", async(req,res,next)=>{
    }
    res.json({msg, status})
 })
+
 async function getDataRecipe(id){
    let data = {}
    const regex = /step(\d+)/;
