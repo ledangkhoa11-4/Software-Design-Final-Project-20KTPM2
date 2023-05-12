@@ -1,0 +1,53 @@
+<div class="card">
+  <div class="card-header">
+   Reported User
+    
+  </div>
+  <div class="card-body">
+    {{#if this.isEmpty}}
+      <p>No Data</p>
+    {{else}}
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Full Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Status</th>
+            <th scope="col">Reason</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each this.list}}
+            <tr >
+            <td scope="col">
+                  <a name="" id="" class="btn" href="/profile?email={{email}}" role="button">
+                    {{fullname}}
+                   </a>
+                </td>
+                <td>
+                    {{email}}
+                </td>
+                 <td scope="col" >
+                
+                {{#if isbaned}}
+                  <button type="submit"  class="btn btn-outline-danger "> 
+                    <i class="fa fa-lock" aria-hidden="true"></i>
+                    Disable</button>
+                {{else}}
+                <button type="submit"  class="btn btn-outline-success  "> 
+                  <i class="fa fa-unlock" aria-hidden="true"></i>
+                  Enable</button>
+                 
+              {{/if}}</td>
+                <td>
+                  <p style="overflow: auto; height:50px">{{reason}}</p>
+                </td>
+            
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    {{/if}}
+    
+    

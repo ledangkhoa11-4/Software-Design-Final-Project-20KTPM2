@@ -70,5 +70,16 @@ export default{
     unFollow:async(follower,followedUser)=>{
         const result=await db('follows').where({follower:follower,followedUser:followedUser}).del()
         return result
+    },
+    getReportedUser:async(offset,limit)=>{
+        const list=await db.raw(`SELECT p.*,r.* 
+        FROM Account p JOIN reportedAccount r ON p.email = r.userReported
+        GROUP BY r.userReported
+        LIMIT ${offset},${limit} `)
+        return list[0]
+    },
+    countReprtedUser:async()=>{
+        const count=await db.raw(`SELECT count(DISTINCT userReported) as c FROM reportedAccount;`)
+        return count[0][0].c
     }
 }
