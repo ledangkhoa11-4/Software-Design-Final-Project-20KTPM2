@@ -69,7 +69,6 @@ export default{
     },
     unFollow:async(follower,followedUser)=>{
         const result=await db('follows').where({follower:follower,followedUser:followedUser}).del()
-        console.log(result)
         return result
     }
 }
