@@ -34,7 +34,7 @@ export default{
         return null;
     },
     isNameExists: async(fullname, name) => {
-        const curName = await db.raw(`Select fullname From Account where IDUser LIKE '${fullname}'`);
+        const curName = await db.raw(`Select fullname From Account where Account.fullname LIKE '${fullname}'`);
         if(curName[0][0].fullname.localeCompare(name) === 0) return true;
         return false;            
     },

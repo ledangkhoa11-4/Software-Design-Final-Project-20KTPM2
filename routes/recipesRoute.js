@@ -9,6 +9,7 @@ import puppeteer from 'puppeteer';
 import path from 'path';
 import handlebars from 'handlebars';
 import { isDataView } from 'util/types';
+import { log } from 'console';
 const Router = express.Router();
 
 const storage = multer.diskStorage({
@@ -123,10 +124,16 @@ Router.get("/:id",async (req, res, next)=>{
       body: `Món này ngon cực! Bạn xem thử nhé?%0A%0A${fullUrl}
       `
    }
-   if(res.locals.auth)
+   if(res.locals.auth){
       data.isOwn = data.user.email == res.locals.auth.email
-   else
+      data.isLiked = await recipesService.checkLikeRecipe(res.locals.auth.email,req.params.id)
+      data.isSaved = await recipesService.checkSaveRecipe(res.locals.auth.email,req.params.id)
+   }
+   else{
       data.isOwn = false
+      data.isLiked = false
+      data.isSaved = false
+   }
    data.facebookInfo = {
       info: `https://www.facebook.com/sharer/sharer.php?u=${fullUrl}`
    }
@@ -254,6 +261,28 @@ Router.post("/like/:id", async(req,res,next)=>{
       }else{
          const update = await recipesService.removeLike(data)
          msg = "Unlove successfully!!!"
+      }
+   }catch(err){
+      msg = err.toString()
+      status = "Error"
+   }
+   res.json({msg, status})
+})
+Router.post("/save/:id", async(req,res,next)=>{
+   let type = req.body.type
+   let status = "Success"
+   let msg = ""
+   const data = {
+      userEmail: res.locals.auth.email,
+      recipeID: req.params.id, 
+   }
+   try{
+      if(type == 'true' || type == true){
+         const update = await recipesService.saveRecipe(data)
+         msg = "Save recipe successfully!!!"
+      }else{
+         const update = await recipesService.unsaveRecipe(data)
+         msg = "Unsave recipe successfully!!!"
       }
    }catch(err){
       msg = err.toString()
