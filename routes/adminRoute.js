@@ -41,6 +41,7 @@ Router.get('/accounts', async (req,res)=>{
 
     let nPage=Math.ceil(totalUser/limit);
     res.render('vwAdmin/accounts',{
+        layout:'admin',
     list,
     isEmpty: list.length===0,
     nPage,
