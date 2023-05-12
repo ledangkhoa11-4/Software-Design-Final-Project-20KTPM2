@@ -90,7 +90,6 @@ app.use("/profile",profileRoute)
 app.use("/auth",authRoute)
 app.use("/search",searchRoute)
 app.use("/admin",adminRoute)
-
 app.use((err,req,res, next)=> {
   console.log(err);
   next();

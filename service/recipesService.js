@@ -93,7 +93,6 @@ export default{
     },
     getRecipesByUserEmail:async(email)=>{
         let whereClause = ' '
-        console.log(email);
         if(email != undefined)
             whereClause += `r.poster='${email}'`
         

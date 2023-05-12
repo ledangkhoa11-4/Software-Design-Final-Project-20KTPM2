@@ -56,6 +56,32 @@ export default{
         const count= await db.raw(`Select count(*) as c from follows where follower='${email}'`)
         return count[0][0].c
     },
+    followUser:async(follower,followedUser)=>{
+        const result=await db('follows').insert({
+            follower:follower,
+            followedUser:followedUser
+        })
+        return result
+    },
+    isFollow:async(follower,followedUser)=>{
+        const result=await db('follows').where({follower:follower,followedUser:followedUser})
+        return result
+    },
+    unFollow:async(follower,followedUser)=>{
+        const result=await db('follows').where({follower:follower,followedUser:followedUser}).del()
+        return result
+    },
+    getReportedUser:async(offset,limit)=>{
+        const list=await db.raw(`SELECT p.*,r.* 
+        FROM Account p JOIN reportedAccount r ON p.email = r.userReported
+        GROUP BY r.userReported
+        LIMIT ${offset},${limit} `)
+        return list[0]
+    },
+    countReprtedUser:async()=>{
+        const count=await db.raw(`SELECT count(DISTINCT userReported) as c FROM reportedAccount;`)
+        return count[0][0].c
+    },
     getUsersByPage: async (limit, offset) => {
         const list = await db("Account")
           .where('role',2)
