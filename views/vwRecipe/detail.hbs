@@ -75,9 +75,10 @@
                     <img src="/public/images/demo_avt.png" width="100%" class="author-avt" alt="">
                 </div>
                 <div class="col">
+                    <a href="/profile/{{user.email}}" style="text-decoration: none; color:#000">
                      <p class="author-name">{{user.fullname}}</p>
                     <p class="time-post">at {{convertDate recipe.datePosted}}</p>
-                    <button type="button " class="btn btn-secondary">Follow</button>
+                    </a>
                 </div>
             </div>
             <div class="description">{{{recipe.description}}}</div>

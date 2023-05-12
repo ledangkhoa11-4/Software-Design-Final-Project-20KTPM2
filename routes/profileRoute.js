@@ -7,7 +7,7 @@ import bcrypt from 'bcrypt'
 
 import middlewares from '../middlewares/middlewares.js';
 import { log } from 'console';
-import usersService from '../service/usersService.js';
+
 
 const Router = express.Router();
 Router.use(middlewares.isLogged);
@@ -110,10 +110,14 @@ Router.get('/:email',async(req,res,next)=>{
 
    const list=await recipesService.getRecipesByUserEmail(req.params.email)
    const user=await usersService.findUserByEmail(req.params.email)
-   console.log(list);
+   const followed=  await usersService.isFollow(res.locals.auth.email,req.params.email)
+   console.log(res.locals.auth.email);
+   console.log(req.params.email);
+   console.log(followed);
    res.render("vwProfile/userProfile",{
       list,
-      user
+      user,
+      isFollowed:followed.length===1
    });
 })
 
@@ -161,6 +165,21 @@ Router.post("/edit-account",uploadAvatarEdit.fields([{name:"avatar"},{name:"cove
       user,email,isEmail,
       title: 'Update account success'
    })
+})
+
+Router.post("/follow",async(req,res,next)=>{
+   const follower=req.query.follower
+   const followedUser=req.query.followedUser
+   const result=await usersService.followUser(follower,followedUser)
+   console.log(result);
+   res.redirect(`/profile/${followedUser}`)
+})
+Router.post("/unfollow",async(req,res,next)=>{
+   const follower=req.query.follower
+   const followedUser=req.query.followedUser
+   const result=await usersService.unFollow(follower,followedUser)
+   console.log(result);
+   res.redirect(`/profile/${followedUser}`)
 })
 
 export default Router;

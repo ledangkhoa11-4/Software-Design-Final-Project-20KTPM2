@@ -55,5 +55,21 @@ export default{
     CountFollowingUser:async(email)=>{
         const count= await db.raw(`Select count(*) as c from follows where follower='${email}'`)
         return count[0][0].c
+    },
+    followUser:async(follower,followedUser)=>{
+        const result=await db('follows').insert({
+            follower:follower,
+            followedUser:followedUser
+        })
+        return result
+    },
+    isFollow:async(follower,followedUser)=>{
+        const result=await db('follows').where({follower:follower,followedUser:followedUser})
+        return result
+    },
+    unFollow:async(follower,followedUser)=>{
+        const result=await db('follows').where({follower:follower,followedUser:followedUser}).del()
+        console.log(result)
+        return result
     }
 }
