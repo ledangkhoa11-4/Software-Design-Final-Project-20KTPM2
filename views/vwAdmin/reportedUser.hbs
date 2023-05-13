@@ -10,9 +10,9 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th scope="col">Full Name</th>
             <th scope="col">Email</th>
-            <th scope="col">Status</th>
+            <th scope="col">Report by</th>
+            
             <th scope="col">Reason</th>
           </tr>
         </thead>
@@ -21,35 +21,24 @@
             <tr >
             <td scope="col">
                   <a name="" id="" class="btn" href="/profile?email={{email}}" role="button">
-                    {{fullname}}
+                    {{userReported}}
                    </a>
                 </td>
                 <td scope="col">
-                    {{email}}
+                    {{userReport}}
                 </td>
+               
                 <td scope="col">
-                    <form action="/admin/accounts/disabled?email={{email}}" method="POST" class="justify-content-center">
-                    {{#if isbaned}}
-                      <button type="submit" name="status" value="enable" class="btn btn-outline-success justify-content-center "> 
-                        <i class="fa fa-unlock" aria-hidden="true"></i>
-                        Enable</button>
-                    {{else}}
-                    <button type="submit" name="status" value="disable" class="btn btn-outline-danger justify-content-center">
-                      <i class="fa fa-lock" aria-hidden="true"></i> Disable</button>
-                  {{/if}}
-                    </form>
-                </td>
-                <td scope="col">
-                  <a name="" id="" class="btn btn-outline-primary float-right" href="/admin/{{#ifeq Role 1 }}instructor{{else}}student{{/ifeq}}?id={{IDUser}}&role={{Role}}&p=1" role="button" >
-                  <i class="fa fa-eye" aria-hidden="true"></i>
-                  Details
-                  </a>
+                  {{reason}}
                 </td>
           </tr>
           {{/each}}
         </tbody>
       </table>
     {{/if}}
+    </div>
+    <div class="card-footer">
+      <a name="" id="" class="btn btn-primary" href="/admin/accounts?&p=1" role="button"><i class="fa-solid fa-arrow-left"></i>Back</a>
     </div>
   </div>
     
