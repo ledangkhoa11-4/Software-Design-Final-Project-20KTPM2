@@ -12,7 +12,7 @@ const Router = express.Router();
 Router.use(middlewares.isAdmin);
 Router.get('/reported-user',async (req,res,next)=>{
     const page=parseInt(req.query.p)||1;
-    const limit=5
+    const limit=2
     const offset=(page-1)*limit
     
     const url=`/admin/reported-user?role=0`
@@ -41,6 +41,8 @@ Router.get('/accounts', async (req,res)=>{
 
     let nPage=Math.ceil(totalUser/limit);
     res.render('vwAdmin/accounts',{
+    layout:'admin',
+    showFilter:true,
     list,
     isEmpty: list.length===0,
     nPage,

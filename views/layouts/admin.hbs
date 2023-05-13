@@ -36,14 +36,25 @@
                     <a name="" id="" class="list-group-item" href="/admin/reported-user" role="button">Reported Users</a>
                     <a name="" id="" class="list-group-item" href="/admin/courses?p=1" role="button">Reported Recipes</a>
                 </ul>
-                
-            </div>
+          </div>
+          {{#if this.showFilter}}
+          <div class="card" style="width: 18rem;margin-top: 70px">
+                <div class="card-header">
+                    Menu
+                </div>
+                <ul class="list-group list-group-flush">
+                    <a name="" id="" class="list-group-item" href="/admin/accounts" role="button">Reported Users</a>
+                    <a name="" id="" class="list-group-item" href="/admin/courses?p=1" role="button">Banned Users</a>
+                    <a name="" id="" class="list-group-item" href="/admin/courses?p=1" role="button">Not Banned Users</a>
+                </ul>
+          </div>
+          {{/if}}
         </div>
         <div class="col-sm-9">
             {{{body}}}  
         </div>
         </div>
-  
+  </div>
   <div class="space mt-5 mb-5"></div>
   {{>footer}}
   <script src="https://code.jquery.com/jquery-3.6.2.js" integrity="sha256-pkn2CUZmheSeyssYw3vMp1+xyub4m+e+QK4sQskvuo4=" crossorigin="anonymous"></script>
