@@ -47,27 +47,38 @@
             <div class="swiper-wrapper">
               {{#each pupularRecipes}}
                 <div class="feedback__item swiper-slide" style="position: relative;">
-                  <a href="/recipes/{{this.id}}" class="anchor-stretch"></a>
+                  
                   <div class="card border-none" style="    position: initial;">
                     <div class="row g-0">
+                      
                       <div class="col-md-5">
+                        <a href="/recipes/{{this.id}}" class="anchor-stretch">
                         <img src="/public/images/recipes/{{this.id}}/{{this.id}}_finishImage_1.jpg" class="img-fluid rounded-start rounded-end" alt="...">
+                        </a>
                       </div>
                       <div class="col-md-7 text-align-right">
                         <div class="card-body">
+                          <a href="/recipes/{{this.id}}" class="anchor-stretch">                     
                           <h5 class="card-title bold-text mt-3">{{this.Name}}</h5>
+                          </a>
+                          <a href="/profile?email={{this.email}}" class="anchor-stretch">
                           <div class="d-flex align-items-center mt-3" style="justify-content: flex-end;">
-                            <div><img style="border-radius:50%; width: 32px; height: 32px" src="/public/images/demo_savt.png" onerror="this.src = '/public/images/default_avt.png'"></div>
+                            
+                            <div><img style="border-radius:50%; width: 32px; height: 32px" src="{{this.avatar}}" onerror="this.src = '/public/images/default_avt.png'"></div>
                             <div style="font-size: 13px;" class="text-muted">
+                              
                               <div class="row">
+
                                 <span>{{this.fullname}}</span>
                               </div>
                               <div class="row">
                                 <span>{{convertDate this.datePosted}}</span>
                               </div>
                             </div>
+                             
                           </div>
-                          
+                          </a>
+                         
                           <div class="card-text ellipsis mt-3" style="font-size: 16px; ">{{{this.description}}}</div>
                           <div class="d-flex text-muted mt-3 mb-4" style="align-items: center; justify-content: flex-end;    font-size: 14px;">
                             <div class="me-3">
@@ -130,23 +141,31 @@
     <div class="card-deck slick-5">
       {{#each newestRecipes}}
         <div class="card popover-data-{{this.id}}" style="min-height:300px; margin: 0px 10px">
-          <a href="/recipes/{{this.id}}" class="anchor-stretch"></a>
+          <a href="/recipes/{{this.id}}" class="anchor-stretch" >
           <img src="/public/images/recipes/{{this.id}}/{{this.id}}_finishImage_1.jpg" height="160"  class="card-img-top" alt="...">
+          </a>
           <div class="card-body">
+             <a href="/recipes/{{this.id}}" class="anchor-stretch">
             <h5 class="card-title ellipsis-single">{{this.Name}}</h5>
+            </a>
+            <a href="/profile?email={{this.email}}" class="anchor-stretch" >
             <div class="d-flex align-items-center mt-3" style="justify-content: flex-start;">
               <div>
-                <img style="border-radius:50%; width: 32px; height: 32px" src="/public/images/demos_avt.png" onerror="this.src = '/public/images/default_avt.png'"  alt="">
+                <img style="border-radius:50%; width: 32px; height: 32px" src="{{this.avatar}}" onerror="this.src = '/public/images/default_avt.png'"  alt="">
               </div>
               <div style="font-size: 13px;" class="text-muted">
+                
                   <div class="row">
+                    
                     <span>{{this.fullname}}</span>
+                    
                   </div>
                   <div class="row">
                     <span>{{convertDate this.datePosted}}</span>
                   </div>
               </div>
             </div>
+            </a>
           </div>
         </div>
       {{/each}}
@@ -164,17 +183,23 @@
       <div class="swiper-wrapper">
         {{#each mostViewRecipes}}
           <div class="feedback__item swiper-slide" style="position: relative;">
-            <a href="/recipes/{{this.id}}" class="anchor-stretch"></a>
+            
             <div class="card">
               <div class="row g-0">
                 <div class="col-md-4">
+                  <a href="/recipes/{{this.id}}" class="anchor-stretch">
                   <img src="/public/images/recipes/{{this.id}}/{{this.id}}_finishImage_1.jpg" class="img-fluid rounded-start rounded-end" alt="...">
+                  </a>
                 </div>
                 <div class="col-md-8 text-align-left">
                   <div class="card-body">
-                    <h5 class="card-title bold-text mt-3">{{this.Name}}</h5>
+                     <a href="/recipes/{{this.id}}" class="anchor-stretch">
+                     
+                     <h5 class="card-title bold-text mt-3">{{this.Name}}</h5>
+                     </a>
+                    <a href="/profile?email={{this.email}}" class="anchor-stretch" >
                     <div class="d-flex align-items-center mt-3" style="justify-content: flex-start;">
-                      <div><img style="border-radius:50%; width: 32px; height: 32px" src="/public/images/demos_avt.png"  alt="" onerror="this.src = '/public/images/default_avt.png'"></div>
+                      <div><img style="border-radius:50%; width: 32px; height: 32px" src="{{this.avatar}}"  alt="" onerror="this.src = '/public/images/default_avt.png'"></div>
                       <div style="font-size: 13px;" class="text-muted">
                         <div class="row">
                           <span>{{this.fullname}}</span>
@@ -184,6 +209,7 @@
                         </div>
                       </div>
                     </div>
+                    </a>
                     
                     <div class="card-text ellipsis mt-3 indent" style="font-size: 16px; ">{{{this.description}}}</div>
                     <div class="d-flex text-muted mt-3 mb-4" style="align-items: center; justify-content: flex-end;    font-size: 14px;">

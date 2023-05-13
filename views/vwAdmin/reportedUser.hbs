@@ -10,27 +10,21 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th scope="col">Email</th>
-            <th scope="col">Report by</th>
+            <th  scope="col">Reason</th>
+            <th >Report by</th>
             
-            <th scope="col">Reason</th>
+            
           </tr>
         </thead>
         <tbody>
           {{#each this.list}}
             <tr >
-            <td scope="col">
-                  <a name="" id="" class="btn" href="/profile?email={{email}}" role="button">
-                    {{userReported}}
-                   </a>
+              <td scope="col" style=" max-width:200px">
+                  <p style="overflow:auto;">{{reason}}</p>
                 </td>
-                <td scope="col">
+                <td >
                     {{userReport}}
-                </td>
-               
-                <td scope="col">
-                  {{reason}}
-                </td>
+                </td>               
           </tr>
           {{/each}}
         </tbody>

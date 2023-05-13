@@ -116,7 +116,7 @@ export default{
     },
     getBestLike: async()=>{
         const result = await database.raw(`
-        SELECT r.*, a.fullname, 
+        SELECT r.*, a.fullname, a.email,a.avatar, 
         (SELECT COUNT(*) FROM ingredients i WHERE i.recipeID = r.id GROUP BY r.id) as numIngres, 
         (SELECT SUM(i.calories) FROM ingredients i WHERE i.recipeID = r.id GROUP BY r.id) as totalCalories, 
         (SELECT COUNT(*) FROM steps s WHERE s.recipeID = r.id GROUP BY r.id) as numSteps,
@@ -127,7 +127,7 @@ export default{
     },
     getBestView: async()=>{
         const result = await database.raw(`
-        SELECT r.*, a.fullname, 
+        SELECT r.*, a.fullname, a.email,a.avatar,
         (SELECT COUNT(*) FROM ingredients i WHERE i.recipeID = r.id GROUP BY r.id) as numIngres, 
         (SELECT SUM(i.calories) FROM ingredients i WHERE i.recipeID = r.id GROUP BY r.id) as totalCalories, 
         (SELECT COUNT(*) FROM steps s WHERE s.recipeID = r.id GROUP BY r.id) as numSteps,
@@ -138,7 +138,7 @@ export default{
     }, 
     getNewest: async()=>{
         const result = await database.raw(`
-        SELECT r.*, a.fullname, 
+        SELECT r.*, a.fullname, a.email,a.avatar,
         (SELECT COUNT(*) FROM ingredients i WHERE i.recipeID = r.id GROUP BY r.id) as numIngres, 
         (SELECT SUM(i.calories) FROM ingredients i WHERE i.recipeID = r.id GROUP BY r.id) as totalCalories, 
         (SELECT COUNT(*) FROM steps s WHERE s.recipeID = r.id GROUP BY r.id) as numSteps,
@@ -212,4 +212,10 @@ export default{
           `Update Recipe set isbaned=${status} where Recipe.id='${id}'`
         );
     },
+    
+    },
+    countLike:async(id)=>{
+        const count=await database.raw(`Select count(*) as c from likes where recipeID=${id}`)
+        return count[0][0].c
 }
+
