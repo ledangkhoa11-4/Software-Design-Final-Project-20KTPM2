@@ -213,9 +213,9 @@ export default{
         );
     },
     
-    },
     countLike:async(id)=>{
         const count=await database.raw(`Select count(*) as c from likes where recipeID=${id}`)
         return count[0][0].c
+    }
 }
 
