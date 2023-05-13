@@ -179,7 +179,13 @@ export default{
           ON DUPLICATE KEY UPDATE content = '${cmt}', date = NOW();
         `);
         return res;
-      }
+    },
+    deleteComment: async(recipeID, email)=>{
+        const res = await database.raw(`DELETE FROM comments
+        WHERE userEmail = '${email}' AND recipeID = ${recipeID}        
+        `);
+        return res;
+    }
       
       
 }
