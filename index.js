@@ -44,7 +44,7 @@ app.engine('hbs', engine({
         return dateFormated
       },
       eq(a,b){
-        return a==b
+        return a===b
       },
       ifeq: function(a, b, options){
         if (a === b) {

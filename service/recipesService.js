@@ -116,7 +116,7 @@ export default{
     },
     getBestLike: async()=>{
         const result = await database.raw(`
-        SELECT r.*, a.fullname, 
+        SELECT r.*, a.fullname, a.email,a.avatar, 
         (SELECT COUNT(*) FROM ingredients i WHERE i.recipeID = r.id GROUP BY r.id) as numIngres, 
         (SELECT SUM(i.calories) FROM ingredients i WHERE i.recipeID = r.id GROUP BY r.id) as totalCalories, 
         (SELECT COUNT(*) FROM steps s WHERE s.recipeID = r.id GROUP BY r.id) as numSteps,
@@ -127,7 +127,7 @@ export default{
     },
     getBestView: async()=>{
         const result = await database.raw(`
-        SELECT r.*, a.fullname, 
+        SELECT r.*, a.fullname, a.email,a.avatar,
         (SELECT COUNT(*) FROM ingredients i WHERE i.recipeID = r.id GROUP BY r.id) as numIngres, 
         (SELECT SUM(i.calories) FROM ingredients i WHERE i.recipeID = r.id GROUP BY r.id) as totalCalories, 
         (SELECT COUNT(*) FROM steps s WHERE s.recipeID = r.id GROUP BY r.id) as numSteps,
@@ -138,7 +138,7 @@ export default{
     }, 
     getNewest: async()=>{
         const result = await database.raw(`
-        SELECT r.*, a.fullname, 
+        SELECT r.*, a.fullname, a.email,a.avatar,
         (SELECT COUNT(*) FROM ingredients i WHERE i.recipeID = r.id GROUP BY r.id) as numIngres, 
         (SELECT SUM(i.calories) FROM ingredients i WHERE i.recipeID = r.id GROUP BY r.id) as totalCalories, 
         (SELECT COUNT(*) FROM steps s WHERE s.recipeID = r.id GROUP BY r.id) as numSteps,
@@ -179,7 +179,43 @@ export default{
           ON DUPLICATE KEY UPDATE content = '${cmt}', date = NOW();
         `);
         return res;
-      }
-      
-      
+    },
+    deleteComment: async(recipeID, email)=>{
+        const res = await database.raw(`DELETE FROM comments
+        WHERE userEmail = '${email}' AND recipeID = ${recipeID}        
+        `);
+        return res;
+    },
+    countReportedRecipe:async(id)=>{
+        const count=await database.raw(`SELECT count( *) as c FROM reportedRecipes where recipeReported='${id}'`)
+        return count[0][0].c
+    },
+    getReportedRecipe:async(id,offset,limit)=>{
+        const list=await database.raw(`SELECT r.* 
+        FROM Recipe p JOIN reportedRecipes r ON p.id = r.recipeReported
+        where r.recipeReported='${id}'
+        LIMIT ${offset},${limit}`)
+        return list[0]
+    },  
+    getRecipesByPage: async (limit, offset) => {
+        const list = await database("Recipe")
+          .limit(limit)
+          .offset(offset);
+        return list;
+    },
+    getRecipesAmount: async () => {
+        const list = await database("Recipe").count({amount: "id"});
+        return list[0].amount;
+    },
+    disabledRecipe: (id, status) => {
+        return database.raw(
+          `Update Recipe set isbaned=${status} where Recipe.id='${id}'`
+        );
+    },
+    
+    countLike:async(id)=>{
+        const count=await database.raw(`Select count(*) as c from likes where recipeID=${id}`)
+        return count[0][0].c
+    }
 }
+

@@ -34,6 +34,51 @@
         margin-left: auto;
         margin-right: auto;
     }
+
+    .options-btn {
+        position: relative;
+        display: inline-block;
+        float: right;
+    }
+
+    .btn {
+        background-color: ##fff;
+        color: #000;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .options-menu {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 8px 0;
+        display: none;
+    }
+
+    .delete-cmt-btn,
+    .rp-cmt-btn {
+        background-color: #fff;
+        color: #ff0033;
+        border: none;
+        padding: 8px 16px;
+        text-align: left;
+        cursor: pointer;
+    }
+
+    .delete-cmt-btn:hover,
+    .edit-btn:hover {
+        background-color: #ebebeb;
+    }
+
+    .options-btn:hover .options-menu {
+        display: block;
+    }
 </style>
 <div id="my-toast"></div>
 <div class="container-sm mt-5" style="margin-bottom: 100px;">
@@ -76,7 +121,7 @@
                 <p style="font-weight: bold;">Write by:</p>
                 <div class="row ms-2 mb-2">
                     <div class="col-1">
-                        <img src="/public/images/demo_avt.png" width="100%" class="author-avt" alt="">
+                        <img src="{{user.avatar}}" width="100%" class="author-avt" alt="">
                     </div>
                     <div class="col">
                         <a href="/profile?email={{user.email}}" style="text-decoration: none; color:#000">
@@ -138,66 +183,84 @@
             <div class="border-wrapper mt-4">
                 <p style="font-weight: bold;">Comments:</p>
                 <form action="./comment/{{recipe.id}}" method="POST">
-                <div class="comment-textbox" style="display: flex; align-items: center; margin: 0 20px;">
-                    <img class="me-3" style="border-radius:50%" src="{{res.locals.auth.avatar}}" width="32" height="32"
-                        alt="">
-                        
-                    <div class="input-text d-flex"
-                        style="flex: 1;padding: 5px 16px;border-radius: 20px;border: 1px solid #ccc;">
-                        
+                    <div class="comment-textbox" style="display: flex; align-items: center; margin: 0 20px;">
+                        <img class="me-3" style="border-radius:50%; border:1px solid black" src="{{crrUser.avatar}}"
+                            width="32" height="32" alt="">
+
+                        <div class="input-text d-flex"
+                            style="flex: 1;padding: 5px 16px;border-radius: 20px;border: 1px solid #ccc;">
+
                             <input class="input-comment" type="text" name="comment">
-                        
+
                             <button type="submit" style="background: transparent;border: none;font-size: 18px;"><i
                                     class="bi bi-send"></i></button>
-                     
-                        <script>
-                            const inputCmt = document.querySelector('.input-comment');
 
-                            inputCmt.addEventListener('keyup', function (event) {
-                                if (event.keyCode === 13) {
-                                    const inputCmt = inputCmt.value;
-                                    const recipeId = recipe.id;
-                                    const email = user.email;
-                                    const url = `/comment/${recipeId}`;
-                                    const data = { 'comment': inputCmt
-                                                    };
-                                    const options = {
-                                        method: 'POST',
-                                        headers: {
-                                            'Content-Type': 'application/json'
-                                        },
-                                        body: JSON.stringify(data)
-                                    };
+                            <script>
+                                const inputCmt = document.querySelector('.input-comment');
 
-                                    fetch(url, options)
-                                        .then(response => {
-                                            if (response.ok) {
-                                                return response.json();
-                                            }
-                                            throw new Error('Network response was not ok.');
-                                        })
-                                        .then(data => {
-                                            console.log(data);
-                                        })
-                                        .catch(error => {
-                                            console.error('Error:', error);
-                                        });
-                                }
-                            });
-                        </script>
+                                inputCmt.addEventListener('keyup', function (event) {
+                                    if (event.keyCode === 13) {
+                                        const inputCmt = inputCmt.value;
+                                        const recipeId = recipe.id;
+                                        const email = user.email;
+                                        const url = `/comment/${recipeId}`;
+                                        const data = {
+                                            'comment': inputCmt
+                                        };
+                                        const options = {
+                                            method: 'POST',
+                                            headers: {
+                                                'Content-Type': 'application/json'
+                                            },
+                                            body: JSON.stringify(data)
+                                        };
+
+                                        fetch(url, options)
+                                            .then(response => {
+                                                if (response.ok) {
+                                                    return response.json();
+                                                }
+                                                throw new Error('Network response was not ok.');
+                                            })
+                                            .then(data => {
+                                                console.log(data);
+                                            })
+                                            .catch(error => {
+                                                console.error('Error:', error);
+                                            });
+                                    }
+                                });
+                            </script>
+                        </div>
+
                     </div>
-                    
-                </div>
                 </form>
                 <div class="list-comment-wrapper mt-4">
                     {{#each comments as |cmt|}}
-                    <div class="comment-item">
-                        <img src="{{cmt.avatar}}" width="32px" height="32px"
-                            style="border-radius: 50%; margin:6px 16px 0 0" alt="">
-                        <div class="col">
-                            <p class="author-name">{{cmt.fullname}}</p>
-                            <span class="time-comment">{{cmt.date}}</span>
-                            <p class="comment-content">{{cmt.content}}</p>
+                    <div class="card" style="padding: 30px;">
+                        <div class="comment-item">
+                            <img src="{{cmt.avatar}}" width="32px" height="32px"
+                                style="border-radius: 50%;border:1px solid black; margin:6px 16px 0 0" alt="">
+                            <div class="col">
+                                <div class="options-btn">
+                                    <button class="btn">&#8226;&#8226;&#8226;</button>
+                                    <div class="options-menu">
+                                        {{#if (eq ../crrUser.email cmt.userEmail)}}
+                                        <form action="./comment/del" method="POST">
+                                        <input type="hidden" name="recipeId" value="{{cmt.recipeID}}">
+                                        <input type="hidden" name="email" value="{{cmt.userEmail}}">
+                                        <button type="submit" class="delete-cmt-btn">Delete</button>
+                                        </form>
+                                        {{else}}
+                                        <button class="rp-cmt-btn">Report</button>
+                                        {{/if}}
+                                    </div>
+                                </div>
+                                <p class="author-name">{{cmt.fullname}}</p>
+                                <span class="time-comment">{{cmt.date}}</span>
+                                <p class="comment-content">{{cmt.content}}</p>
+
+                            </div>
                         </div>
                     </div>
                     {{/each}}
@@ -290,7 +353,6 @@
 <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/ScrollTrigger.min.js"></script>
-
 
 <script>
     var swiper = new Swiper(".mySwiper", {

@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="/public/css/pagination.css">
 <div class="card">
   <div class="card-header">
-   Reported User
+   Reported Recipe
   </div>
   <div class="card-body">
     {{#if this.isEmpty}}
@@ -10,21 +10,26 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th  scope="col">Reason</th>
-            <th >Report by</th>
+            <th scope="col">Name</th>
+            <th scope="col">Report by</th>
             
-            
+            <th scope="col">Reason</th>
           </tr>
         </thead>
         <tbody>
           {{#each this.list}}
             <tr >
-              <td scope="col" style=" max-width:200px">
-                  <p style="overflow:auto;">{{reason}}</p>
+            <td scope="col">
+                  {{Name}}
                 </td>
-                <td >
+                <td scope="col">
+                    <a name="" id="" class="btn" href="/profile?email={{userReport}}" role="button">
                     {{userReport}}
-                </td>               
+                   </a>
+                </td>
+                <td scope="col">
+                  {{reason}}
+                </td>
           </tr>
           {{/each}}
         </tbody>
@@ -32,7 +37,7 @@
     {{/if}}
     </div>
     <div class="card-footer">
-      <a name="" id="" class="btn btn-primary" href="/admin/accounts?&p=1" role="button"><i class="fa-solid fa-arrow-left"></i>Back</a>
+      <a name="" id="" class="btn btn-primary" href="/admin/recipes?&p=1" role="button"><i class="fa-solid fa-arrow-left"></i>Back</a>
     </div>
   </div>
     

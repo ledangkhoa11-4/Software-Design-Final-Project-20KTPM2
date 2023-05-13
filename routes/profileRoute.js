@@ -66,6 +66,7 @@ Router.get('/favorite',async(req,res,next)=>{
    var recipeList=[favRecipeList.length]
    for(var i=0;i<favRecipeList.length;i++){
       recipeList[i]=await recipesService.getRecipe(favRecipeList[i].recipeID)
+      recipeList[i].numLikes=await recipesService.countLike(recipeList[i].id)
    }
    const url=`/profile/favorite?email=${email}`
    res.render("vwProfile/favoriteRecipe",{
@@ -182,7 +183,7 @@ Router.post("/unfollow",async(req,res,next)=>{
 })
 Router.post("/report",async(req,res,next)=>{
    const userReported=req.query.userReported
-   console.log(req.body);
+   
    
    const result=await usersService.reportUser(req.body.reportedEmail,req.body.reason,userReported)
    res.redirect('back')

@@ -71,15 +71,15 @@ export default{
         const result=await db('follows').where({follower:follower,followedUser:followedUser}).del()
         return result
     },
-    getReportedUser:async(offset,limit)=>{
-        const list=await db.raw(`SELECT p.*,r.* 
+    getReportedUser:async(email,offset,limit)=>{
+        const list=await db.raw(`SELECT r.* 
         FROM Account p JOIN reportedAccount r ON p.email = r.userReported
-        GROUP BY r.userReported
-        LIMIT ${offset},${limit} `)
+        where r.userReported='${email}'
+        LIMIT ${offset},${limit}`)
         return list[0]
     },
-    countReprtedUser:async()=>{
-        const count=await db.raw(`SELECT count(DISTINCT userReported) as c FROM reportedAccount;`)
+    countReprtedUser:async(email)=>{
+        const count=await db.raw(`SELECT count( *) as c FROM reportedAccount where userReported='${email}'`)
         return count[0][0].c
     },
     getUsersByPage: async (limit, offset) => {
