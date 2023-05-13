@@ -48,7 +48,7 @@
     </div>
     <div class="menu">
         <h3 >{{auth.fullname}} <br> <span>{{auth.email}}</span></h3>
-        
+        {{#ifeq auth.role 2}}
         <ul style="padding-left: 10px;">
           <li>
             <a href="/profile/sharedrecipe?email={{this.auth.email}}&p=1"><i class="fa-solid fa-list"></i>My recipe</a>
@@ -66,6 +66,21 @@
             <a href="/auth/logout"><i class="fa-solid fa-right-from-bracket mr-3"></i>Logout</a>
           </li>
         </ul>
+		{{else}}
+			{{#ifeq auth.role 0}}
+        		<ul style="padding-left: 10px;">
+					<li>
+						<a href="/admin/reported-User"><i class="fa-solid fa-list"></i>Accounts Reported List</a>
+					</li>
+					<li>
+						<a href=""><i class="bi bi-bookmark-star mr-3"></i>Recipes List</a>
+					</li>
+					<li>
+						<a href="/auth/logout"><i class="fa-solid fa-right-from-bracket mr-3"></i>Logout</a>
+					</li>
+				</ul>
+		  	{{/ifeq}}
+		{{/ifeq}}
     </div>
 </div>
 			{{/if}}

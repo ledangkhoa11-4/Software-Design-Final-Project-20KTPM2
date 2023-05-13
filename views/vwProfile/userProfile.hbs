@@ -3,10 +3,10 @@
 <link rel="stylesheet" href="/public/css/userProfile.css">
 
 <div class="container-profile">
-    <div class="profile-header" style="background-image: url('/public/images/background.png'); background-size: cover;  background-repeat: no-repeat;
+    <div class="profile-header" style="background-image: url('/public/images/users/cover/{{this.user.email}}.jpg'); background-size: cover;  background-repeat: no-repeat;
         width: 80%;">
         <div class="profile-img">
-            <img src="/public/images/demo_avt.png" width="150" alt="Profile Image">
+            <img src="/public/images/users/avatar/{{this.user.email}}.jpg" width="150" alt="Profile Image">
         </div>
         <div class="profile-nav-info">
             <h3 class="user-name">{{this.user.fullname}}
@@ -14,67 +14,95 @@
                 <button class="btn btn-lg " type="button" data-bs-toggle="dropdown" aria-expanded="false">
                    <i class="fa-solid fa-ellipsis-vertical"></i>
                 </button>
-                <ul class="dropdown-menu ">
-                        <li class="dropdown-item">Follow</li>
-                        <li class="dropdown-item report">
-                            <a name="" id="" class="btn btn-sm btn-danger" href="#"><i class="fa-solid fa-circle-exclamation"></i>Report</a>
+                <ul class="dropdown-menu " style="min-width: 100px;">
+                    <form action="" method="post">
+                        <li class="dropdown-item">
+                            {{#if isFollowed}}
+                            <button name="" id="" class="btn btn-sm btn-outline-danger" href="#" role="button" formaction="/profile/unfollow?follower={{this.auth.email}}&followedUser={{this.user.email}}">
+                                <i class="bi bi-heartbreak"></i>Unfollow</button>
+                            {{else}}
+                            <button name="" id="" class="btn btn-sm btn-outline-primary" href="#" role="button" formaction="/profile/follow?follower={{this.auth.email}}&followedUser={{this.user.email}}">
+                                <i class="fa-regular fa-square-plus"></i></i>Follow</button>
+                            {{/if}}
                         </li>
-                       
+                        <li class="dropdown-item report">
+                            <a name="" id="" class="btn btn-sm btn-outline-danger" href="#"><i class="fa-solid fa-circle-exclamation"></i>Report</a>
+                        </li>
+                       </form>
                     </ul>
                 </div>
             </h3>
             <div class="address">
                 <p class="user-mail"> {{this.user.email}}</p>
             </div>
+            {{#if isFollowed}}
+            <div class="address">
+                <p class="user-mail"><i class="fa-solid fa-check"></i> Followed</p>
+            </div>
+            {{/if}}
 
         </div>
     </div>
     
     <div class="container">
-        <div id="carouselExampleControls" class="carousel" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                {{#each list}}
-                <div class="carousel-item active">
-                     <div class="card sharedrecipe" style=" border-radius: 14px; ">
-                        <a class="stretched-anchor" href="/recipes/{{this.id}}"></a>
-                        <div class="img-wrapper">
-                            <img class="card-img-top d-block w-100" style="border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;" src="/public/images/recipes/{{this.id}}/{{this.id}}_finishImage_1.jpg"  alt="...">
-                        </div>
+         {{#if isEmpty}}
+                    <div class=" " style="display:flex; flex-direction: column ; align-item:center; justify-content:center;">
+                        <h1 style="z-index: 1; width:1300px; text-align: center;">This user has not shared any recipes</h1>
+                        <img src="/public/images/empty.png" class="d-block " style="width:1000px; min-width:1300px; max-height:400px" alt="...">
                         
-                        <div class="card-body mt-2">
-                           <h5 class="recipe_name">{{this.Name}}</h5>
-                           <div class="recipe_des">{{{description}}}</div>
-                           <div class="bottom-card">
-                           <div class="one-third">
-                              <div class="stat">{{this.numSteps}}</div>
-                              <div class="stat-value">Steps</div>
-                           </div>
-                           <div class="one-third">
-                              <div class="stat">{{this.numIngres}}</div>
-                              <div class="stat-value">Ingredients</div>
-                           </div>
-                           <div class="one-third no-border">
-                              <div class="stat">{{totalCalories}}</div>
-                              <div class="stat-value">Calories</div>
-                           </div>
-                        </div>
-                        </div>
-                        
-                     </div>
+                    </div>
+     
                
-                </div>
-                {{/each}}
+                               
+                {{else}}
+                   <div id="carouselExampleControls" class="carousel" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                    {{#each list}}
+                        <div class="carousel-item active">
+                            <div class="card sharedrecipe" style=" border-radius: 14px; ">
+                                <a class="stretched-anchor" href="/recipes/{{this.id}}"></a>
+                                <div class="img-wrapper">
+                                    <img class="card-img-top d-block w-100" style="border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;" src="/public/images/recipes/{{this.id}}/{{this.id}}_finishImage_1.jpg"  alt="...">
+                                </div>
+                                
+                                <div class="card-body mt-2">
+                                <h5 class="recipe_name">{{this.Name}}</h5>
+                                <div class="recipe_des">{{{description}}}</div>
+                                <div class="bottom-card">
+                                <div class="one-third">
+                                    <div class="stat">{{this.numSteps}}</div>
+                                    <div class="stat-value">Steps</div>
+                                </div>
+                                <div class="one-third">
+                                    <div class="stat">{{this.numIngres}}</div>
+                                    <div class="stat-value">Ingredients</div>
+                                </div>
+                                <div class="one-third no-border">
+                                    <div class="stat">{{totalCalories}}</div>
+                                    <div class="stat-value">Calories</div>
+                                </div>
+                                </div>
+                                </div>
+                                
+                            </div>
+                    
+                        </div>
+                    {{/each}}
+                    </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                {{/if}}
+                
+               
 
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
+            
 
 
             

@@ -34,7 +34,7 @@ export default{
         return null;
     },
     isNameExists: async(fullname, name) => {
-        const curName = await db.raw(`Select fullname From Account where IDUser LIKE '${fullname}'`);
+        const curName = await db.raw(`Select fullname From Account where Account.fullname LIKE '${fullname}'`);
         if(curName[0][0].fullname.localeCompare(name) === 0) return true;
         return false;            
     },
@@ -54,6 +54,32 @@ export default{
     },
     CountFollowingUser:async(email)=>{
         const count= await db.raw(`Select count(*) as c from follows where follower='${email}'`)
+        return count[0][0].c
+    },
+    followUser:async(follower,followedUser)=>{
+        const result=await db('follows').insert({
+            follower:follower,
+            followedUser:followedUser
+        })
+        return result
+    },
+    isFollow:async(follower,followedUser)=>{
+        const result=await db('follows').where({follower:follower,followedUser:followedUser})
+        return result
+    },
+    unFollow:async(follower,followedUser)=>{
+        const result=await db('follows').where({follower:follower,followedUser:followedUser}).del()
+        return result
+    },
+    getReportedUser:async(offset,limit)=>{
+        const list=await db.raw(`SELECT p.*,r.* 
+        FROM Account p JOIN reportedAccount r ON p.email = r.userReported
+        GROUP BY r.userReported
+        LIMIT ${offset},${limit} `)
+        return list[0]
+    },
+    countReprtedUser:async()=>{
+        const count=await db.raw(`SELECT count(DISTINCT userReported) as c FROM reportedAccount;`)
         return count[0][0].c
     }
 }

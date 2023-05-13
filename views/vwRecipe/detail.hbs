@@ -63,7 +63,12 @@
             <div class="reaction d-flex align-items-center" style="    margin-right: -30px;">
                 <span style="font-size: 13px;color: #333; margin-right: -25px;">You and 132 people love this</span>
                 <div class="placement" onclick="addToFavorite()">
+                    {{#unless isLiked}}
                     <div class="heart"></div>
+                    {{/unless}}
+                    {{#if isLiked}}
+                    <div class="heart is-active"></div>
+                    {{/if}}
                 </div>
                 
             </div>
@@ -75,9 +80,10 @@
                     <img src="/public/images/demo_avt.png" width="100%" class="author-avt" alt="">
                 </div>
                 <div class="col">
+                    <a href="/profile?email={{user.email}}" style="text-decoration: none; color:#000">
                      <p class="author-name">{{user.fullname}}</p>
                     <p class="time-post">at {{convertDate recipe.datePosted}}</p>
-                    <button type="button " class="btn btn-secondary">Follow</button>
+                    </a>
                 </div>
             </div>
             <div class="description">{{{recipe.description}}}</div>
@@ -175,10 +181,18 @@
     </div>
     <div class="col">
         <div class="right-panel " role="group" aria-label="Vertical button group">
-            <button type="button" class="fav-act">
+            {{#unless isSaved}}
+            <button type="button" class="fav-act" onclick="saveRecipe()">
                 <i class="fa-solid fa-bookmark"></i>
-                Saved
+                Save    
             </button>
+            {{/unless}}
+            {{#if isSaved}}
+            <button type="button" class="fav-act" onclick="saveRecipe()" style="color: #FF9933;">
+                <i class="fa-solid fa-bookmark"></i>
+                Save    
+            </button>
+            {{/if}}
             <button type="button" class="disabled" onclick="callPrintApi()"><i class="fa-solid fa-print"></i>Print</button>
             <div class="row">
                 <div class="col-9">
@@ -324,7 +338,7 @@
 </script>
 
 <script>
-    let isLoved = false
+    let isLoved = {{isLiked}}
     let isLogged = {{isLogged}}
     $(function() {
         $(".heart").on("click", function() {
@@ -334,7 +348,7 @@
     });
     function addToFavorite(){
         if(isLogged == false){
-            return addError("Please login before report!!!")
+            return addError("Please login before like!!!")
         }
         $.post("/recipes/like/{{recipe.id}}",
             {
@@ -348,6 +362,34 @@
                 }
             });
         isLoved = !isLoved
+    }
+</script>
+<script>
+    let isSaved = {{isSaved}}
+    $(function() {
+        $(".fav-act").on("click", function() {
+            if(isLogged && isSaved)
+                $(this).css({'color':'#FF9933'});
+            else if(isLogged && !isSaved)
+                $(this).removeAttr("style");
+        });
+    });
+    function saveRecipe(){
+        if(isLogged == false){
+            return addError("Please login before save!!!")
+        }
+        $.post("/recipes/save/{{recipe.id}}",
+            {
+                type: !isSaved
+            },
+            function(data, status){
+                if(data.status == "failure"){
+                    addError(data.msg)
+                }else{
+                    addSuccess(data.msg)
+                }
+            });
+        isSaved = !isSaved
     }
 </script>
 

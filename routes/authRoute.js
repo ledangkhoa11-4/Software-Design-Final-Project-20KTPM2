@@ -69,11 +69,11 @@ Router.post("/login",async (req, res, next)=>{
       password: user.password
     })
   }, passport.authenticate('local',{ failureRedirect: '/auth/login?error=1'}), (req,res)=>{
-    if(req.session.passport.user.status == "disabled"){
+    if(req.session.passport.user.isbaned == 1){
       return res.redirect('/auth/login?error=2');
     }
-   if(res.locals.admin.Role===0){
-      res.redirect("/admin/categories")
+   if(res.locals.admin.role===0){
+      res.redirect("/")
    }
    else{
     res.redirect("/");
