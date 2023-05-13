@@ -19,7 +19,7 @@ Router.get('/reported-user',async (req,res,next)=>{
     const nitems=await usersService.countReprtedUser(email);
     const nPage=Math.ceil(parseInt(nitems)/limit)
     const list=await usersService.getReportedUser(email,offset,limit);
-    console.log(list);
+    
 
     res.render("vwAdmin/reportedUser",{
         layout:'admin',

@@ -26,7 +26,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
                   <tbody>
                      {{#each this.list}}                    
                         <tr>
-                           <td ><a href="/profile?email={{email}}" style="text-decoration: none;">{{fullname}} </a></td>
+                           <td ><a href="/profile?email={{email}}" style="text-decoration: none;"><img style="border-radius:50%; width: 32px; height: 32px; margin-right:10px;" src="{{avatar}}" onerror="this.src = '/public/images/default_avt.png'">{{fullname}} </a></td>
                            <td><a href="/profile?email={{email}}" style="text-decoration: none;">{{email}}</a></td>
                            <td>
                              <form action="/profile/unfollow?follower={{../this.auth.email}}&followedUser={{email}}" method="POST" class="justify-content-center">
