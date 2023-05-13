@@ -180,6 +180,13 @@ export default{
         `);
         return res;
     },
+    deleteComment: async(recipeID, email)=>{
+        const res = await database.raw(`DELETE FROM comments
+        WHERE userEmail = '${email}' AND recipeID = ${recipeID}        
+        `);
+        return res;
+    
+    },
     countLike:async(id)=>{
         const count=await database.raw(`Select count(*) as c from likes where recipeID=${id}`)
         return count[0][0].c
