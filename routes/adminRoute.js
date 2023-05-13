@@ -63,4 +63,57 @@ Router.post('/accounts/disabled', async(req,res)=>{
     res.redirect('back')
 })
 
+Router.get('/reported-recipe',async (req,res,next)=>{
+    const page=parseInt(req.query.p)||1;
+    const limit=2
+    const offset=(page-1)*limit
+    const id=req.query.id
+    const url=`/admin/reported-recipe?role=0`
+    const nitems=await recipesService.countReportedRecipe(id);
+    const nPage=Math.ceil(parseInt(nitems)/limit)
+    const list=await recipesService.getReportedRecipe(id,offset,limit);
+    console.log(list);
+
+    res.render("vwAdmin/reportedRecipe",{
+        layout:'admin',
+        list,
+        nPage,
+        page,
+        url,
+        isEmpty:list.length===0
+
+    })
+})
+Router.get('/recipes', async (req,res)=>{
+    const page = req.query.p || 1;
+    const limit = 5;
+    const offset = (page - 1) * limit;
+    let list = await recipesService.getRecipesByPage(limit,offset);
+    let totalRecipes = await recipesService.getRecipesAmount();
+    let url = '/admin/recipes?';
+
+    let nPage=Math.ceil(totalRecipes/limit);
+    res.render('vwAdmin/recipes',{
+    layout:'admin',
+    showFilter:true,
+    list,
+    isEmpty: list.length===0,
+    nPage,
+    page,
+    url,
+    })
+})
+
+Router.post('/recipes/disabled', async(req,res)=>{
+    const status=req.body.status;
+    const id=req.query.id
+    if(status==='disable'){
+        const ret=await recipesService.disabledRecipe(id,1);
+    }
+    else{
+        const ret=await recipesService.disabledRecipe(id,0)
+    }
+    res.redirect('back')
+})
+
 export default Router;
