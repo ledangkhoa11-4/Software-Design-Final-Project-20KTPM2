@@ -180,5 +180,11 @@ Router.post("/unfollow",async(req,res,next)=>{
    
    res.redirect('back');
 })
-
+Router.post("/report",async(req,res,next)=>{
+   const userReported=req.query.userReported
+   console.log(req.body);
+   
+   const result=await usersService.reportUser(req.body.reportedEmail,req.body.reason,userReported)
+   res.redirect('back')
+})
 export default Router;

@@ -98,4 +98,12 @@ export default{
           `Update Account set isbaned=${status} where Account.email='${email}'`
         );
     },
+    reportUser:async(userReport,reason,userReported)=>{
+        const result=await db('reportedAccount').insert({
+            userReport:userReport,
+            userReported:userReported,
+            reason:reason
+        })
+        return result
+    }
 }
