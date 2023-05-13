@@ -73,7 +73,7 @@ Router.post("/login",async (req, res, next)=>{
       return res.redirect('/auth/login?error=2');
     }
    if(res.locals.admin.role===0){
-      res.redirect("/")
+      res.redirect("/admin/accounts");
    }
    else{
     res.redirect("/");
