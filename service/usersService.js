@@ -71,15 +71,108 @@ export default{
         const result=await db('follows').where({follower:follower,followedUser:followedUser}).del()
         return result
     },
-    getReportedUser:async(offset,limit)=>{
+    getReportedUser:async(email,offset,limit)=>{
+        const list=await db.raw(`SELECT r.* 
+        FROM Account p JOIN reportedAccount r ON p.email = r.userReported
+        where r.userReported='${email}'
+        LIMIT ${offset},${limit}`)
+        return list[0]
+    },
+    countReprtedUser:async(email)=>{
+        const count=await db.raw(`SELECT count( *) as c FROM reportedAccount where userReported='${email}'`)
+        return count[0][0].c
+    },
+    getUsersByPage: async (limit, offset) => {
+        const list = await db("Account")
+          .where('role',2)
+          .limit(limit)
+          .offset(offset);
+        return list;
+    },
+    getUsersAmount: async () => {
+        const list = await db("Account").where("role",2).count({amount: "email"});
+        return list[0].amount;
+    },
+    disabledUser: (email, status) => {
+        return db.raw(
+          `Update Account set isbaned=${status} where Account.email='${email}'`
+        );
+    },
+    reportUser:async(userReport,reason,userReported)=>{
+        const result=await db('reportedAccount').insert({
+            userReport:userReport,
+            userReported:userReported,
+            reason:reason
+        })
+        return result
+    },
+    getReportedUsersByPage:async(limit,offset)=>{
         const list=await db.raw(`SELECT p.*,r.* 
         FROM Account p JOIN reportedAccount r ON p.email = r.userReported
         GROUP BY r.userReported
         LIMIT ${offset},${limit} `)
         return list[0]
     },
-    countReprtedUser:async()=>{
+    getReportedUsersAmount: async () => {
         const count=await db.raw(`SELECT count(DISTINCT userReported) as c FROM reportedAccount;`)
         return count[0][0].c
-    }
+    },
+    getBanedUsersByPage: async(limit,offset)=>{
+        const list=await db.raw(`SELECT p.*
+        FROM Account p 
+        Where p.isbaned = 1
+        LIMIT ${offset},${limit} `)
+        return list[0]
+    },
+    getBanedUsersAmount: async () => {
+        const count=await db.raw(`SELECT count(DISTINCT email) as c FROM Account WHERE Account.isbaned = 1;`)
+        return count[0][0].c
+    },
+    getReportedTimes: async (email) =>{
+        const count=await db.raw(`SELECT count(*) as c FROM reportedAccount WHERE reportedAccount.userReported = '${email}';`)
+        return count[0][0].c 
+    },
+    getReportedUsersSearchByPage: async (key,limit,offset)=>{
+        const list = await db.raw(`SELECT a.*
+        FROM Account a INNER JOIN reportedAccount r
+        ON a.email = r.userReported
+        WHERE MATCH (a.fullname) AGAINST ('${key}' IN BOOLEAN MODE) 
+        GROUP BY r.userReported
+        LIMIT ${offset},${limit};`);
+        if(list) return list[0];
+    },
+    getReportedUserSearchAmount: async (key)=>{
+        const total = await db.raw(`SELECT COUNT(*) as c
+        FROM(
+                SELECT a.email
+                FROM Account a INNER JOIN reportedAccount r
+                ON a.email = r.userReported
+                WHERE MATCH (a.fullname) AGAINST ('${key}' IN BOOLEAN MODE) 
+                GROUP BY r.userReported) search_amount;`);
+        if(total) return total[0][0].c;
+    },
+    getBanedUsersSearchByPage: async (key,limit,offset)=>{
+        const list = await db.raw(`SELECT *
+        FROM Account
+        WHERE MATCH (fullname) AGAINST ('${key}' IN BOOLEAN MODE) AND isbaned = 1 LIMIT ${offset},${limit};`);
+        if(list) return list[0];
+    },
+    getBanedUsersSearchAmount: async (key)=>{
+        const list = await db.raw(`SELECT COUNT(*) as c
+        FROM Account
+        WHERE MATCH (fullname) AGAINST ('${key}' IN BOOLEAN MODE) AND isbaned = 1;`);
+        if(list) return list[0][0].c;
+    },
+    getUsersSearchByPage: async (key,limit,offset)=>{
+        const list = await db.raw(`SELECT *
+        FROM Account
+        WHERE MATCH (fullname) AGAINST ('${key}' IN BOOLEAN MODE) LIMIT ${offset},${limit};`);
+        if(list) return list[0];
+    },
+    getUsersSearchAmount: async (key)=>{
+        const list = await db.raw(`SELECT COUNT(*) as c
+        FROM Account
+        WHERE MATCH (fullname) AGAINST ('${key}' IN BOOLEAN MODE);`);
+        if(list) return list[0][0].c;
+    },
 }

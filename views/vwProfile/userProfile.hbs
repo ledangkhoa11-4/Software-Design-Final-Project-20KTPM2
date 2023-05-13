@@ -15,23 +15,53 @@
                    <i class="fa-solid fa-ellipsis-vertical"></i>
                 </button>
                 <ul class="dropdown-menu " style="min-width: 100px;">
-                    <form action="" method="post">
+                    
                         <li class="dropdown-item">
-                            {{#if isFollowed}}
-                            <button name="" id="" class="btn btn-sm btn-outline-danger" href="#" role="button" formaction="/profile/unfollow?follower={{this.auth.email}}&followedUser={{this.user.email}}">
-                                <i class="bi bi-heartbreak"></i>Unfollow</button>
-                            {{else}}
-                            <button name="" id="" class="btn btn-sm btn-outline-primary" href="#" role="button" formaction="/profile/follow?follower={{this.auth.email}}&followedUser={{this.user.email}}">
-                                <i class="fa-regular fa-square-plus"></i></i>Follow</button>
-                            {{/if}}
+                            <form action="" method="post"></form>
+                                {{#if isFollowed}}
+                                <button name="" id="" class="btn btn-sm btn-outline-danger" href="#" role="button" formaction="/profile/unfollow?follower={{this.auth.email}}&followedUser={{this.user.email}}">
+                                    <i class="bi bi-heartbreak"></i>Unfollow</button>
+                                {{else}}
+                                <button name="" id="" class="btn btn-sm btn-outline-primary" href="#" role="button" formaction="/profile/follow?follower={{this.auth.email}}&followedUser={{this.user.email}}">
+                                    <i class="fa-regular fa-square-plus"></i></i>Follow</button>
+                                {{/if}}
+                            </form>
                         </li>
                         <li class="dropdown-item report">
-                            <a name="" id="" class="btn btn-sm btn-outline-danger" href="#"><i class="fa-solid fa-circle-exclamation"></i>Report</a>
+                            <button name="" id="" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">
+                                <i class="fa-solid fa-circle-exclamation"></i>Report</button>
+  
                         </li>
-                       </form>
+                       
                     </ul>
                 </div>
             </h3>
+             <div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title fs-5" id="exampleModalLabel">Report  {{this.user.name}}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="report" action="/profile/report?userReported={{this.user.email}}" method="post">
+                        <div class="mb-3">
+                            <label for="reported-emailTxt" class="col-form-label">Reported from:</label>
+                            <input type="text" class="form-control" readonly id="reported-emailTxt" name="reportedEmail" value="{{this.auth.email}}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="reasonTxt" class="col-form-label">Reason:</label>
+                            <textarea class="form-control" id="reasonTxt" maxlength="199" name="reason"></textarea>
+                        </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" id="send">Send report</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
             <div class="address">
                 <p class="user-mail"> {{this.user.email}}</p>
             </div>
@@ -114,6 +144,12 @@
    
    
 </div>
+
+<script>
+        $( "#send" ).on( "click", function() {
+    $( "#report" ).trigger( "submit" );
+    } );
+</script>
 <script>
         const multipleItemCarousel = document.querySelector("#carouselExampleControls");
         

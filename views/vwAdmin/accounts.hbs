@@ -1,0 +1,118 @@
+{{!-- <link rel='stylesheet' href='/public/css/badge.css' /> --}}
+<link rel="stylesheet" href="/public/css/pagination.css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script>
+  var inputVal = "";
+  function func() {
+    inputVal = document.getElementById("search-value").value;
+    let inputID = document.getElementById("search-form");
+    inputID.action = `/admin/search?name=` + inputVal {{#if reported}}+`&reported=1`{{/if}}  {{#if baned}}+`&baned=1`{{/if}};
+    console.log(inputVal);
+  }
+</script>
+<style>
+  .input-box{
+  position: relative;
+  margin-left: 250px;
+  width: 50%;
+}
+
+.input-box button {
+  position: absolute;
+  right: -5px;
+  top:0px;
+  color:#ced4da;
+
+}
+</style>
+<div class="card">
+  <div class="card-header">
+    All Users
+  </div>
+    <div class="card-body">
+      <form id="search-form" action="/admin/search?name={{#if reported}}reported=1{{/if}}{{#if baned}}baned=1{{/if}}" method="POST">
+        <div class="input-box">
+          <input placeholder="find user by name" onchange='func()' type="text" class="form-control" name="search-value" id="search-value" {{#if searchValue}}value="{{searchValue}}"{{/if}}>
+          <button type="submit" name="" id="" class="btn"><i class="fa fa-search"></i></button>                   
+        </div>
+      </form>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Email</th>
+            <th scope="col">FullName</th>
+            <th scope="col">Reported Times</th>
+            <th scope="col">Status</th>
+            <th scope="col" style="text-align:center">Reported Comments</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#if this.isEmpty}}
+          <p>No Data</p>
+          {{else}}
+            {{#each this.list}}
+            <tr>
+              <td>{{email}}</td>
+              <td scope="col">{{fullname}}</td>
+              <td scope="col">
+                {{reportedTimes}}
+              </td>
+              <td scope="col">
+                <form action="/admin/accounts/disabled?email={{email}}" method="POST" class="justify-content-center">
+                {{#if isbaned}}
+                  <button type="submit" name="status" value="enable" class="btn btn-outline-success justify-content-center "> 
+                    <i class="fa fa-unlock" aria-hidden="true"></i>
+                    Enable</button>
+                {{else}}
+                 <button type="submit" name="status" value="disable" class="btn btn-outline-danger justify-content-center">
+                   <i class="fa fa-lock" aria-hidden="true"></i> Disable</button>
+              {{/if}}
+                </form>
+              </td>
+              <td scope="col" class="d-flex justify-content-center">
+                  <a name="" id="" class="btn btn-outline-primary float-right" href="/admin/reported-user?email={{email}}" role="button" >
+                  <i class="fa fa-eye" aria-hidden="true"></i>
+                  Details
+                  </a>
+              </td>
+            </tr>
+          {{/each}}
+          
+          {{/if}}
+        </tbody>
+      </table>
+ {{#if nPage}}
+      <div class="page-container">
+                <a class="first-page">
+                <i class="fas fa-angle-double-left"></i>
+                </a>
+                <a class="prev-page">
+                <i class="fas fa-angle-left"></i>
+                </a>
+                <div id="pagination"></div>
+                <a class="next-page">
+                <i class="fas fa-angle-right"></i>
+                </a>
+                <a class="last-page">
+                <i class="fas fa-angle-double-right"></i>
+                </a>
+      </div>
+      {{/if}}
+    </div>
+</div> 
+<script src="/public/script/pagination.js">
+
+</script>
+<script>
+  {{#if nPage}}
+const valuePage = {
+    totalPages: {{this.nPage}},
+    curPage: {{this.page}},
+    truncate: true,
+        numLinksTwoSide: 1,
+        url: `{{url}}`
+    };
+    pagination(valuePage);
+  {{/if}}
+    
+</script>

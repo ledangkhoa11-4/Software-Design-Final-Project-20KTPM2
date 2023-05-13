@@ -2,335 +2,434 @@
 <link rel="stylesheet" href="/public/css/detailRecipe.css">
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
 <link rel="stylesheet" type="text/css" href="/public/css/slick.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css"
-/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+    integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
 <link rel="stylesheet" href="/public/css/loveBtn.css">
 <link rel="stylesheet" href="/public/css/toast.css">
 <link rel="stylesheet" href="/public/css/myModal.css">
 <style>
-
     .swiper {
-      width: 100%;
+        width: 100%;
     }
 
     .swiper-slide {
-      text-align: center;
-      font-size: 18px;
-      background: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .swiper-slide img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
 
     .swiper {
-      margin-left: auto;
-      margin-right: auto;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .options-btn {
+        position: relative;
+        display: inline-block;
+        float: right;
+    }
+
+    .btn {
+        background-color: ##fff;
+        color: #000;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .options-menu {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 8px 0;
+        display: none;
+    }
+
+    .delete-cmt-btn,
+    .rp-cmt-btn {
+        background-color: #fff;
+        color: #ff0033;
+        border: none;
+        padding: 8px 16px;
+        text-align: left;
+        cursor: pointer;
+    }
+
+    .delete-cmt-btn:hover,
+    .edit-btn:hover {
+        background-color: #ebebeb;
+    }
+
+    .options-btn:hover .options-menu {
+        display: block;
     }
 </style>
- <div id="my-toast"></div>
+<div id="my-toast"></div>
 <div class="container-sm mt-5" style="margin-bottom: 100px;">
-  <div class="row">
-    <div class="col-9">
-        <div class="swiper mySwiper">
-            <div class="swiper-wrapper">
-                {{#each finishImgs}}
+    <div class="row">
+        <div class="col-9">
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    {{#each finishImgs}}
                     <div class="swiper-slide">
                         <a href="{{this}}" data-fancybox="finished" data-caption="Finished dish photo">
                             <img class="finish-img" src="{{this}}" alt="" />
                         </a>
-                    </div>   
-                {{/each}}
+                    </div>
+                    {{/each}}
 
-            </div>
-            <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-pagination"></div>
-        </div>
-        <div class="border-wrapper mt-4" style="height: 50px;padding: 10px 12px; display: flex; align-items: center;justify-content: space-between;">
-            <div class="recipe-name">
-                {{recipe.Name}}
-            </div>
-            <div class="reaction d-flex align-items-center" style="    margin-right: -30px;">
-                <span style="font-size: 13px;color: #333; margin-right: -25px;">You and 132 people love this</span>
-                <div class="placement" onclick="addToFavorite()">
-                    {{#unless isLiked}}
-                    <div class="heart"></div>
-                    {{/unless}}
-                    {{#if isLiked}}
-                    <div class="heart is-active"></div>
-                    {{/if}}
                 </div>
-                
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-pagination"></div>
             </div>
-        </div>
-        <div class="border-wrapper mt-4">
-            <p style="font-weight: bold;">Write by:</p>
-            <div class="row ms-2 mb-2">
-                <div class="col-1">
-                    <img src="/public/images/demo_avt.png" width="100%" class="author-avt" alt="">
+            <div class="border-wrapper mt-4"
+                style="height: 50px;padding: 10px 12px; display: flex; align-items: center;justify-content: space-between;">
+                <div class="recipe-name">
+                    {{recipe.Name}}
                 </div>
-                <div class="col">
-                    <a href="/profile?email={{user.email}}" style="text-decoration: none; color:#000">
-                     <p class="author-name">{{user.fullname}}</p>
-                    <p class="time-post">at {{convertDate recipe.datePosted}}</p>
-                    </a>
-                </div>
-            </div>
-            <div class="description">{{{recipe.description}}}</div>
-        </div>
+                <div class="reaction d-flex align-items-center" style="    margin-right: -30px;">
+                    <span style="font-size: 13px;color: #333; margin-right: -25px;">You and 132 people love this</span>
+                    <div class="placement" onclick="addToFavorite()">
+                        {{#unless isLiked}}
+                        <div class="heart"></div>
+                        {{/unless}}
+                        {{#if isLiked}}
+                        <div class="heart is-active"></div>
+                        {{/if}}
+                    </div>
 
-        <div class="border-wrapper mt-4">
-            <p style="font-weight: bold;">Ingredients:</p>
-            <div class="d-flex ms-4">
-                <div>
-                    <span>
-                        <i class="fa-solid fa-clock"></i>
-                        Ready in:
-                    </span>
-                    <span class="cookingTime">{{recipe.cookingTime}}</span>
-                </div>
-                <div class="ms-3">
-                    <span>
-                        <img src="/public/images/apron.png" width="21px" alt="">
-                        Prepare:
-                    </span>
-                    <span class="preparationTime">{{recipe.preparationTime}}</span>
                 </div>
             </div>
-            <ul class="list-group list-group-flush mt-2">
-                {{#each ingredients}}
+            <div class="border-wrapper mt-4">
+                <p style="font-weight: bold;">Write by:</p>
+                <div class="row ms-2 mb-2">
+                    <div class="col-1">
+                        <img src="{{user.avatar}}" width="100%" class="author-avt" alt="">
+                    </div>
+                    <div class="col">
+                        <a href="/profile?email={{user.email}}" style="text-decoration: none; color:#000">
+                            <p class="author-name">{{user.fullname}}</p>
+                            <p class="time-post">at {{convertDate recipe.datePosted}}</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="description">{{{recipe.description}}}</div>
+            </div>
+
+            <div class="border-wrapper mt-4">
+                <p style="font-weight: bold;">Ingredients:</p>
+                <div class="d-flex ms-4">
+                    <div>
+                        <span>
+                            <i class="fa-solid fa-clock"></i>
+                            Ready in:
+                        </span>
+                        <span class="cookingTime">{{recipe.cookingTime}}</span>
+                    </div>
+                    <div class="ms-3">
+                        <span>
+                            <img src="/public/images/apron.png" width="21px" alt="">
+                            Prepare:
+                        </span>
+                        <span class="preparationTime">{{recipe.preparationTime}}</span>
+                    </div>
+                </div>
+                <ul class="list-group list-group-flush mt-2">
+                    {{#each ingredients}}
                     <li class="list-group-item">
                         <span class="ingredient-name">{{this.name}}</span>
                         <span class="ingredient-calories">{{this.calories}} (cals)</span>
                     </li>
-                {{/each}}
+                    {{/each}}
 
-            </ul>
-        </div>
-        <div class="border-wrapper mt-4">
-            <p style="font-weight: bold;">Directions:</p>
-            {{#each steps}}
+                </ul>
+            </div>
+            <div class="border-wrapper mt-4">
+                <p style="font-weight: bold;">Directions:</p>
+                {{#each steps}}
                 <div class="step-wrapper mb-5">
-                    <p class="step-header" style="font-weight: bold; font-style: italic; text-decoration: underline;">Step {{this.id}}:</p>
+                    <p class="step-header" style="font-weight: bold; font-style: italic; text-decoration: underline;">
+                        Step {{this.id}}:</p>
                     <p class="step-description indent">{{this.stepName}}</p>
-                    
+
                     <div class="step-img-wrapper slick-4">
                         {{#each imgs}}
-                            <a href="{{this}}" data-fancybox="step-{{addOne @../index}}" data-caption="Step {{addOne @../index}} photo">
-                                <img src="{{this}}" alt="">
-                            </a>
-                        {{/each}} 
-                    </div>
-                </div>
-            {{/each}}
-        </div>
-        <div class="border-wrapper mt-4">
-            <p style="font-weight: bold;">Comments:</p>
-            <div class="comment-textbox" style="display: flex; align-items: center; margin: 0 20px;">
-                <img class="me-3" style="border-radius:50%" src="/public/images/demo_avt.png" width="32" height="32" alt="">
-                <div class="input-text d-flex" style="flex: 1;padding: 5px 16px;border-radius: 20px;border: 1px solid #ccc;">
-                    <input class="input-comment" type="text" >
-                    <button style="background: transparent;border: none;font-size: 18px;"><i class="bi bi-send"></i></button> 
-                </div>
-            </div>
-            <div class="list-comment-wrapper mt-4">
-                <div class="comment-item">
-                    <img src="/public/images/demo_avt.png" width="32px" height="32px" style="border-radius: 50%; margin:6px 16px 0 0" alt="">
-                    <div class="col">
-                        <p class="author-name">Đăng Khoa</p>
-                        <span class="time-comment">3 hours ago</span>
-                        <p class="comment-content">Bài đăng chia sẻ công thức nấu ăn này rất hữu ích và thú vị! Các bước hướng dẫn rõ ràng và dễ hiểu, cho phép người đọc tự tay thực hiện các bước để tạo ra món ăn ngon. Tôi rất đánh giá cao việc chia sẻ kiến thức nấu ăn của tác giả, vì nó giúp cho cộng đồng có thêm nhiều lựa chọn cho các bữa ăn trong gia đình. Đây là một bài viết rất đáng để đọc và chia sẻ với mọi người!</p>
-                    </div>
-                </div>
-                <div class="comment-item">
-                    <img src="/public/images/demo_avt.png" width="32px" height="32px" style="border-radius: 50%; margin:6px 16px 0 0" alt="">
-                    <div class="col">
-                        <p class="author-name">Đăng Khoa</p>
-                        <span class="time-comment">3 hours ago</span>
-                        <p class="comment-content">Bài đăng chia sẻ công thức nấu ăn này rất hữu ích và thú vị! Các bước hướng dẫn rõ ràng và dễ hiểu, cho phép người đọc tự tay thực hiện các bước để tạo ra món ăn ngon. Tôi rất đánh giá cao việc chia sẻ kiến thức nấu ăn của tác giả, vì nó giúp cho cộng đồng có thêm nhiều lựa chọn cho các bữa ăn trong gia đình. Đây là một bài viết rất đáng để đọc và chia sẻ với mọi người!</p>
-                    </div>
-                </div>
-                <div class="comment-item">
-                    <img src="/public/images/demo_avt.png" width="32px" height="32px" style="border-radius: 50%; margin:6px 16px 0 0" alt="">
-                    <div class="col">
-                        <p class="author-name">Đăng Khoa</p>
-                        <span class="time-comment">3 hours ago</span>
-                        <p class="comment-content">Bài đăng chia sẻ công thức nấu ăn này rất hữu ích và thú vị! Các bước hướng dẫn rõ ràng và dễ hiểu, cho phép người đọc tự tay thực hiện các bước để tạo ra món ăn ngon. Tôi rất đánh giá cao việc chia sẻ kiến thức nấu ăn của tác giả, vì nó giúp cho cộng đồng có thêm nhiều lựa chọn cho các bữa ăn trong gia đình. Đây là một bài viết rất đáng để đọc và chia sẻ với mọi người!</p>
-                    </div>
-                </div>
-                <div class="comment-item">
-                    <img src="/public/images/demo_avt.png" width="32px" height="32px" style="border-radius: 50%; margin:6px 16px 0 0" alt="">
-                    <div class="col">
-                        <p class="author-name">Đăng Khoa</p>
-                        <span class="time-comment">3 hours ago</span>
-                        <p class="comment-content">Bài đăng chia sẻ công thức nấu ăn này rất hữu ích và thú vị! Các bước hướng dẫn rõ ràng và dễ hiểu, cho phép người đọc tự tay thực hiện các bước để tạo ra món ăn ngon. Tôi rất đánh giá cao việc chia sẻ kiến thức nấu ăn của tác giả, vì nó giúp cho cộng đồng có thêm nhiều lựa chọn cho các bữa ăn trong gia đình. Đây là một bài viết rất đáng để đọc và chia sẻ với mọi người!</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col">
-        <div class="right-panel " role="group" aria-label="Vertical button group">
-            {{#unless isSaved}}
-            <button type="button" class="fav-act" onclick="saveRecipe()">
-                <i class="fa-solid fa-bookmark"></i>
-                Save    
-            </button>
-            {{/unless}}
-            {{#if isSaved}}
-            <button type="button" class="fav-act" onclick="saveRecipe()" style="color: #FF9933;">
-                <i class="fa-solid fa-bookmark"></i>
-                Save    
-            </button>
-            {{/if}}
-            <button type="button" class="disabled" onclick="callPrintApi()"><i class="fa-solid fa-print"></i>Print</button>
-            <div class="row">
-                <div class="col-9">
-                    <div class="dropdown-center">
-                        <a class="btn btn-secondary dropdown-toggle" href="#"  data-bs-toggle="dropdown" aria-expanded="false">
-                           <i class="fa-solid fa-share"></i>
-                            Share
+                        <a href="{{this}}" data-fancybox="step-{{addOne @../index}}"
+                            data-caption="Step {{addOne @../index}} photo">
+                            <img src="{{this}}" alt="">
                         </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="mailto:?body={{mailInfo.body}}&subject={{mailInfo.subject}}">Mail</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" target="_blank" href="{{facebookInfo.info}}">Facebook</a></li>
-                        </ul>
+                        {{/each}}
                     </div>
                 </div>
-                <div class="col" style="    padding-left: 0;">
+                {{/each}}
+            </div>
+            <div class="border-wrapper mt-4">
+                <p style="font-weight: bold;">Comments:</p>
+                <form action="./comment/{{recipe.id}}" method="POST">
+                    <div class="comment-textbox" style="display: flex; align-items: center; margin: 0 20px;">
+                        <img class="me-3" style="border-radius:50%; border:1px solid black" src="{{crrUser.avatar}}"
+                            width="32" height="32" alt="">
 
-                    <button data-bs-toggle="dropdown"  type="button"><i class="fa-solid fa-ellipsis"  style="margin: 0;"></i></button>
-                    <ul class="dropdown-menu">
-                        <li class="report-btn" id="one"><a class="dropdown-item">Report</a></li>
-                        {{#if isOwn}}
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" target="_blank" href="/recipes/edit/{{recipe.id}}">Edit</a></li>
-                        {{/if}}
-                    </ul>
+                        <div class="input-text d-flex"
+                            style="flex: 1;padding: 5px 16px;border-radius: 20px;border: 1px solid #ccc;">
 
+                            <input class="input-comment" type="text" name="comment">
+
+                            <button type="submit" style="background: transparent;border: none;font-size: 18px;"><i
+                                    class="bi bi-send"></i></button>
+
+                            <script>
+                                const inputCmt = document.querySelector('.input-comment');
+
+                                inputCmt.addEventListener('keyup', function (event) {
+                                    if (event.keyCode === 13) {
+                                        const inputCmt = inputCmt.value;
+                                        const recipeId = recipe.id;
+                                        const email = user.email;
+                                        const url = `/comment/${recipeId}`;
+                                        const data = {
+                                            'comment': inputCmt
+                                        };
+                                        const options = {
+                                            method: 'POST',
+                                            headers: {
+                                                'Content-Type': 'application/json'
+                                            },
+                                            body: JSON.stringify(data)
+                                        };
+
+                                        fetch(url, options)
+                                            .then(response => {
+                                                if (response.ok) {
+                                                    return response.json();
+                                                }
+                                                throw new Error('Network response was not ok.');
+                                            })
+                                            .then(data => {
+                                                console.log(data);
+                                            })
+                                            .catch(error => {
+                                                console.error('Error:', error);
+                                            });
+                                    }
+                                });
+                            </script>
+                        </div>
+
+                    </div>
+                </form>
+                <div class="list-comment-wrapper mt-4">
+                    {{#each comments as |cmt|}}
+                    <div class="card" style="padding: 30px;">
+                        <div class="comment-item">
+                            <img src="{{cmt.avatar}}" width="32px" height="32px"
+                                style="border-radius: 50%;border:1px solid black; margin:6px 16px 0 0" alt="">
+                            <div class="col">
+                                <div class="options-btn">
+                                    <button class="btn">&#8226;&#8226;&#8226;</button>
+                                    <div class="options-menu">
+                                        {{#if (eq ../crrUser.email cmt.userEmail)}}
+                                        <form action="./comment/del" method="POST">
+                                        <input type="hidden" name="recipeId" value="{{cmt.recipeID}}">
+                                        <input type="hidden" name="email" value="{{cmt.userEmail}}">
+                                        <button type="submit" class="delete-cmt-btn">Delete</button>
+                                        </form>
+                                        {{else}}
+                                        <button class="rp-cmt-btn">Report</button>
+                                        {{/if}}
+                                    </div>
+                                </div>
+                                <p class="author-name">{{cmt.fullname}}</p>
+                                <span class="time-comment">{{cmt.date}}</span>
+                                <p class="comment-content">{{cmt.content}}</p>
+
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="right-panel " role="group" aria-label="Vertical button group">
+                {{#unless isSaved}}
+                <button type="button" class="fav-act" onclick="saveRecipe()">
+                    <i class="fa-solid fa-bookmark"></i>
+                    Save
+                </button>
+                {{/unless}}
+                {{#if isSaved}}
+                <button type="button" class="fav-act" onclick="saveRecipe()" style="color: #FF9933;">
+                    <i class="fa-solid fa-bookmark"></i>
+                    Save
+                </button>
+                {{/if}}
+                <button type="button" class="disabled" onclick="callPrintApi()"><i
+                        class="fa-solid fa-print"></i>Print</button>
+                <div class="row">
+                    <div class="col-9">
+                        <div class="dropdown-center">
+                            <a class="btn btn-secondary dropdown-toggle" href="#" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                <i class="fa-solid fa-share"></i>
+                                Share
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item"
+                                        href="mailto:?body={{mailInfo.body}}&subject={{mailInfo.subject}}">Mail</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" target="_blank" href="{{facebookInfo.info}}">Facebook</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col" style="    padding-left: 0;">
+
+                        <button data-bs-toggle="dropdown" type="button"><i class="fa-solid fa-ellipsis"
+                                style="margin: 0;"></i></button>
+                        <ul class="dropdown-menu">
+                            <li class="report-btn" id="one"><a class="dropdown-item">Report</a></li>
+                            {{#if isOwn}}
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" target="_blank" href="/recipes/edit/{{recipe.id}}">Edit</a>
+                            </li>
+                            {{/if}}
+                        </ul>
+
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-  </div>
 </div>
 
 <div id="my-modal-container">
-  <div class="my-modal-background">
-    <div class="my-modal" onclick="event.stopPropagation()"> 
-        <h2>REPORT RECIPE</h2>
-        <form method="post" action="/recipes/report/{{recipe.id}}">
-            <div class="modal-body">
-                <div class="mb-3">
-                    <input type="text" value="{{recipe.id}}" hidden>
-                    <input type="text" disabled class="form-control" id="recipient-name" value='Report post: "{{recipe.Name}}"'>
+    <div class="my-modal-background">
+        <div class="my-modal" onclick="event.stopPropagation()">
+            <h2>REPORT RECIPE</h2>
+            <form method="post" action="/recipes/report/{{recipe.id}}">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <input type="text" value="{{recipe.id}}" hidden>
+                        <input type="text" disabled class="form-control" id="recipient-name"
+                            value='Report post: "{{recipe.Name}}"'>
+                    </div>
+                    <div class="mb-3">
+                        <label for="message-text" class="col-form-label">Reason:</label>
+                        <textarea class="form-control" id="report-text" name="reportReason" required></textarea>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label for="message-text" class="col-form-label">Reason:</label>
-                    <textarea class="form-control" id="report-text" name="reportReason" required></textarea>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary close-modal" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" onclick="reportFormSubmit(event)"
+                        class="btn btn-primary ms-3 submit-modal-btn">Send report</button>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary close-modal" data-bs-dismiss="modal">Close</button>
-                <button type="submit" onclick="reportFormSubmit(event)" class="btn btn-primary ms-3 submit-modal-btn">Send report</button>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-  </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/ScrollTrigger.min.js"></script>
 
-
 <script>
     var swiper = new Swiper(".mySwiper", {
-      slidesPerView: 1,
-      spaceBetween: 30,
-      loop: true,
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-      },
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
+        slidesPerView: 1,
+        spaceBetween: 30,
+        loop: true,
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
     });
-  </script>
+</script>
 {{#section 'script2'}}
 <script src="/public/script/loveBtn.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 <script>
-        $('.slick-4').slick({
-    dots: true,
-    infinite: true,
-    speed: 400,
-    autoplay: true,
-    autoplaySpeed: 2800,
-    slidesToShow: 3,
-    slidesToScroll: 3,
-    responsive: [
-      {
-        breakpoint: 1400,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          arrows: false
-        }
-      },
-      {
-        breakpoint: 1000,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          arrows: false
-        }
-      }
-    ]
-  });
+    $('.slick-4').slick({
+        dots: true,
+        infinite: true,
+        speed: 400,
+        autoplay: true,
+        autoplaySpeed: 2800,
+        slidesToShow: 3,
+        slidesToScroll: 3,
+        responsive: [
+            {
+                breakpoint: 1400,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2,
+                    arrows: false
+                }
+            },
+            {
+                breakpoint: 1000,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    arrows: false
+                }
+            }
+        ]
+    });
 </script>
 <script>
-    Fancybox.bind("[data-fancybox]", { 
-  // Your custom options
-});
+    Fancybox.bind("[data-fancybox]", {
+        // Your custom options
+    });
 </script>
 
 <script>
-    function callPrintApi(){
-       window.open(`{{fullUrl}}/print`)
+    function callPrintApi() {
+        window.open(`{{fullUrl}}/print`)
     }
 </script>
 <script>
 
-    $('.report-btn').click(function(){
-        let isLogged = {{isLogged}}
-        if(isLogged == false){
-            return addError("Please login before report!!!")
-        }
-        var buttonId = $(this).attr('id');
-        $('#my-modal-container').removeAttr('class').addClass(buttonId);
-        $('body').addClass('my-modal-active');
+    $('.report-btn').click(function () {
+        let isLogged = {{ isLogged }}
+        if (isLogged == false) {
+        return addError("Please login before report!!!")
+    }
+    var buttonId = $(this).attr('id');
+    $('#my-modal-container').removeAttr('class').addClass(buttonId);
+    $('body').addClass('my-modal-active');
     })
 
-    $('#my-modal-container').click(function(){
-    $(this).addClass('out');
-    $('body').removeClass('my-modal-active');
+    $('#my-modal-container').click(function () {
+        $(this).addClass('out');
+        $('body').removeClass('my-modal-active');
     });
-    $('.close-modal').click(function(){
+    $('.close-modal').click(function () {
         $('#my-modal-container').addClass('out');
         $('body').removeClass('my-modal-active');
     });
@@ -338,26 +437,26 @@
 </script>
 
 <script>
-    let isLoved = {{isLiked}}
-    let isLogged = {{isLogged}}
-    $(function() {
-        $(".heart").on("click", function() {
-            if(isLogged)
+    let isLoved = {{ isLiked }}
+    let isLogged = {{ isLogged }}
+    $(function () {
+        $(".heart").on("click", function () {
+            if (isLogged)
                 $(this).toggleClass("is-active");
         });
     });
-    function addToFavorite(){
-        if(isLogged == false){
+    function addToFavorite() {
+        if (isLogged == false) {
             return addError("Please login before like!!!")
         }
         $.post("/recipes/like/{{recipe.id}}",
             {
                 type: !isLoved
             },
-            function(data, status){
-                if(data.status == "failure"){
+            function (data, status) {
+                if (data.status == "failure") {
                     addError(data.msg)
-                }else{
+                } else {
                     addSuccess(data.msg)
                 }
             });
@@ -365,27 +464,27 @@
     }
 </script>
 <script>
-    let isSaved = {{isSaved}}
-    $(function() {
-        $(".fav-act").on("click", function() {
-            if(isLogged && isSaved)
-                $(this).css({'color':'#FF9933'});
-            else if(isLogged && !isSaved)
+    let isSaved = {{ isSaved }}
+    $(function () {
+        $(".fav-act").on("click", function () {
+            if (isLogged && isSaved)
+                $(this).css({ 'color': '#FF9933' });
+            else if (isLogged && !isSaved)
                 $(this).removeAttr("style");
         });
     });
-    function saveRecipe(){
-        if(isLogged == false){
+    function saveRecipe() {
+        if (isLogged == false) {
             return addError("Please login before save!!!")
         }
         $.post("/recipes/save/{{recipe.id}}",
             {
                 type: !isSaved
             },
-            function(data, status){
-                if(data.status == "failure"){
+            function (data, status) {
+                if (data.status == "failure") {
                     addError(data.msg)
-                }else{
+                } else {
                     addSuccess(data.msg)
                 }
             });
@@ -397,44 +496,44 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 {{#if recipe.isbaned}}
 <style>
-    .swal2-container{ 
+    .swal2-container {
         z-index: 999999;
     }
 </style>
 <script>
-Swal.fire(
-  'This post was banned',
-  'Due to: Nutidy image detected',
-  'error'
-).then((result)=>{
-    window.location.href = "/"
-})
+    Swal.fire(
+        'This post was banned',
+        'Due to: Nutidy image detected',
+        'error'
+    ).then((result) => {
+        window.location.href = "/"
+    })
 </script>
 {{/if}}
 <script src="/public/script/toast.js"></script>
 
 <script>
-    function reportFormSubmit(e){
+    function reportFormSubmit(e) {
         e.preventDefault()
         $('.submit-modal-btn').addClass('disabled');
         let reasonRp = document.querySelector("#report-text").value
-        if(reasonRp.length == 0){
+        if (reasonRp.length == 0) {
             $('.submit-modal-btn').removeClass('disabled')
             return addError("Please not leave Reason blank!!!")
         }
         $.post("/recipes/report/{{recipe.id}}",
-        {
-            reason: reasonRp
-        },
-        function(data, status){
-            if(data.status == "failure"){
-                addError(data.msg)
-            }else{
-                 addSuccess("Reported successfully")
-            }
-        $('#my-modal-container').addClass('out');
-        $('body').removeClass('my-modal-active');
-        $('.submit-modal-btn').removeClass('disabled');
-        });
-     }
+            {
+                reason: reasonRp
+            },
+            function (data, status) {
+                if (data.status == "failure") {
+                    addError(data.msg)
+                } else {
+                    addSuccess("Reported successfully")
+                }
+                $('#my-modal-container').addClass('out');
+                $('body').removeClass('my-modal-active');
+                $('.submit-modal-btn').removeClass('disabled');
+            });
+    }
 </script>

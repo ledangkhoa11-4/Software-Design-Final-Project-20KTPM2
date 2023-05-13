@@ -1,0 +1,87 @@
+{{!-- <link rel='stylesheet' href='/public/css/badge.css' /> --}}
+<link rel="stylesheet" href="/public/css/pagination.css">
+<div class="card">
+  <div class="card-header">
+    All Recipes
+  </div>
+    <div class="card-body">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Reported Times</th>
+            <th scope="col">Action</th>
+            <th scope="col" style="text-align:center">Reported Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#if this.isEmpty}}
+          <p>No Data</p>
+          {{else}}
+            {{#each this.list}}
+            <tr>
+              <td>{{id}}</td>
+              <td scope="col">{{Name}}</td>
+              <td scope="col">
+                5
+              </td>
+              <td scope="col">
+                <form action="/admin/recipes/disabled?id={{id}}" method="POST" class="justify-content-center">
+                {{#if isbaned}}
+                  <button type="submit" name="status" value="enable" class="btn btn-outline-success justify-content-center "> 
+                    <i class="fa fa-unlock" aria-hidden="true"></i>
+                    Enable</button>
+                {{else}}
+                 <button type="submit" name="status" value="disable" class="btn btn-outline-danger justify-content-center">
+                   <i class="fa fa-lock" aria-hidden="true"></i> Disable</button>
+              {{/if}}
+                </form>
+              </td>
+              <td scope="col" class="d-flex justify-content-center">
+                  <a name="" id="" class="btn btn-outline-primary float-right" href="/admin/reported-recipe?id={{id}}" role="button" >
+                  <i class="fa fa-eye" aria-hidden="true"></i>
+                  Details
+                  </a>
+              </td>
+            </tr>
+          {{/each}}
+          
+          {{/if}}
+        </tbody>
+      </table>
+ {{#if nPage}}
+      <div class="page-container">
+                <a class="first-page">
+                <i class="fas fa-angle-double-left"></i>
+                </a>
+                <a class="prev-page">
+                <i class="fas fa-angle-left"></i>
+                </a>
+                <div id="pagination"></div>
+                <a class="next-page">
+                <i class="fas fa-angle-right"></i>
+                </a>
+                <a class="last-page">
+                <i class="fas fa-angle-double-right"></i>
+                </a>
+      </div>
+      {{/if}}
+    </div>
+</div> 
+<script src="/public/script/pagination.js">
+
+</script>
+<script>
+  {{#if nPage}}
+const valuePage = {
+    totalPages: {{this.nPage}},
+    curPage: {{this.page}},
+    truncate: true,
+        numLinksTwoSide: 1,
+        url: `{{url}}`
+    };
+    pagination(valuePage);
+  {{/if}}
+    
+</script>
