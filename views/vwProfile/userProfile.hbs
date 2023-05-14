@@ -4,6 +4,7 @@
 <style>
   
 </style>
+
 <div class="container-profile">
     <div class="profile-header" style="background-image: url('/public/images/users/cover/{{this.user.email}}.jpg'); background-size: cover;  background-repeat: no-repeat;
         width: 80%;">
@@ -11,9 +12,9 @@
             <img src="/public/images/users/avatar/{{this.user.email}}.jpg" width="150" alt="Profile Image" onerror="this.src = '/public/images/default_avt.png'">
         </div>
         <div class="profile-nav-info">
-            <h3 class="user-name"  style="background-color:grey; border-radius:10px; color:white; padding-left:10px;">{{this.user.fullname}}
+            <h3 class="user-name"  style="background-color:#05B7DC; border-radius:10px;padding: 3px; color:white; padding-left:10px;">{{this.user.fullname}}
                 <div class="btn-group">
-                <button class="btn btn-lg " type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <button class="btn btn-lg" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                    <i class="fa-solid fa-ellipsis-vertical menu-profile" style="color:white;" ></i>
                 </button>
                 <ul class="dropdown-menu " style="min-width: 100px;">
@@ -64,14 +65,21 @@
                     </div>
                 </div>
             </div>
-            <div class="address"  style="background-color:grey; border-top-left-radius:10px; border-top-right-radius:10px; color:white; padding-left:10px;">
-                <p class="user-mail"> {{this.user.email}}</p>
+            <div class="address"  style="background-color:#05B7DC; border-radius:10px; color:white; padding:12px 0px 0px 20px; ">
+                <p class="user-mail"> {{this.user.email}}{{#if isFollowed}}<p class="user-mail" style="padding:0px 20px 0px 20px;"><i class="fa-solid fa-check"></i>Followed</p>
+                {{/if}}
+                </p>
+                
+                 <div class="address"  >
+                    
+                    <p style="color: white; padding-right:5px; margin-left:15px;"> {{follownumber}} Follower</p>
+                  
+                  
+                </div>
             </div >
-            {{#if isFollowed}}
-            <div class="address"  style="background-color:grey; border-bottom-left-radius:10px; border-bottom-right-radius:10px; color:white; padding-left:10px; ">
-                <p class="user-mail"><i class="fa-solid fa-check"></i> Followed</p>
-            </div>
-            {{/if}}
+           
+            
+            
 
         </div>
     </div>
@@ -151,7 +159,7 @@
         $( "#send" ).on( "click", function() {
     $( "#report" ).trigger( "submit" );
     } );
-</script>
+</scrip>
 <script>
         const multipleItemCarousel = document.querySelector("#carouselExampleControls");
         

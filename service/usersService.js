@@ -175,4 +175,8 @@ export default{
         WHERE MATCH (fullname) AGAINST ('${key}' IN BOOLEAN MODE);`);
         if(list) return list[0][0].c;
     },
+    countFolloweduser:async(email)=>{
+        const count =await db.raw(`SELECT count(*) as c FROM follows WHERE followedUser='${email}'`)
+        return count[0][0].c;
+    }
 }

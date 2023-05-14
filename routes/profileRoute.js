@@ -112,12 +112,13 @@ Router.get('/',async(req,res,next)=>{
    const list=await recipesService.getRecipesByUserEmail(req.query.email)
    const user=await usersService.findUserByEmail(req.query.email)
    const followed=  await usersService.isFollow(res.locals.auth.email,req.query.email)
-   
+   const follownumber=await usersService.countFolloweduser(req.query.email)
    res.render("vwProfile/userProfile",{
       list,
       user,
       isFollowed:followed.length===1,
-      isEmpty:list.length===0
+      isEmpty:list.length===0,
+      follownumber,
    });
 })
 
@@ -129,6 +130,7 @@ Router.get('/edit-account', async (req,res,next) =>{
    if(user.password == "") isEmail = true;
    const email = user.email;
    res.render('vwProfile/account',{
+      layout:'profile',
       user,email,isEmail
    });
 })
@@ -160,6 +162,7 @@ Router.post("/edit-account",uploadAvatarEdit.fields([{name:"avatar"},{name:"cove
       user
    );
    return res.render('vwProfile/account',{
+      layout:'profile',
       isAlert : true,
       icon: 'success',
       user,email,isEmail,
