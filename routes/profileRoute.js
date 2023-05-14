@@ -129,6 +129,7 @@ Router.get('/edit-account', async (req,res,next) =>{
    if(user.password == "") isEmail = true;
    const email = user.email;
    res.render('vwProfile/account',{
+      layout:'profile',
       user,email,isEmail
    });
 })
@@ -160,6 +161,7 @@ Router.post("/edit-account",uploadAvatarEdit.fields([{name:"avatar"},{name:"cove
       user
    );
    return res.render('vwProfile/account',{
+      layout:'profile',
       isAlert : true,
       icon: 'success',
       user,email,isEmail,
