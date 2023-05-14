@@ -1,7 +1,9 @@
 
 <link rel="stylesheet" href="/public/css/shared-recipe.css">
 <link rel="stylesheet" href="/public/css/userProfile.css">
-
+<style>
+  
+</style>
 <div class="container-profile">
     <div class="profile-header" style="background-image: url('/public/images/users/cover/{{this.user.email}}.jpg'); background-size: cover;  background-repeat: no-repeat;
         width: 80%;">
@@ -9,10 +11,10 @@
             <img src="/public/images/users/avatar/{{this.user.email}}.jpg" width="150" alt="Profile Image" onerror="this.src = '/public/images/default_avt.png'">
         </div>
         <div class="profile-nav-info">
-            <h3 class="user-name">{{this.user.fullname}}
+            <h3 class="user-name"  style="background-color:grey; border-radius:10px; color:white; padding-left:10px;">{{this.user.fullname}}
                 <div class="btn-group">
                 <button class="btn btn-lg " type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                   <i class="fa-solid fa-ellipsis-vertical"></i>
+                   <i class="fa-solid fa-ellipsis-vertical menu-profile" style="color:white;" ></i>
                 </button>
                 <ul class="dropdown-menu " style="min-width: 100px;">
                     
@@ -62,11 +64,11 @@
                     </div>
                 </div>
             </div>
-            <div class="address">
+            <div class="address"  style="background-color:grey; border-top-left-radius:10px; border-top-right-radius:10px; color:white; padding-left:10px;">
                 <p class="user-mail"> {{this.user.email}}</p>
-            </div>
+            </div >
             {{#if isFollowed}}
-            <div class="address">
+            <div class="address"  style="background-color:grey; border-bottom-left-radius:10px; border-bottom-right-radius:10px; color:white; padding-left:10px; ">
                 <p class="user-mail"><i class="fa-solid fa-check"></i> Followed</p>
             </div>
             {{/if}}
