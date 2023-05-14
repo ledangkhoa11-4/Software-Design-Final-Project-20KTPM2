@@ -1,23 +1,25 @@
 
 <link rel="stylesheet" href="/public/css/shared-recipe.css">
 <link rel="stylesheet" href="/public/css/userProfile.css">
-
+<style>
+  
+</style>
 <div class="container-profile">
     <div class="profile-header" style="background-image: url('/public/images/users/cover/{{this.user.email}}.jpg'); background-size: cover;  background-repeat: no-repeat;
         width: 80%;">
         <div class="profile-img">
-            <img src="/public/images/users/avatar/{{this.user.email}}.jpg" width="150" alt="Profile Image">
+            <img src="/public/images/users/avatar/{{this.user.email}}.jpg" width="150" alt="Profile Image" onerror="this.src = '/public/images/default_avt.png'">
         </div>
         <div class="profile-nav-info">
-            <h3 class="user-name">{{this.user.fullname}}
+            <h3 class="user-name"  style="background-color:grey; border-radius:10px; color:white; padding-left:10px;">{{this.user.fullname}}
                 <div class="btn-group">
                 <button class="btn btn-lg " type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                   <i class="fa-solid fa-ellipsis-vertical"></i>
+                   <i class="fa-solid fa-ellipsis-vertical menu-profile" style="color:white;" ></i>
                 </button>
                 <ul class="dropdown-menu " style="min-width: 100px;">
                     
                         <li class="dropdown-item">
-                            <form action="" method="post"></form>
+                            <form action="" method="post">
                                 {{#if isFollowed}}
                                 <button name="" id="" class="btn btn-sm btn-outline-danger" href="#" role="button" formaction="/profile/unfollow?follower={{this.auth.email}}&followedUser={{this.user.email}}">
                                     <i class="bi bi-heartbreak"></i>Unfollow</button>
@@ -62,11 +64,11 @@
                     </div>
                 </div>
             </div>
-            <div class="address">
+            <div class="address"  style="background-color:grey; border-top-left-radius:10px; border-top-right-radius:10px; color:white; padding-left:10px;">
                 <p class="user-mail"> {{this.user.email}}</p>
-            </div>
+            </div >
             {{#if isFollowed}}
-            <div class="address">
+            <div class="address"  style="background-color:grey; border-bottom-left-radius:10px; border-bottom-right-radius:10px; color:white; padding-left:10px; ">
                 <p class="user-mail"><i class="fa-solid fa-check"></i> Followed</p>
             </div>
             {{/if}}
@@ -78,7 +80,7 @@
          {{#if isEmpty}}
                     <div class=" " style="display:flex; flex-direction: column ; align-item:center; justify-content:center;">
                         <h1 style="z-index: 1; width:1300px; text-align: center;">This user has not shared any recipes</h1>
-                        <img src="/public/images/empty.png" class="d-block " style="width:1000px; min-width:1300px; max-height:400px" alt="...">
+                        <img src="/public/images/empty.png" class="d-block " style="width:1000px; min-width:1300px; " alt="...">
                         
                     </div>
      

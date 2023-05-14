@@ -265,44 +265,48 @@
       <div class="container" style="height: 255px;">
         <div class="parent">
           <div class="wave-card">
+            <a onclick="selectIngre(this, event)" class="anchor-cover"></a>
             <div class="wave-card-shape"></div>
             <div class="wave-card-shape"></div>
             <div class="wave-card-shape"></div>
-            <h3 class="wave-card-title">Thịt bò</h3>
-            <small class="wave-card-subtitle">Thịt bò xào cà chua, cơm chiên trân châu</small>
+            <h3 class="wave-card-title">Đậu hủ</h3>
+            <small class="wave-card-subtitle">Món chả ức gà đậu hủ, Đậu hủ chiên mắm tỏi thơm ngon</small>
           </div>
         </div>
       </div>
       <div class="container" style="height: 255px;">
         <div class="parent">
           <div class="wave-card">
+            <a onclick="selectIngre(this, event)" class="anchor-cover"></a>
             <div class="wave-card-shape"></div>
             <div class="wave-card-shape"></div>
             <div class="wave-card-shape"></div>
-            <h3 class="wave-card-title">Thịt bò</h3>
-            <small class="wave-card-subtitle">Thịt bò xào cà chua, cơm chiên trân châu</small>
+            <h3 class="wave-card-title">Bột mì</h3>
+            <small class="wave-card-subtitle">Công thức làm snack khoai lang giòn rụm, siêu đơn giản, các bé thích mê</small>
           </div>
         </div>
       </div>
       <div class="container" style="height: 255px;">
         <div class="parent">
           <div class="wave-card">
+            <a onclick="selectIngre(this, event)" class="anchor-cover"></a>
             <div class="wave-card-shape"></div>
             <div class="wave-card-shape"></div>
             <div class="wave-card-shape"></div>
-            <h3 class="wave-card-title">Thịt bò</h3>
-            <small class="wave-card-subtitle">Thịt bò xào cà chua, cơm chiên trân châu</small>
+            <h3 class="wave-card-title">Trứng gà</h3>
+            <small class="wave-card-subtitle">Cà phê trứng thơm ngon, không bị tanh, Trứng chiên lá lốt</small>
           </div>
         </div>
       </div>
       <div class="container" style="height: 255px;">
         <div class="parent">
           <div class="wave-card">
+            <a onclick="selectIngre(this, event)" class="anchor-cover"></a>
             <div class="wave-card-shape"></div>
             <div class="wave-card-shape"></div>
             <div class="wave-card-shape"></div>
             <h3 class="wave-card-title">Thịt bò</h3>
-            <small class="wave-card-subtitle">Thịt bò xào cà chua, cơm chiên trân châu</small>
+            <small class="wave-card-subtitle">BÚN THỊT NƯỚNG ĐÚNG CHUẨN MIỀN NAM, Phở Bò vị Hà Nội đơn giản cho gia đình</small>
           </div>
         </div>
       </div>
@@ -310,6 +314,9 @@
   </div>
 </div>
 
+<form action="/search" method="POST">             
+    <input type="hidden" value="{{r.key}}" name="search-key" id="searchKeyword">
+</form>
 
 {{#section 'script2'}}
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
@@ -453,3 +460,13 @@ if (feedback) {
     });
   </script>
 
+
+<script>
+  function selectIngre(t,e){
+      let card = t.parentElement;
+      let ingredientName = card.querySelector("h3").textContent
+      let input = document.querySelector("#searchKeyword")
+      input.value = ingredientName
+      input.parentElement.submit()
+  }
+</script>

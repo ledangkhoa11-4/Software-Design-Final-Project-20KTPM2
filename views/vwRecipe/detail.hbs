@@ -51,6 +51,7 @@
     }
 
     .options-menu {
+        z-index: 2;
         position: absolute;
         top: 100%;
         right: 0;
@@ -185,7 +186,7 @@
                 <form action="./comment/{{recipe.id}}" method="POST">
                     <div class="comment-textbox" style="display: flex; align-items: center; margin: 0 20px;">
                         <img class="me-3" style="border-radius:50%; border:1px solid black" src="{{crrUser.avatar}}"
-                            width="32" height="32" alt="">
+                            width="32" height="32" alt="" onerror="this.src = '/public/images/default_avt.png'">
 
                         <div class="input-text d-flex"
                             style="flex: 1;padding: 5px 16px;border-radius: 20px;border: 1px solid #ccc;">
@@ -239,8 +240,10 @@
                     {{#each comments as |cmt|}}
                     <div class="card" style="padding: 30px;">
                         <div class="comment-item">
-                            <img src="{{cmt.avatar}}" width="32px" height="32px"
-                                style="border-radius: 50%;border:1px solid black; margin:6px 16px 0 0" alt="">
+                            <a href="/profile?email={{cmt.userEmail}}">
+                                <img src="{{cmt.avatar}}" width="32px" height="32px"
+                                 style="border-radius: 50%;border:1px solid black; margin:6px 16px 0 0" alt="">
+                            </a>
                             <div class="col">
                                 <div class="options-btn">
                                     <button class="btn">&#8226;&#8226;&#8226;</button>
@@ -252,13 +255,44 @@
                                         <button type="submit" class="delete-cmt-btn">Delete</button>
                                         </form>
                                         {{else}}
-                                        <button class="rp-cmt-btn">Report</button>
+                                        <div id="dialog"></div>
+
+                                        <form action="./reportComment" method="POST">
+                                        <input type="hidden" name="recipeId" value="{{cmt.recipeID}}">
+                                        <input type="hidden" name="reportUser" value="{{../crrUser.email}}">
+                                        <input type="hidden" name="userReported" value="{{cmt.userEmail}}">
+                                        <input type="hidden" name="reason" id="reason-input-{{@index}}" value="Thái độ tiêu cực">
+                                        <div style="padding: 8px 16px;text-align: left;">REPORT COMMENT</div>
+                                        <button type="submit" class="rp-cmt-btn" onclick="setReason('Ngôn ngữ lăng mạ','reason-input-{{@index}}')" style="">Ngôn ngữ lăng mạ</button>
+                                        <button type="submit" class="rp-cmt-btn" onclick="setReason('Ngôn ngữ đả kích','reason-input-{{@index}}')" style="">Ngôn ngữ đả kích</button>
+                                        <button type="submit" class="rp-cmt-btn" onclick="setReason('Thái độ tiêu cực','reason-input-{{@index}}')" style="">Thái độ tiêu cực</button>
+                                        <style>
+                                            .rp-cmt-btn:hover {
+                                            color: blue;
+                                            }
+                                            .options-menu {
+        z-index: 2;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 8px 0;
+        display: none;
+        width: 200px;
+    }
+                                        </style>
+                                        </form>
+                                       
                                         {{/if}}
                                     </div>
                                 </div>
-                                <p class="author-name">{{cmt.fullname}}</p>
-                                <span class="time-comment">{{cmt.date}}</span>
-                                <p class="comment-content">{{cmt.content}}</p>
+                                 <a href="/profile?email={{cmt.userEmail}}" style="text-decoration: none; color:#000">
+                                    <p class="author-name">{{cmt.fullname}}</p>
+                                 </a>
+                                <span class="time-comment">{{convertDate cmt.date}}</span>
+                                <p class="comment-content mt-3">{{cmt.content}}</p>
 
                             </div>
                         </div>
@@ -536,4 +570,9 @@
                 $('.submit-modal-btn').removeClass('disabled');
             });
     }
+</script>
+<script>
+function setReason(reason, inputId) {
+    document.getElementById(inputId).value = reason;
+}
 </script>
