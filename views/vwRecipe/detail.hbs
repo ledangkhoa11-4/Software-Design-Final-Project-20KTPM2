@@ -122,7 +122,9 @@
                 <p style="font-weight: bold;">Write by:</p>
                 <div class="row ms-2 mb-2">
                     <div class="col-1">
-                        <img src="{{user.avatar}}" width="100%" class="author-avt" alt="">
+                         <a href="/profile?email={{user.email}}">
+                            <img src="{{user.avatar}}" width="100%" class="author-avt" alt="" onerror="this.src = '/public/images/default_avt.png'">
+                         </a>
                     </div>
                     <div class="col">
                         <a href="/profile?email={{user.email}}" style="text-decoration: none; color:#000">
