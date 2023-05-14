@@ -14,5 +14,21 @@ export default{
         const total = await database.raw(`SELECT COUNT(*) AS num_likes FROM likes WHERE recipeID = ${id};
         `)
         if (total) return total[0]
-    }
+    },
+    getAllRecentSearch: async()=>{
+        const total = await database.raw(`SELECT * FROM recent;
+        `)
+        if (total) return total[0]
+    },
+    addRecentSearch: async (searchKey) => {
+        const existingRecord = await database.raw(`SELECT * FROM recent WHERE \`key\` = '${searchKey}'`);
+        if (existingRecord[0].length > 0) {
+          // The record already exists, return without inserting a new one
+          return existingRecord[0][0].id;
+        }
+        const total = await database.raw(`INSERT INTO recent (\`key\`) VALUES ('${searchKey}')`);
+        if (total) return total[0].insertId;
+      },
+      
+      
 }

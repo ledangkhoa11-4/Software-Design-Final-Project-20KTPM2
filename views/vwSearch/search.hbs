@@ -128,9 +128,24 @@
                         dishes</span>
                 </div>
                 <div>
-                    <a class="recently-search" href="">Cơm chiên</a>
+                    <div style="display: flex; flex-direction: row">
+                    {{#each this.recent as |r|}}
+                    <form action="/search" method="POST">
+                        
+                        <input type="hidden" value="{{r.key}}" name="search-key">
+                        <button style="margin-right: 10px;" type="submit" class="recently-search">{{r.key}}</button>
+                        <style>
+                            .recently-search {
+                                border: none;
+                                background-color: transparent;
+                                color: rgb(0, 195, 255);
+                            }
+                        </style>
+                   
+                    </form>
+                    {{/each}}
+</div>
 
-                    <a class="recently-search" href="">Cơm chiên</a>
 
                 </div>
             </div>
@@ -153,7 +168,8 @@
                                 <h5 class="card-title bold-text mt-3">{{recipe.Name}}</h5>
                             </a>
                             <div class="d-flex align-items-center mt-3" style="justify-content: flex-start;">
-                                <div><img style="border-radius:50%; width: 32px; height: 32px; border: 1px solid black; margin-right:20px"
+                                <div><img
+                                        style="border-radius:50%; width: 32px; height: 32px; border: 1px solid black; margin-right:20px"
                                         src="{{recipe.avatar}}" alt=""></div>
                                 <div style="font-size: 13px;" class="text-muted">
                                     <div class="row">
@@ -165,8 +181,9 @@
                                 </div>
                             </div>
 
-                            <div class="card-text ellipsis mt-3" style="font-size: 16px; max-height:50px; overflow:hidden">{{{this.description}}}
-                    
+                            <div class="card-text ellipsis mt-3"
+                                style="font-size: 16px; max-height:50px; overflow:hidden">{{{this.description}}}
+
                             </div>
                             <p>...</p>
                             <div class="d-flex text-muted mt-3 mb-4"
