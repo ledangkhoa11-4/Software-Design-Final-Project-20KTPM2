@@ -109,19 +109,43 @@ Router.get('/recipes', async (req,res)=>{
     const page = req.query.p || 1;
     const limit = 5;
     const offset = (page - 1) * limit;
-    let list = await recipesService.getRecipesByPage(limit,offset);
-    let totalRecipes = await recipesService.getRecipesAmount();
-    let url = '/admin/recipes?';
+    const reported = req.query.reported || 0;
+    const baned = req.query.baned || 0;
+    let list; 
+    let totalUser;
+    let url; 
+    if(reported == baned){
+        list = await recipesService.getRecipesByPage(limit,offset);
+        totalUser  = await recipesService.getRecipesAmount();
+        url = '/admin/recipes?';
+    }else{
+        if(reported == 1){
+            list = await recipesService.getReportedRecipesByPage(limit,offset);        
+            totalUser = await recipesService.getReportedRecipesAmount();
+            url = '/admin/recipes?reported=1';
+        }
+        if(baned == 1){
+            list = await recipesService.getBanedRecipesByPage(limit,offset);        
+            totalUser = await recipesService.getBanedRecipesAmount();
+            url = '/admin/recipes?baned=1';
+        }
+    }
+    for(let i in list){
+        list[i].reportedTimes = await recipesService.getReportedTimes(list[i].id);
+    }
+    let nPage=Math.ceil(totalUser/limit);
 
-    let nPage=Math.ceil(totalRecipes/limit);
+
     res.render('vwAdmin/recipes',{
     layout:'admin',
-    showFilter:true,
+    showFilterRecipe:true,
+    recipe:true,
     list,
     isEmpty: list.length===0,
     nPage,
     page,
     url,
+    reported,baned,
     })
 })
 
