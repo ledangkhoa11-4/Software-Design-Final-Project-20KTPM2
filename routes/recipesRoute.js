@@ -173,8 +173,9 @@ Router.get("/:id", async (req, res, next) => {
          data.comments[0] = data.comments[swapIndex];
          data.comments[swapIndex] = temp;
       }
-   
+      
    }
+
    
    res.render("vwRecipe/detail", data)
    await recipesService.addView(recipe.id)
