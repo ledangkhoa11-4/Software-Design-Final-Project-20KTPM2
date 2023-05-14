@@ -41,8 +41,8 @@
           <tr>
             <th scope="col">Email</th>
             <th scope="col">FullName</th>
-            <th scope="col">Reported Times</th>
-            <th scope="col">Status</th>
+            <th scope="col" style="text-align:center;">Reported Times</th>
+            <th scope="col" >Status</th>
             <th scope="col" style="text-align:center">Reported Comments</th>
           </tr>
         </thead>
@@ -54,18 +54,18 @@
             <tr>
               <td>{{email}}</td>
               <td scope="col">{{fullname}}</td>
-              <td scope="col">
+              <td scope="col" style="text-align:center;">
                 {{reportedTimes}}
               </td>
               <td scope="col">
                 <form action="/admin/accounts/disabled?email={{email}}" method="POST" class="justify-content-center">
                 {{#if isbaned}}
-                  <button type="submit" name="status" value="enable" class="btn btn-outline-success justify-content-center "> 
-                    <i class="fa fa-unlock" aria-hidden="true"></i>
-                    Enable</button>
-                {{else}}
                  <button type="submit" name="status" value="disable" class="btn btn-outline-danger justify-content-center">
                    <i class="fa fa-lock" aria-hidden="true"></i> Disable</button>
+                {{else}}           
+                    <button type="submit" name="status" value="enable" class="btn btn-outline-success justify-content-center "> 
+                    <i class="fa fa-unlock" aria-hidden="true"></i>
+                    Enable</button>
               {{/if}}
                 </form>
               </td>
