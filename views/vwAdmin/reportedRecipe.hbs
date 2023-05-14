@@ -1,0 +1,44 @@
+<link rel="stylesheet" href="/public/css/pagination.css">
+<div class="card">
+  <div class="card-header">
+   Reported Recipe
+  </div>
+  <div class="card-body">
+    {{#if this.isEmpty}}
+      <p>No Data</p>
+    {{else}}
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Report by</th>
+            
+            <th scope="col">Reason</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each this.list}}
+            <tr >
+            <td scope="col">
+                  {{Name}}
+                </td>
+                <td scope="col">
+                    <a name="" id="" class="btn" href="/profile?email={{userReport}}" role="button">
+                    {{userReport}}
+                   </a>
+                </td>
+                <td scope="col">
+                  {{reason}}
+                </td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    {{/if}}
+    </div>
+    <div class="card-footer">
+      <a name="" id="" class="btn btn-primary" href="/admin/recipes?&p=1" role="button"><i class="fa-solid fa-arrow-left"></i>Back</a>
+    </div>
+  </div>
+    
+</script>

@@ -33,19 +33,18 @@
                     Menu
                 </div>
                 <ul class="list-group list-group-flush">
-                    <a name="" id="" class="list-group-item" href="/admin/reported-user" role="button">Reported Users</a>
+                    <a name="" id="" class="list-group-item" href="/admin/accounts" role="button">Accounts List</a>
                     <a name="" id="" class="list-group-item" href="/admin/courses?p=1" role="button">Reported Recipes</a>
                 </ul>
           </div>
           {{#if this.showFilter}}
           <div class="card" style="width: 18rem;margin-top: 70px">
                 <div class="card-header">
-                    Menu
+                    Filter
                 </div>
                 <ul class="list-group list-group-flush">
-                    <a name="" id="" class="list-group-item" href="/admin/accounts" role="button">Reported Users</a>
-                    <a name="" id="" class="list-group-item" href="/admin/courses?p=1" role="button">Banned Users</a>
-                    <a name="" id="" class="list-group-item" href="/admin/courses?p=1" role="button">Not Banned Users</a>
+                    <a name="" id="" class="list-group-item {{#if reported}}active{{/if}}" {{#if searchValue}}href="/admin/search?name={{searchValue}}&reported=1"{{else}}href="/admin/accounts?reported=1&p=1"{{/if}}  role="button">Reported Users</a>
+                    <a name="" id="" class="list-group-item {{#if baned}}active{{/if}}" {{#if searchValue}}href="/admin/search?name={{searchValue}}&baned=1"{{else}}href="/admin/accounts?baned=1&p=1"{{/if}} role="button">Banned Users</a>
                 </ul>
           </div>
           {{/if}}

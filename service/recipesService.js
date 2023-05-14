@@ -185,13 +185,37 @@ export default{
         WHERE userEmail = '${email}' AND recipeID = ${recipeID}        
         `);
         return res;
-    
     },
+    countReportedRecipe:async(id)=>{
+        const count=await database.raw(`SELECT count( *) as c FROM reportedRecipes where recipeReported='${id}'`)
+        return count[0][0].c
+    },
+    getReportedRecipe:async(id,offset,limit)=>{
+        const list=await database.raw(`SELECT r.* 
+        FROM Recipe p JOIN reportedRecipes r ON p.id = r.recipeReported
+        where r.recipeReported='${id}'
+        LIMIT ${offset},${limit}`)
+        return list[0]
+    },  
+    getRecipesByPage: async (limit, offset) => {
+        const list = await database("Recipe")
+          .limit(limit)
+          .offset(offset);
+        return list;
+    },
+    getRecipesAmount: async () => {
+        const list = await database("Recipe").count({amount: "id"});
+        return list[0].amount;
+    },
+    disabledRecipe: (id, status) => {
+        return database.raw(
+          `Update Recipe set isbaned=${status} where Recipe.id='${id}'`
+        );
+    },
+    
     countLike:async(id)=>{
         const count=await database.raw(`Select count(*) as c from likes where recipeID=${id}`)
         return count[0][0].c
     }
-
-      
-      
 }
+

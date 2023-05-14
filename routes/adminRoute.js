@@ -35,10 +35,30 @@ Router.get('/accounts', async (req,res)=>{
     const page = req.query.p || 1;
     const limit = 5;
     const offset = (page - 1) * limit;
-    let list = await usersService.getUsersByPage(limit,offset);
-    let totalUser = await usersService.getUsersAmount();
-    let url = '/admin/accounts?';
-
+    const reported = req.query.reported || 0;
+    const baned = req.query.baned || 0;
+    let list; 
+    let totalUser;
+    let url; 
+    if(reported == baned){
+        list = await usersService.getUsersByPage(limit,offset);
+        totalUser  = await usersService.getUsersAmount();
+        url = '/admin/accounts?';
+    }else{
+        if(reported == 1){
+            list = await usersService.getReportedUsersByPage(limit,offset);        
+            totalUser = await usersService.getReportedUsersAmount();
+            url = '/admin/accounts?reported=1';
+        }
+        if(baned == 1){
+            list = await usersService.getBanedUsersByPage(limit,offset);        
+            totalUser = await usersService.getBanedUsersAmount();
+            url = '/admin/accounts?baned=1';
+        }
+    }
+    for(let i in list){
+        list[i].reportedTimes = await usersService.getReportedTimes(list[i].email);
+    }
     let nPage=Math.ceil(totalUser/limit);
     res.render('vwAdmin/accounts',{
     layout:'admin',
@@ -48,6 +68,7 @@ Router.get('/accounts', async (req,res)=>{
     nPage,
     page,
     url,
+    reported,baned,
     })
 })
 
@@ -61,6 +82,148 @@ Router.post('/accounts/disabled', async(req,res)=>{
         const ret=await usersService.disabledUser(Email,0)
     }
     res.redirect('back')
+})
+
+Router.get('/reported-recipe',async (req,res,next)=>{
+    const page=parseInt(req.query.p)||1;
+    const limit=2
+    const offset=(page-1)*limit
+    const id=req.query.id
+    const url=`/admin/reported-recipe?role=0`
+    const nitems=await recipesService.countReportedRecipe(id);
+    const nPage=Math.ceil(parseInt(nitems)/limit)
+    const list=await recipesService.getReportedRecipe(id,offset,limit);
+    console.log(list);
+
+    res.render("vwAdmin/reportedRecipe",{
+        layout:'admin',
+        list,
+        nPage,
+        page,
+        url,
+        isEmpty:list.length===0
+
+    })
+})
+Router.get('/recipes', async (req,res)=>{
+    const page = req.query.p || 1;
+    const limit = 5;
+    const offset = (page - 1) * limit;
+    let list = await recipesService.getRecipesByPage(limit,offset);
+    let totalRecipes = await recipesService.getRecipesAmount();
+    let url = '/admin/recipes?';
+
+    let nPage=Math.ceil(totalRecipes/limit);
+    res.render('vwAdmin/recipes',{
+    layout:'admin',
+    showFilter:true,
+    list,
+    isEmpty: list.length===0,
+    nPage,
+    page,
+    url,
+    })
+})
+
+Router.post('/recipes/disabled', async(req,res)=>{
+    const status=req.body.status;
+    const id=req.query.id
+    if(status==='disable'){
+        const ret=await recipesService.disabledRecipe(id,1);
+    }
+    else{
+        const ret=await recipesService.disabledRecipe(id,0)
+    }
+    res.redirect('back')
+})
+
+Router.post('/search',async (req,res,next)=>{
+    const searchValue = req.query.name;
+    const reported = req.query.reported || 0;
+    const baned = req.query.baned || 0;
+    const page = req.query.p || 1;
+    const limit = 1;
+    const offset = (page - 1) * limit;
+    let list; 
+    let totalUser;
+    let url; 
+    if(reported == baned){
+        list = await usersService.getUsersSearchByPage(searchValue,limit,offset);
+        totalUser = await usersService.getUsersSearchAmount(searchValue);
+        url = `/admin/search?name=${searchValue}`
+    }
+    else{
+        if(reported == 1){
+            list = await usersService.getReportedUsersSearchByPage(searchValue,limit,offset);
+            totalUser = await usersService.getReportedUserSearchAmount(searchValue);
+            url = `/admin/search?name=${searchValue}&reported=1`;
+        }
+        if(baned == 1){
+            list = await usersService.getBanedUsersSearchByPage(searchValue,limit,offset);
+            totalUser = await usersService.getBanedUsersSearchAmount(searchValue);
+            url = `/admin/search?name=${searchValue}&baned=1`;
+        }
+    }
+    for(let i in list){
+        list[i].reportedTimes = await usersService.getReportedTimes(list[i].email);
+    }
+    let nPage=Math.ceil(totalUser/limit);
+    res.render('vwAdmin/accounts',{
+        layout:'admin',
+        showFilter:true,
+        searchValue,
+        list,
+        isEmpty: list.length===0,
+        nPage,
+        page,
+        url,
+        reported,baned,
+        })
+})
+
+Router.get('/search',async (req,res,next)=>{
+    const searchValue = req.query.name;
+    const reported = req.query.reported || 0;
+    const baned = req.query.baned || 0;
+    const page = req.query.p || 1;
+    const limit = 1;
+    const offset = (page - 1) * limit;
+    let list; 
+    let totalUser;
+    let url; 
+    if(reported == baned){
+        list = await usersService.getUsersSearchByPage(searchValue,limit,offset);
+        console.log(list);
+        totalUser = await usersService.getUsersSearchAmount(searchValue);
+        url = `/admin/search?name=${searchValue}`
+    }
+    else{
+        if(reported == 1){
+            list = await usersService.getReportedUsersSearchByPage(searchValue,limit,offset);
+            totalUser = await usersService.getReportedUserSearchAmount(searchValue);
+            url = `/admin/search?name=${searchValue}&reported=1`;
+        }
+        if(baned == 1){
+            list = await usersService.getBanedUsersSearchByPage(searchValue,limit,offset);
+            totalUser = await usersService.getBanedUsersSearchAmount(searchValue);
+            url = `/admin/search?name=${searchValue}&baned=1`;
+        }
+    }
+    for(let i in list){
+        list[i].reportedTimes = await usersService.getReportedTimes(list[i].email);
+    }
+    let nPage=Math.ceil(totalUser/limit);
+    res.render('vwAdmin/accounts',{
+        layout:'admin',
+        showFilter:true,
+        searchValue,
+        list,
+        isEmpty: list.length===0,
+        nPage,
+        page,
+        url,
+        reported,baned,
+        })
 })
 
 export default Router;
