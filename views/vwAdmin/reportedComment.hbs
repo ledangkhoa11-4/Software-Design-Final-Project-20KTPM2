@@ -1,0 +1,53 @@
+<link rel="stylesheet" href="/public/css/pagination.css">
+<div class="card">
+  <div class="card-header">
+   Comments Reported
+  </div>
+  <div class="card-body">
+    {{#if this.isEmpty}}
+      <p>No Data</p>
+    {{else}}
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Comments of</th>
+            <th>Comment content</th>
+            <th>Reason</th>
+            <th style="width: 14%">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each this.comments}}
+          <tr >
+                <td scope="col" style=" max-width:200px">
+                  <a href="/profile?email={{userReported}}">
+                    <p style="overflow:auto;">{{userReported}}</p>
+                  </a>
+                </td>
+               
+                <td >
+                    {{content}}
+                </td>
+                <td >
+                    {{numberReports}} reports about: <b>{{reason}}</b> 
+                </td>
+                <td >
+                    <div>
+                      <a class="btn btn-danger" href="/admin/comments/delete?recipeID={{recipeID}}&user={{userReported}}" role="button">Delete</a>
+                      <a class="btn btn-light" href="/admin/comments/ignore?recipeID={{recipeID}}&user={{userReported}}" href="#" role="button">Ignore</a>
+                    </div>
+                </td>       
+          </tr>
+          {{/each}}
+            
+          
+        </tbody>
+      </table>
+    {{/if}}
+    </div>
+    <div class="card-footer">
+      <a name="" id="" class="btn btn-primary" href="/admin/accounts?&p=1" role="button"><i class="fa-solid fa-arrow-left"></i>Back</a>
+    </div>
+  </div>
+    
+</script>

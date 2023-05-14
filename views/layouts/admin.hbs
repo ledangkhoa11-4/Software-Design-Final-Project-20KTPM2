@@ -19,6 +19,9 @@
       box-sizing: border-box;
       margin: 0;
     }
+    .footer-section{
+      display: none;
+    }
   </style>
   
 </head>
@@ -35,6 +38,7 @@
                 <ul class="list-group list-group-flush">
                     <a name="" id="" class="list-group-item" href="/admin/accounts" role="button">Accounts List</a>
                     <a name="" id="" class="list-group-item {{#if this.recipe}}active{{/if}}" href="/admin/recipes?p=1" role="button">Recipes List</a>
+                    <a name="" id="" class="list-group-item {{#if this.reportedComment}}active{{/if}}" href="/admin/comments?p=1" role="button">Reported Comments</a>
                 </ul>
           </div>
           {{#if this.showFilter}}
@@ -45,6 +49,7 @@
                 <ul class="list-group list-group-flush">
                     <a name="" id="" class="list-group-item {{#if reported}}active{{/if}}" {{#if searchValue}}href="/admin/search?name={{searchValue}}&reported=1"{{else}}href="/admin/accounts?reported=1&p=1"{{/if}}  role="button">Reported Users</a>
                     <a name="" id="" class="list-group-item {{#if baned}}active{{/if}}" {{#if searchValue}}href="/admin/search?name={{searchValue}}&baned=1"{{else}}href="/admin/accounts?baned=1&p=1"{{/if}} role="button">Banned Users</a>
+                   
                 </ul>
           </div>
           {{/if}}

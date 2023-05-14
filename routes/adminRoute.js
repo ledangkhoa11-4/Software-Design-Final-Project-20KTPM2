@@ -5,6 +5,7 @@ import usersService from '../service/usersService.js'
 import bcrypt from 'bcrypt'
 
 import middlewares from '../middlewares/middlewares.js';
+import reportService from '../service/reportService.js';
 
 
 
@@ -250,4 +251,41 @@ Router.get('/search',async (req,res,next)=>{
         })
 })
 
+Router.get("/comments",async (req, res, next)=>{
+    const commentsRp = await reportService.getAllReport()
+    let dataComment = {
+        layout:'admin',
+        reportedComment: true,
+        isEmpty: commentsRp.length == 0,
+        comments: commentsRp
+    }
+    
+    res.render(`vwAdmin/reportedComment`,dataComment)
+})
+Router.get("/comments/delete",async (req, res, next)=>{
+   let dataComments = {
+    recipeID: req.query.recipeID,
+    userEmail: req.query.user
+   }
+   let dataReport = {
+    recipeID: req.query.recipeID,
+    userReported: req.query.user
+   }
+   await reportService.deleteReport(dataReport)
+   await reportService.deleteComment(dataComments)
+   
+   res.redirect("/admin/comments")
+})
+Router.get("/comments/ignore",async (req, res, next)=>{
+    let dataComments = {
+     recipeID: req.query.recipeID,
+     userEmail: req.query.user
+    }
+    let dataReport = {
+     recipeID: req.query.recipeID,
+     userReported: req.query.user
+    }
+    await reportService.deleteReport(dataReport)
+    res.redirect("/admin/comments")
+ })
 export default Router;
