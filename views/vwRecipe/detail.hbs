@@ -185,7 +185,7 @@
                 <form action="./comment/{{recipe.id}}" method="POST">
                     <div class="comment-textbox" style="display: flex; align-items: center; margin: 0 20px;">
                         <img class="me-3" style="border-radius:50%; border:1px solid black" src="{{crrUser.avatar}}"
-                            width="32" height="32" alt="">
+                            width="32" height="32" alt="" onerror="this.src = '/public/images/default_avt.png'">
 
                         <div class="input-text d-flex"
                             style="flex: 1;padding: 5px 16px;border-radius: 20px;border: 1px solid #ccc;">
@@ -239,8 +239,10 @@
                     {{#each comments as |cmt|}}
                     <div class="card" style="padding: 30px;">
                         <div class="comment-item">
-                            <img src="{{cmt.avatar}}" width="32px" height="32px"
-                                style="border-radius: 50%;border:1px solid black; margin:6px 16px 0 0" alt="">
+                            <a href="/profile?email={{cmt.userEmail}}">
+                                <img src="{{cmt.avatar}}" width="32px" height="32px"
+                                 style="border-radius: 50%;border:1px solid black; margin:6px 16px 0 0" alt="">
+                            </a>
                             <div class="col">
                                 <div class="options-btn">
                                     <button class="btn">&#8226;&#8226;&#8226;</button>
@@ -256,9 +258,11 @@
                                         {{/if}}
                                     </div>
                                 </div>
-                                <p class="author-name">{{cmt.fullname}}</p>
-                                <span class="time-comment">{{cmt.date}}</span>
-                                <p class="comment-content">{{cmt.content}}</p>
+                                 <a href="/profile?email={{cmt.userEmail}}" style="text-decoration: none; color:#000">
+                                    <p class="author-name">{{cmt.fullname}}</p>
+                                 </a>
+                                <span class="time-comment">{{convertDate cmt.date}}</span>
+                                <p class="comment-content mt-3">{{cmt.content}}</p>
 
                             </div>
                         </div>

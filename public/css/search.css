@@ -28,3 +28,11 @@
     font-size: 14px;
     margin-right: 4px;
 }
+.ellipsis{
+    width:100%;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    background:#fff;
+}
