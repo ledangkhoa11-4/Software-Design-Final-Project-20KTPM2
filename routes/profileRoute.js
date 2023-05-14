@@ -112,12 +112,13 @@ Router.get('/',async(req,res,next)=>{
    const list=await recipesService.getRecipesByUserEmail(req.query.email)
    const user=await usersService.findUserByEmail(req.query.email)
    const followed=  await usersService.isFollow(res.locals.auth.email,req.query.email)
-   
+   const follownumber=await usersService.countFolloweduser(req.query.email)
    res.render("vwProfile/userProfile",{
       list,
       user,
       isFollowed:followed.length===1,
-      isEmpty:list.length===0
+      isEmpty:list.length===0,
+      follownumber,
    });
 })
 
