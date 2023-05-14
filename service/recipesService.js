@@ -216,6 +216,32 @@ export default{
     countLike:async(id)=>{
         const count=await database.raw(`Select count(*) as c from likes where recipeID=${id}`)
         return count[0][0].c
-    }
+    },
+    getReportedRecipesByPage:async(limit,offset)=>{
+        const list=await database.raw(`SELECT p.*,r.* 
+        FROM Recipe p JOIN reportedRecipes r ON p.id = r.recipeReported
+        GROUP BY r.recipeReported
+        LIMIT ${offset},${limit} `)
+        return list[0]
+    },
+    getReportedRecipesAmount: async () => {
+        const count=await database.raw(`SELECT count(DISTINCT recipeReported) as c FROM reportedRecipes;`)
+        return count[0][0].c
+    },
+    getBanedRecipesByPage: async(limit,offset)=>{
+        const list=await database.raw(`SELECT p.*
+        FROM Recipe p 
+        Where p.isbaned = 1
+        LIMIT ${offset},${limit} `)
+        return list[0]
+    },
+    getBanedRecipesAmount: async () => {
+        const count=await database.raw(`SELECT count(DISTINCT id) as c FROM Recipe WHERE Recipe.isbaned = 1;`)
+        return count[0][0].c
+    },
+    getReportedTimes: async (id) =>{
+        const count=await database.raw(`SELECT count(*) as c FROM reportedRecipes WHERE reportedRecipes.recipeReported = '${id}';`)
+        return count[0][0].c 
+    },
 }
 
