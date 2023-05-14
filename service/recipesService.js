@@ -191,7 +191,7 @@ export default{
         return count[0][0].c
     },
     getReportedRecipe:async(id,offset,limit)=>{
-        const list=await database.raw(`SELECT r.* 
+        const list=await database.raw(`SELECT r.*, p.Name
         FROM Recipe p JOIN reportedRecipes r ON p.id = r.recipeReported
         where r.recipeReported='${id}'
         LIMIT ${offset},${limit}`)

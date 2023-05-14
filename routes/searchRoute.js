@@ -2,8 +2,11 @@ import express, { query, request } from 'express'
 import searchService from '../service/searchService.js';
 import fs from "fs"
 const Router = express.Router();
-Router.get("/",(req, res, next)=>{
+Router.get("/", async (req, res, next)=>{
+    const recent = await searchService.getAllRecentSearch();
+    console.log(recent);
     res.render("vwSearch/search",{
+        recent,
         isEmpty: true
     })
 })
@@ -40,7 +43,13 @@ Router.post("/",async (req,res,next)=>{
         }
     }
 
+   
+    if (listRecipe.length > 0){
+        const addRecent = await searchService.addRecentSearch(searchKey)
+    }
+    const recent = await searchService.getAllRecentSearch();
     res.render("vwSearch/search",{
+        recent,
         searchKey,
         listRecipe,
         isEmpty:listRecipe.length===0,

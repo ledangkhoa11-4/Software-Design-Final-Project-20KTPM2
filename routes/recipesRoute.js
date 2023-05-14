@@ -259,6 +259,36 @@ Router.post("/edit/:id", (req, res, next) => {
    }
    res.json(req.body)
 })
+
+Router.post("/reportComment",middlewares.isLogged, async (req, res, next) => {
+   let reporter = res.locals.auth.email
+   let idRecipe = req.body.recipeId
+   let reason = req.body.reason
+   let userReported = req.body.userReported
+   console.log(reporter);
+   console.log(idRecipe);
+   console.log(reason);
+   console.log(userReported);
+   let resData = {
+      status: "",
+      msg: ""
+   }
+   try {
+      const addReport = await reportService.addReportComment(reporter,userReported,idRecipe,reason)
+      showDialog('Success', 'Your report has been submitted.');
+      resData = {
+         status: "success",
+         msg: ""
+      }
+   } catch (err) {
+      resData = {
+         status: "failure",
+         msg: "You have already reported this comment"
+      }
+   }
+   const url = "/recipes/" + idRecipe
+   res.redirect(url)
+})
 Router.post("/report/:id", async (req, res, next) => {
    let reporter = res.locals.auth.email
    let idRecipe = req.params.id
