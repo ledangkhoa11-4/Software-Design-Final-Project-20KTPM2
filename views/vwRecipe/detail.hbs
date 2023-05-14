@@ -51,6 +51,7 @@
     }
 
     .options-menu {
+        z-index: 2;
         position: absolute;
         top: 100%;
         right: 0;
@@ -252,7 +253,36 @@
                                         <button type="submit" class="delete-cmt-btn">Delete</button>
                                         </form>
                                         {{else}}
-                                        <button class="rp-cmt-btn">Report</button>
+                                        <div id="dialog"></div>
+
+                                        <form action="./reportComment" method="POST">
+                                        <input type="hidden" name="recipeId" value="{{cmt.recipeID}}">
+                                        <input type="hidden" name="reportUser" value="{{../crrUser.email}}">
+                                        <input type="hidden" name="userReported" value="{{cmt.userEmail}}">
+                                        <input type="hidden" name="reason" id="reason-input-{{@index}}" value="Thái độ tiêu cực">
+                                        <div style="padding: 8px 16px;text-align: left;">REPORT COMMENT</div>
+                                        <button type="submit" class="rp-cmt-btn" onclick="setReason('Ngôn ngữ lăng mạ','reason-input-{{@index}}')" style="">Ngôn ngữ lăng mạ</button>
+                                        <button type="submit" class="rp-cmt-btn" onclick="setReason('Ngôn ngữ đả kích','reason-input-{{@index}}')" style="">Ngôn ngữ đả kích</button>
+                                        <button type="submit" class="rp-cmt-btn" onclick="setReason('Thái độ tiêu cực','reason-input-{{@index}}')" style="">Thái độ tiêu cực</button>
+                                        <style>
+                                            .rp-cmt-btn:hover {
+                                            color: blue;
+                                            }
+                                            .options-menu {
+        z-index: 2;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 8px 0;
+        display: none;
+        width: 200px;
+    }
+                                        </style>
+                                        </form>
+                                       
                                         {{/if}}
                                     </div>
                                 </div>
@@ -536,4 +566,9 @@
                 $('.submit-modal-btn').removeClass('disabled');
             });
     }
+</script>
+<script>
+function setReason(reason, inputId) {
+    document.getElementById(inputId).value = reason;
+}
 </script>
