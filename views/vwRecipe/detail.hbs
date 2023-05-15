@@ -546,6 +546,21 @@
     })
 </script>
 {{/if}}
+{{#if isdelSuccess}}
+<style>
+    .swal2-container {
+        z-index: 999999;
+    }
+</style>
+<script>
+    Swal.fire(
+        'Delete Comment Success',
+        'error'
+    ).then((result) => {
+        window.location.href = "/"
+    })
+</script>
+{{/if}}
 <script src="/public/script/toast.js"></script>
 
 <script>
