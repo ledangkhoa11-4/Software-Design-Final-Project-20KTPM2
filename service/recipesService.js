@@ -180,12 +180,16 @@ export default{
         `);
         return res;
     },
-    deleteComment: async(recipeID, email)=>{
-        const res = await database.raw(`DELETE FROM comments
-        WHERE userEmail = '${email}' AND recipeID = ${recipeID}        
-        `);
+    deleteComment: async (recipeID, email) => {
+        const res = await database.raw(`DELETE FROM reportedComments
+          WHERE userReported = '${email}' AND recipeID = ${recipeID}`);
+      
+        const res2 = await database.raw(`DELETE FROM comments
+          WHERE userEmail = '${email}' AND recipeID = ${recipeID}`);
+      
         return res;
-    },
+      },
+      
     countReportedRecipe:async(id)=>{
         const count=await database.raw(`SELECT count( *) as c FROM reportedRecipes where recipeReported='${id}'`)
         return count[0][0].c

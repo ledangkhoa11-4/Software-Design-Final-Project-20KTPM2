@@ -26,6 +26,11 @@ export default{
           // The record already exists, return without inserting a new one
           return existingRecord[0][0].id;
         }
+        const limit = await database.raw(`SELECT * FROM recent;`)
+        if (limit[0].length > 10) {
+            const del = await database.raw(`DELETE FROM recent LIMIT 1;
+            `)
+        }
         const total = await database.raw(`INSERT INTO recent (\`key\`) VALUES ('${searchKey}')`);
         if (total) return total[0].insertId;
       },

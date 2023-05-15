@@ -154,7 +154,7 @@ Router.post('/recipes/disabled', async(req,res)=>{
     const status=req.body.status;
     console.log(status);
     const id=req.query.id
-    if(status==='enable'){
+    if(status==='disable'){
         const ret=await recipesService.disabledRecipe(id,1);
     }
     else{
