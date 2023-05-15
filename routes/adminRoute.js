@@ -76,7 +76,7 @@ Router.get('/accounts', async (req,res)=>{
 Router.post('/accounts/disabled', async(req,res)=>{
     const status=req.body.status;
     const Email=req.query.email
-    if(status==='disable'){
+    if(status==='enable'){
         const ret=await usersService.disabledUser(Email,1);
     }
     else{
@@ -152,6 +152,7 @@ Router.get('/recipes', async (req,res)=>{
 
 Router.post('/recipes/disabled', async(req,res)=>{
     const status=req.body.status;
+    console.log(status);
     const id=req.query.id
     if(status==='disable'){
         const ret=await recipesService.disabledRecipe(id,1);

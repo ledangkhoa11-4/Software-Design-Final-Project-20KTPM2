@@ -47,7 +47,8 @@ Router.post("/",async (req,res,next)=>{
     if (listRecipe.length > 0){
         const addRecent = await searchService.addRecentSearch(searchKey)
     }
-    const recent = await searchService.getAllRecentSearch();
+    var recent = await searchService.getAllRecentSearch();
+    recent = recent.reverse()
     res.render("vwSearch/search",{
         recent,
         searchKey,
