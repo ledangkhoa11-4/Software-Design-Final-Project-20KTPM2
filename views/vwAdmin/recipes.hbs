@@ -10,7 +10,7 @@
           <tr>
             <th scope="col">ID</th>
             <th scope="col">Name</th>
-            <th scope="col" style="text-align:center;">Reported Times</th>
+            <th scope="col">Reported Times</th>
             <th scope="col">Action</th>
             <th scope="col" style="text-align:center">Reported Details</th>
           </tr>
@@ -23,19 +23,18 @@
             <tr>
               <td>{{id}}</td>
               <td scope="col">{{Name}}</td>
-              <td scope="col"style="text-align:center;">
+              <td scope="col">
                 {{reportedTimes}}
               </td>
               <td scope="col">
                 <form action="/admin/recipes/disabled?id={{id}}" method="POST" class="justify-content-center">
                 {{#if isbaned}}
-                    <button type="submit" name="status" value="disable" class="btn btn-outline-danger justify-content-center">
-                   <i class="fa fa-lock" aria-hidden="true"></i> Disable</button>
-                {{else}}
-               
-                   <button type="submit" name="status" value="enable" class="btn btn-outline-success justify-content-center "> 
+                  <button type="submit" name="status" value="enable" class="btn btn-outline-success justify-content-center "> 
                     <i class="fa fa-unlock" aria-hidden="true"></i>
                     Enable</button>
+                {{else}}
+                 <button type="submit" name="status" value="disable" class="btn btn-outline-danger justify-content-center">
+                   <i class="fa fa-lock" aria-hidden="true"></i> Disable</button>
               {{/if}}
                 </form>
               </td>
