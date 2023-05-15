@@ -161,6 +161,10 @@ Router.post("/edit-account",uploadAvatarEdit.fields([{name:"avatar"},{name:"cove
       email,
       user
    );
+   console.log(req.cookies.user.fullname);
+   req.cookies.user.fullname = user.fullname;
+   if(req.session.passport) req.session.passport.user = req.cookies.user;
+   res.cookie("user",req.cookies.user);
    return res.render('vwProfile/account',{
       layout:'profile',
       isAlert : true,
