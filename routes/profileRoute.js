@@ -8,7 +8,6 @@ import bcrypt from 'bcrypt'
 import middlewares from '../middlewares/middlewares.js';
 
 
-
 const Router = express.Router();
 Router.use(middlewares.isLogged);
 const storageAvatar = multer.diskStorage({
@@ -128,16 +127,30 @@ Router.get('/edit-account', async (req,res,next) =>{
    user = user[0];
    var isEmail = false;
    if(user.password == "") isEmail = true;
-   const email = user.email;
    res.render('vwProfile/account',{
       layout:'profile',
-      user,email,isEmail
+      user,isEmail
    });
 })
 
 Router.post("/edit-account",uploadAvatarEdit.fields([{name:"avatar"},{name:"cover"}]),async(req,res,next)=>{
    let email = req.cookies.user.email;
    const test = await usersService.getUserByEmail(email);
+   let newEmail = req.body.email;
+   var avatarLoaded = test[0].avatar;
+   var coverLoaded = test[0].cover;
+   if(newEmail != email){
+      if(!String(avatarLoaded).includes("undifine") || req.avatarAdded){
+         avatarLoaded = `./public/images/users/avatar/${newEmail}.jpg`;
+         fs.rename(`./public/images/users/avatar/${email}.jpg`,avatarLoaded,(err) => {
+         });
+      }
+      if(!String(coverLoaded).includes("undifine") || req.coverAdded){
+         coverLoaded = `./public/images/users/cover/${newEmail}.jpg`;
+         fs.rename(`./public/images/users/cover/${email}.jpg`,coverLoaded,(err) => {
+      });
+      }
+   }
    var isEmail = false;
    if(test[0].password == "") isEmail = true;
    var hashedPassword = ""
@@ -146,31 +159,33 @@ Router.post("/edit-account",uploadAvatarEdit.fields([{name:"avatar"},{name:"cove
          hashedPassword = await bcrypt.hash(req.body.password, 5);
       else hashedPassword = test[0].password;
    }
-   var avatarLoaded = test[0].avatar
-   if(req.avatarAdded) avatarLoaded = '/public/images/users/avatar/' + email + '.jpg'
-   var coverLoaded = test[0].cover
-   if(req.coverAdded) coverLoaded = '/public/images/users/cover/' + email + '.jpg'
+   // if(req.avatarAdded) avatarLoaded = '/public/images/users/avatar/' + email + '.jpg'
+   // if(req.coverAdded) coverLoaded = '/public/images/users/cover/' + email + '.jpg'
    let user = {
       fullname: req.body.fullname || "",
       password: hashedPassword || "",
-      email: email,
+      email: newEmail,
       avatar: avatarLoaded,
       cover: coverLoaded,
+      role: req.session.passport.user.role,
+      isbaned: req.session.passport.user.isbaned,
+      otp: req.session.passport.user.otp,
    };
    let result = await usersService.updateInfo(
       email,
       user
    );
-   console.log(req.cookies.user.fullname);
-   req.cookies.user.fullname = user.fullname;
-   if(req.session.passport) req.session.passport.user = req.cookies.user;
+   req.cookies.user = user;
+   if(req.session.passport){ 
+      req.session.passport.user = user;
+   }
    res.cookie("user",req.cookies.user);
    return res.render('vwProfile/account',{
       layout:'profile',
       isAlert : true,
       icon: 'success',
-      user,email,isEmail,
-      title: 'Update account success'
+      user,isEmail,
+      title: 'Update account success',
    })
 })
 

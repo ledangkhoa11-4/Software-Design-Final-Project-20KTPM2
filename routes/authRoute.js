@@ -154,7 +154,6 @@ Router.post('/check-current-name', async (req, res) =>{
 })
 Router.post('/check-current-email', async (req, res)=>{
   const email = req.body.email;
-  console.log(res.locals.auth.email);
   let exists = false;
   if(email == res.locals.auth.email){
     res.json({exists})
