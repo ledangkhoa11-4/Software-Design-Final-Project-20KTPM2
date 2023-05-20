@@ -64,7 +64,7 @@ export default function (passport, strategy){
           const result = await userService.addUser(userDat)
           userDat.IDUser = result
         }else{
-          if(user[0].disable == 1){
+          if(user[0].isbaned == 1){
             return done(null, {status: 'disabled'});
           }
           userDat.IDUser = user[0].IDUser;
