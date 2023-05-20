@@ -28,6 +28,17 @@ app.use(
     extended: true,
   })
 );
+app.use(
+  session({
+    secret: "keyboard cat",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false },
+  })
+);
+settingStrategy(passport);
+app.use(passport.initialize());
+app.use(passport.session());
 app.engine('hbs', engine({
     extname: 'hbs',
     helpers:{
@@ -56,17 +67,6 @@ app.engine('hbs', engine({
   }));
 app.set('view engine', 'hbs');
 app.set('views', './views');
-app.use(
-  session({
-    secret: "keyboard cat",
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false },
-  })
-);
-settingStrategy(passport);
-app.use(passport.initialize());
-app.use(passport.session())
 
 app.use(morgan('dev'))
 
@@ -82,7 +82,7 @@ app.use(async (req,res, next) =>{
     res.cookie("user", req.session.passport.user);
   }
   next();
-})
+});
 
 app.use("/",homeRoute);
 app.use("/recipes", recipesRoute)
