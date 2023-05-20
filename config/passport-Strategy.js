@@ -68,6 +68,7 @@ export default function (passport, strategy){
             return done(null, {status: 'disabled'});
           }
           userDat.IDUser = user[0].IDUser;
+          userDat.fullname = user[0].fullname
         }
         delete userDat.password;
         return done(null, userDat);
