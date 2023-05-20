@@ -51,7 +51,7 @@
                         <input style="padding-left: 16px;" value="0" type="number" min="0" name="ingredient[1][calories]" id="calories1-name" class="calories1-name required">
                         <div class="wrapper hidden">
                             <div class="icon facebook ">
-                                <div class="tooltip">100gr of beef contains 140 calories</div>
+                                <div class="tooltip">We are loading calories of this ingredient</div>
                                 <span><i class="bi bi-lightbulb" style="margin: 0;"></i></span>
                             </div>
                         </div>
@@ -159,32 +159,7 @@ matterialInput()
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/sortable.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/fileinput.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/themes/fa4/theme.min.js"></script>
-
-<script>
-function searchCalories(t,e) {
-    let value = t.value
-    let tooltipWrapper = t.parentNode.parentNode.querySelector(".wrapper")
-    let tooltipContent = tooltipWrapper.querySelector(".tooltip")
-    let key_api = "5a0114020a82747448a4545a0abf0e36"
-    let app_id = "0d96c96a"
-    if(value.length <= 0){
-        return tooltipWrapper.classList.add("hidden");
-    }else{
-        let ingr = `100 g ${value}`
-        ingr = ingr.replaceAll(" ","%20")
-        
-       
-        $.get(`https://api.edamam.com/api/nutrition-data?app_id=${app_id}&app_key=${key_api}&ingr=${ingr}`, function(data, status){
-            let calories = data.calories
-            if(calories != 0){
-                tooltipContent.textContent = `According to EdamamAPI, in 100gr of your ingredient has ${calories} Calories`
-                return tooltipWrapper.classList.remove("hidden");
-            }
-        });
-    }
-    tooltipWrapper.classList.add("hidden")
-}
-</script>
+<script src="/public/script/getCaloriesAndTranslate.js"></script>
 
 <script>
   console.log(updateTab("add-tab"))
@@ -235,7 +210,7 @@ function searchCalories(t,e) {
                         <input style="padding-left: 16px;" type="number" min="0" value="0" name="ingredient[${curentIngre}][calories]" id="calories${curentIngre}-name" class="required">
                         <div class="wrapper hidden">
                             <div class="icon facebook ">
-                                <div class="tooltip">100gr of beef contains 140 calories</div>
+                                <div class="tooltip">We are loading calories of this ingredient</div>
                                 <span><i class="bi bi-lightbulb" style="margin: 0;"></i></span>
                             </div>
                         </div>

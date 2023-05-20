@@ -30,7 +30,7 @@ transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 .wrapper .tooltip {
 position: absolute;
 top: 0;
-width: 200px;
+width: 250px;
 font-size: 14px;
 background: #fff;
 color: #ffffff;
@@ -71,7 +71,7 @@ transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 .wrapper .icon:hover .tooltip {
-top: -45px;
+top: -60px;
 
 opacity: 1;
 visibility: visible;
