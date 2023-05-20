@@ -71,11 +71,10 @@ export default{
         const result=await db('follows').where({follower:follower,followedUser:followedUser}).del()
         return result
     },
-    getReportedUser:async(email,offset,limit)=>{
+    getReportedUser:async(email)=>{
         const list=await db.raw(`SELECT r.* 
         FROM Account p JOIN reportedAccount r ON p.email = r.userReported
-        where r.userReported='${email}'
-        LIMIT ${offset},${limit}`)
+        where r.userReported='${email}'`)
         return list[0]
     },
     countReprtedUser:async(email)=>{

@@ -136,21 +136,8 @@ Router.get('/edit-account', async (req,res,next) =>{
 Router.post("/edit-account",uploadAvatarEdit.fields([{name:"avatar"},{name:"cover"}]),async(req,res,next)=>{
    let email = req.cookies.user.email;
    const test = await usersService.getUserByEmail(email);
-   let newEmail = req.body.email;
    var avatarLoaded = test[0].avatar;
    var coverLoaded = test[0].cover;
-   if(newEmail != email){
-      if(!String(avatarLoaded).includes("undifine") || req.avatarAdded){
-         avatarLoaded = `./public/images/users/avatar/${newEmail}.jpg`;
-         fs.rename(`./public/images/users/avatar/${email}.jpg`,avatarLoaded,(err) => {
-         });
-      }
-      if(!String(coverLoaded).includes("undifine") || req.coverAdded){
-         coverLoaded = `./public/images/users/cover/${newEmail}.jpg`;
-         fs.rename(`./public/images/users/cover/${email}.jpg`,coverLoaded,(err) => {
-      });
-      }
-   }
    var isEmail = false;
    if(test[0].password == "") isEmail = true;
    var hashedPassword = ""
@@ -159,12 +146,12 @@ Router.post("/edit-account",uploadAvatarEdit.fields([{name:"avatar"},{name:"cove
          hashedPassword = await bcrypt.hash(req.body.password, 5);
       else hashedPassword = test[0].password;
    }
-   // if(req.avatarAdded) avatarLoaded = '/public/images/users/avatar/' + email + '.jpg'
-   // if(req.coverAdded) coverLoaded = '/public/images/users/cover/' + email + '.jpg'
+   if(req.avatarAdded) avatarLoaded = '/public/images/users/avatar/' + email + '.jpg'
+   if(req.coverAdded) coverLoaded = '/public/images/users/cover/' + email + '.jpg'
    let user = {
       fullname: req.body.fullname || "",
       password: hashedPassword || "",
-      email: newEmail,
+      email: email,
       avatar: avatarLoaded,
       cover: coverLoaded,
       role: req.session.passport.user.role,
