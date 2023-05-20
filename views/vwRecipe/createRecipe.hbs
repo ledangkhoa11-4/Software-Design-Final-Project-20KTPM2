@@ -1,5 +1,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/css/fileinput.min.css" />
 <link rel="stylesheet" href="/public/css/create-recipe.css">
+<link rel="stylesheet" href="/public/css/tooltip.css">
 <div class="container mt-5" style="margin-top: 20px">
     <h2 style="color: #000472;"><i>Recipe information</i> </h2>
         <hr>
@@ -43,12 +44,19 @@
                 <div class="input-field row s12 mt-3 form__group d-flex" style="padding-left: 0;">
                     <div class="col-9" style="position: relative;">
                         <label for="ingredient1-name" >Ingredient 1:</label>
-                        <input style="padding-left: 16px;" value="250gr Beef meat" type="text" name="ingredient[1][name]" id="ingredient1-name" class="ingredient1-name required">
+                        <input style="padding-left: 16px;" onchange="searchCalories(this,event)" type="text" name="ingredient[1][name]" id="ingredient1-name" class="ingredient1-name required">
                     </div>
                     <div class="col" style="position: relative;">
                         <label for="calories1-name" >Calories:</label>
                         <input style="padding-left: 16px;" value="0" type="number" min="0" name="ingredient[1][calories]" id="calories1-name" class="calories1-name required">
+                        <div class="wrapper hidden">
+                            <div class="icon facebook ">
+                                <div class="tooltip">100gr of beef contains 140 calories</div>
+                                <span><i class="bi bi-lightbulb" style="margin: 0;"></i></span>
+                            </div>
+                        </div>
                     </div>
+                    
                 </div>
             </div>
             <button onclick="addIngredient(this, event);" type="button" class="btn btn-light mt-2 mb-2 add-lecture" style="border: 1px solid rgb(219, 219, 219)"><i class="bi bi-plus-lg"></i> Add more ingredient</button>
@@ -153,6 +161,32 @@ matterialInput()
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/themes/fa4/theme.min.js"></script>
 
 <script>
+function searchCalories(t,e) {
+    let value = t.value
+    let tooltipWrapper = t.parentNode.parentNode.querySelector(".wrapper")
+    let tooltipContent = tooltipWrapper.querySelector(".tooltip")
+    let key_api = "5a0114020a82747448a4545a0abf0e36"
+    let app_id = "0d96c96a"
+    if(value.length <= 0){
+        return tooltipWrapper.classList.add("hidden");
+    }else{
+        let ingr = `100 g ${value}`
+        ingr = ingr.replaceAll(" ","%20")
+        
+       
+        $.get(`https://api.edamam.com/api/nutrition-data?app_id=${app_id}&app_key=${key_api}&ingr=${ingr}`, function(data, status){
+            let calories = data.calories
+            if(calories != 0){
+                tooltipContent.textContent = `According to EdamamAPI, in 100gr of your ingredient has ${calories} Calories`
+                return tooltipWrapper.classList.remove("hidden");
+            }
+        });
+    }
+    tooltipWrapper.classList.add("hidden")
+}
+</script>
+
+<script>
   console.log(updateTab("add-tab"))
 
     $('.finishImage').fileinput({
@@ -194,11 +228,17 @@ matterialInput()
                 <div class="input-field row s12 mt-3 form__group d-flex" style="padding-left: 0;">
                     <div class="col-9" style="position: relative;">
                         <label for="ingredient${curentIngre}-name" >Ingredient ${curentIngre}:</label>
-                        <input style="padding-left: 16px;" type="text" name="ingredient[${curentIngre}][name]" id="ingredient${curentIngre}-name" class="required">
+                        <input style="padding-left: 16px;" onchange="searchCalories(this,event)" type="text" name="ingredient[${curentIngre}][name]" id="ingredient${curentIngre}-name" class="required">
                     </div>
                     <div class="col" style="position: relative;">
                         <label for="calories${curentIngre}-name" >Calories:</label>
                         <input style="padding-left: 16px;" type="number" min="0" value="0" name="ingredient[${curentIngre}][calories]" id="calories${curentIngre}-name" class="required">
+                        <div class="wrapper hidden">
+                            <div class="icon facebook ">
+                                <div class="tooltip">100gr of beef contains 140 calories</div>
+                                <span><i class="bi bi-lightbulb" style="margin: 0;"></i></span>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-auto d-flex align-items-center btn-wrapper">
                     <button onclick="removeIngredient(this,event);" type="button" class="btn btn-light"><i class="fa-solid fa-xmark" style="margin:0"></i> </button>
