@@ -175,8 +175,17 @@ Router.get("/:id", async (req, res, next) => {
       }
       
    }
-
-   
+   const getLike = await recipesService.getLike(req.params.id)
+   let likeStr = `${getLike} people love this`
+   if(getLike == 1 && data.isLiked == true){
+      likeStr = "You are the first person love this"
+   }
+   if(getLike > 1 && data.isLiked == true){
+      likeStr = `You and ${getLike-1} people love this`
+   }
+   if(getLike <= 0)
+      likeStr = `Be the first person love this`
+   data.likeStr = likeStr
    res.render("vwRecipe/detail", data)
    await recipesService.addView(recipe.id)
 })
@@ -320,23 +329,24 @@ Router.post("/like/:id", async (req, res, next) => {
    let type = req.body.type
    let status = "Success"
    let msg = ""
+   let numlikeStr = ""
    const data = {
       userEmail: res.locals.auth.email,
       recipeID: req.params.id,
    }
    try {
       if (type == 'true' || type == true) {
-         const update = await recipesService.addLike(data)
+         numlikeStr = await recipesService.addLike(data)
          msg = "Thank you for loving this post!!!"
       } else {
-         const update = await recipesService.removeLike(data)
+         numlikeStr = await recipesService.removeLike(data)
          msg = "Unlove successfully!!!"
       }
    } catch (err) {
       msg = err.toString()
       status = "Error"
    }
-   res.json({ msg, status })
+   res.json({ msg, status, numlikeStr })
 })
 Router.post("/save/:id", async (req, res, next) => {
    let type = req.body.type

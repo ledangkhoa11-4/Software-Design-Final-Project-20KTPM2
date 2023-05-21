@@ -107,17 +107,20 @@ Router.get('/follows',async(req,res,next)=>{
    })
 })
 Router.get('/',async(req,res,next)=>{
-
    const list=await recipesService.getRecipesByUserEmail(req.query.email)
    const user=await usersService.findUserByEmail(req.query.email)
    const followed=  await usersService.isFollow(res.locals.auth.email,req.query.email)
    const follownumber=await usersService.countFolloweduser(req.query.email)
+   let isOwn = false
+   if(req.query.email == res.locals.auth.email)
+      isOwn = true
    res.render("vwProfile/userProfile",{
       list,
       user,
       isFollowed:followed.length===1,
       isEmpty:list.length===0,
       follownumber,
+      isOwn
    });
 })
 

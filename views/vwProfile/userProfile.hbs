@@ -18,7 +18,13 @@
                    <i class="fa-solid fa-ellipsis-vertical menu-profile" style="color:white;" ></i>
                 </button>
                 <ul class="dropdown-menu " style="min-width: 100px;">
-                    
+                    {{#if isOwn}}
+                        <li class="dropdown-item report">
+                            <a href="/profile/edit-account" style="text-decoration: none;
+    font-variant: none;
+    color: black;"><i class="bi bi-pencil-fill"></i>Edit account</a>
+                        </li>
+                    {{else}}
                         <li class="dropdown-item">
                             <form action="" method="post">
                                 {{#if isFollowed}}
@@ -33,9 +39,9 @@
                         <li class="dropdown-item report">
                             <button name="" id="" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">
                                 <i class="fa-solid fa-circle-exclamation"></i>Report</button>
-  
                         </li>
-                       
+                    {{/if}}
+                        
                     </ul>
                 </div>
             </h3>

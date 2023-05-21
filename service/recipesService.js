@@ -108,11 +108,30 @@ export default{
     },
     addLike: async(data)=>{
         const result = await database("likes").insert(data);
-        return result
+        let numLike = await database.raw(`select count(*) as numlike from likes WHERE likes.recipeID = ${data.recipeID}`)
+        numLike = numLike[0][0].numlike
+
+        let returnStr;
+        if(numLike <= 1){
+            returnStr = "You are the first person love this post"
+        }else{
+            returnStr = `You and ${numLike-1} people love this`
+        }
+        return returnStr
     },
     removeLike: async(data)=>{
         const result = await database("likes").where(data).del();
-        return result
+        let numLike = await database.raw(`select count(*) as numlike from likes WHERE likes.recipeID = ${data.recipeID}`)
+        numLike = numLike[0][0].numlike
+        let returnStr =  `${numLike} people love this`
+        if(numLike <= 0)
+            returnStr =  `Be the first person love this`
+        return returnStr
+    },
+    getLike: async(recipeID)=>{
+        let numLike = await database.raw(`select count(*) as numlike from likes WHERE likes.recipeID = ${recipeID}`)
+        numLike = numLike[0][0].numlike
+        return numLike
     },
     getBestLike: async()=>{
         const result = await database.raw(`

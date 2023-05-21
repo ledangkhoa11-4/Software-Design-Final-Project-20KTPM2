@@ -106,7 +106,7 @@
                     {{recipe.Name}}
                 </div>
                 <div class="reaction d-flex align-items-center" style="    margin-right: -30px;">
-                    <span style="font-size: 13px;color: #333; margin-right: -25px;">You and 132 people love this</span>
+                    <span style="font-size: 13px;color: #333; margin-right: -25px;" id="numlike">{{likeStr}}</span>
                     <div class="placement" onclick="addToFavorite()">
                         {{#unless isLiked}}
                         <div class="heart"></div>
@@ -494,6 +494,7 @@
                     addError(data.msg)
                 } else {
                     addSuccess(data.msg)
+                    document.querySelector("#numlike").textContent = data.numlikeStr
                 }
             });
         isLoved = !isLoved
