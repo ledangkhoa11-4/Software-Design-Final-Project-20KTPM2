@@ -33,8 +33,8 @@ export default{
         }
         return null;
     },
-    isNameExists: async(fullname, name) => {
-        const curName = await db.raw(`Select fullname From Account where Account.fullname LIKE '${fullname}'`);
+    isNameExists: async(email, name) => {
+        const curName = await db.raw(`Select fullname From Account where email LIKE '${email}'`);
         if(curName[0][0].fullname.localeCompare(name) === 0) return true;
         return false;            
     },
@@ -177,5 +177,19 @@ export default{
     countFolloweduser:async(email)=>{
         const count =await db.raw(`SELECT count(*) as c FROM follows WHERE followedUser='${email}'`)
         return count[0][0].c;
-    }
+    },
+    getInfo: async(email)=>{
+        const infos = await db('Account').where({email: email});
+        if(infos)
+            return infos[0];
+        return null;
+    },
+    changeName: async(email, newName)=>{
+        const result = await db('Account').where({email}).update({fullname: newName});
+        return result[0]
+    },
+    changePassword: async(email, newPassword)=>{
+        const result= await db('Account').where({email}).update({password: newPassword});
+        return result[0]
+    },
 }

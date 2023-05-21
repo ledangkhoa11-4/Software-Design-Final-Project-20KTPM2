@@ -67,9 +67,8 @@ export default function (passport, strategy){
           if(user[0].isbaned == 1){
             return done(null, {status: 'disabled'});
           }
-          userDat.IDUser = user[0].IDUser;
-          userDat.fullname = user[0].fullname
         }
+        if(userDat.fullname != user[0].fullname) userDat.fullname = user[0].fullname;
         delete userDat.password;
         return done(null, userDat);
       });

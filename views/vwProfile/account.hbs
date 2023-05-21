@@ -1,5 +1,7 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/css/fileinput.min.css" />
 <link rel="stylesheet" href="/public/css/account.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <form method="POST" enctype="multipart/form-data" id="form_table" class="form-1" name="form_table" novalidate style="width: 75%;">
     <div class="container rounded bg-white mb-5" id="account_table">
         <div class="row">
@@ -22,9 +24,22 @@
                         <h4 class="text-right">Profile Settings</h4>
                     </div>
                     <div class="row mt-2">
-                        <div class="col-md-12"><label for="email" class="labels">Email</label><input disabled style="color: gray;" type="text" class="email" placeholder="email" id="email" name="email" value="{{user.email}}"><span class="form__group-message email-message"></span></div>
+                        <label for="email" style="padding: 0;">Email</label>
+                        <div class="col-md-12" style="padding: 0;">
+                            <input disabled style="color: gray;" type="text" class="email" placeholder="email" id="email" name="email" value="{{user.email}}">
+                            <span class="form__group-message email-message"></span>
+                        </div>
                     </div>
-                    <div class="row mt-3">
+                    {{!-- <div class="row mt-2">
+				        <label for="name"><i class="fa-solid fa-user mr-2 ml-3"></i>Name</label>
+				        <div class="col-md-12" style="position: relative;">
+                            <input id="name" class="name" type="text" disabled style="flex: 1;" autocomplete="new-name">
+                            <button type="button" class="btn btn-light" style="position: absolute; right: 0; height: 54px"
+                                data-toggle="modal" data-target="#exampleModalCenterName"><i class="fa-solid fa-pen"></i></button>
+				        </div>
+				        <span class="form__group-message email-message"></span>
+			        </div> --}}
+                    {{!-- <div class="row mt-3">
                         <div class="col-md-6"><label for="fullname" class="labels">FullName</label><input type="text" class="fullname" placeholder="name" id="fullname" name="fullname" value="{{user.fullname}}"><span class="form__group-message email-message"></span></div>
                         {{#unless isEmail}}
                             <div class="col-md-6"><label for="password" class="labels">Password</label><input type="password" class="password" value="********" id="password" name="password" placeholder="password" required><span class="form__group-message email-message"></span></div>
@@ -32,16 +47,32 @@
                         {{#if isEmail}}
                             <div class="col-md-6"><label for="password" class="labels">Password</label><input disabled style="color: gray;" type="password" class="password" value="********" id="password" name="password" placeholder="password" required><span class="form__group-message email-message"></span></div>
                         {{/if}}
+                    </div> --}}
+                    <div class="row mt-3">
+                        <label for="fullname" style="padding: 0;">FullName</label>
+                        <div class="col-md-12" style="position: relative; display: flex; padding: 0;">
+                            <input type="text" class="fullname" placeholder="name" id="fullname" name="fullname" value="{{auth.fullname}}" disabled>
+                            <button type="button" class="btn btn-light" style="position: absolute;right: 0;height: 38px; border: 1px solid #d2d6db;" data-bs-toggle="modal" data-bs-target="#exampleModalCenterName"><i class="fa-solid fa-pen"></i></button>
+                        </div>
+                        <span class="form__group-message email-message"></span>
+                    </div>
+                    <div class="row mt-3">
+                        <label for="password" style="padding: 0;">Password</label>
+                        <div class="col-md-12" style="position: relative; display: flex; padding: 0;">
+                            {{#unless isEmail}}
+                                <input disabled type="password" class="password" value="********" id="password" name="password" placeholder="password" required>
+                                <button type="button" class="btn btn-light" style="position: absolute;right: 0;height: 38px; border: 1px solid #d2d6db;" data-bs-toggle="modal" data-bs-target="#exampleModalCenterPassword"><i class="fa-solid fa-pen"></i></button>
+                            {{/unless}}
+                            {{#if isEmail}}
+                                <input disabled style="color: gray;" type="password" class="password" value="********" id="password" name="password" placeholder="password" required>
+                            {{/if}}
+                        </div>
+                        <span class="form__group-message email-message"></span>
                     </div>
                     <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="submit">Save Profile</button></div>
                 </div>
             </div>
             <div class="col-md-4">
-                {{!-- <div class="p-3 py-5">
-                    <div class="d-flex justify-content-between align-items-center experience"><span>Edit Experience</span><span class="border px-3 p-1 add-experience"><i class="fa fa-plus"></i>&nbsp;Experience</span></div><br>
-                    <div class="col-md-12"><label class="labels">Experience in Designing</label><input type="text" class="form-control" placeholder="experience" value=""></div> <br>
-                    <div class="col-md-12"><label class="labels">Additional Details</label><input type="text" class="form-control" placeholder="additional details" value=""></div>
-                </div> --}}
                 <div class="image-upload-wrap" style="display: none;">
                     <input class="file-upload-input" id="cover" name="cover" type='file' value="/public/images/users/cover/{{user.email}}.jpg" onchange="readURL2(this);" accept="image/*" />
                     <div class="drag-text">
@@ -58,6 +89,77 @@
         </div>
     </div>
 </form>
+<div class="modal fade" id="exampleModalCenterName" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel"
+	aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLongTitle">Change Name</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+				</button>
+			</div>
+			<div class="modal-body">
+				<form action="change-name" method="POST" class="form-2">
+					<div class="container-fluid">
+						<div class="grid" style="  grid-gap: 0px; grid-template-columns: 1fr;">
+							<div class="form-group ">
+								<label for="cur-name">Current name</label>
+								<input id="cur-name" class="cur-name" value="{{auth.fullname}}" type="text" autocomplete="new-name" style="background: #fafafa; color: gray;" disabled>
+								<span class="form__group-message email-message"></span>
+							</div>
+							<div class="form-group ">
+								<label for="new-name">New Name</label>
+								<input id="new-name" class="new-name" type="text"  name="name" autocomplete="new-name">
+								<span class="form__group-message email-message"></span>
+							</div>
+						</div>
+						<div class="button-container">
+							<button class="btn btn-primary" type="submit" style="margin-top: 10px;">Apply Change</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="exampleModalCenterPassword" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel"
+	aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLongTitle">Change Password</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+				</button>
+			</div>
+			<div class="modal-body">
+				<form action="change-password" method="POST" class="form-3">
+					<div class="container-fluid">
+						<div class="grid" style="  grid-gap: 0px; grid-template-columns: 1fr;">
+							<div class="form-group ">
+								<label for="cur-password">Current password</label>
+								<input id="cur-password" class="cur-password" type="password" autocomplete="new-password">
+								<span class="form__group-message email-message"></span>
+							</div>
+							<div class="form-group ">
+								<label for="new-password">New password</label>
+								<input id="new-password" class="new-password" type="password"  name="password" autocomplete="new-password">
+								<span class="form__group-message email-message"></span>
+							</div>
+							<div class="form-group ">
+								<label for="password">Confirm new password</label>
+								<input id="confirm-password" class="confirm-password" type="password" autocomplete="new-password">
+								<span class="form__group-message email-message"></span>
+							</div>
+						</div>
+						<div class="button-container">
+							<button class="btn btn-primary" type="submit" style="margin-top: 10px;">Apply Change</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
 <script>
     $(document).ready(function(){
 // Prepare the preview for profile picture
@@ -113,23 +215,76 @@ $('.image-upload-wrap').bind('dragover', function () {
 </script>
 
 <script src="/public/script/validate.js"></script>
+<script src="/public/script/validateUser.js"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+	ValidatorName({
+		form:".form-2",
+		error_message: ".form__group-message",
+		onSubmit: function (data) {
+			let newName = document.querySelector("#new-name").value;
+			let email = `{{auth.email}}`;
+			$.post("/auth/check-current-name",
+				{
+					name: newName,
+					email: email,
+				},
+				function(data, status){
+					if(data.exists == true){
+						Swal.fire({
+							width: 600,
+							icon:`error`,
+							title: `You have entered your current name!`,
+							showConfirmButton: false,
+							timer: 2500
+						})
+					}
+					else{
+						document.querySelector(".form-2").submit()
+					}				
+				}
+			);
+		}
+	})
+	ValidatorPassword({
+		form:".form-3",
+		error_message: ".form__group-message",
+		onSubmit: function (data) {
+			let curPass = document.querySelector("#cur-password").value;
+			console.log(curPass);
+			$.post("/auth/check-valid-pass",
+					{
+						password: curPass,
+					},
+					function(data, status){
+						if(data.isValid == false){
+							Swal.fire({
+								width: 600,
+								icon:`error`,
+								title: `Your current password not correct. Please type again!`,
+								showConfirmButton: false,
+								timer: 2500
+							})
+						}else{
+							document.querySelector(".form-3").submit()
+						}				
+					});
+		}
+		
+	}) 
+
+</script>
 <script>
     Validator(
         {
             form: ".form-1",
             error_message: ".form__group-message",
-            rules: [
-                Validator.isRequire(".fullname"),
-                Validator.isRequire(".email"),
-                Validator.isRequire(".password"),
-
-                Validator.isEmail(".email"),
-                Validator.minLength(".password", 8),
-            ],
+			rules:[
+			
+			],
             onSubmit: function (data) {
-                let email = document.querySelector("#email").value;
-                console.log(email);
+				document.querySelector(".form-1").submit()
+                {{!-- let email = document.querySelector("#email").value;
 				$.post("/auth/check-current-email",
 					{
 						email
@@ -147,10 +302,11 @@ $('.image-upload-wrap').bind('dragover', function () {
 							})
 						}				
 				    }
-                );
+                ); --}}
             }
         })
 </script>
+
 {{#if isAlert}}
     <script>
         Swal.fire({

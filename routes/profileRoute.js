@@ -144,30 +144,32 @@ Router.post("/edit-account",uploadAvatarEdit.fields([{name:"avatar"},{name:"cove
    var isEmail = false;
    if(test[0].password == "") isEmail = true;
    var hashedPassword = ""
-   if(test[0].password != ""){
-      if(req.body.password != "********")
-         hashedPassword = await bcrypt.hash(req.body.password, 5);
-      else hashedPassword = test[0].password;
-   }
+   // if(test[0].password != ""){
+   //    if(req.body.password != "********")
+   //       hashedPassword = await bcrypt.hash(req.body.password, 5);
+   //    else hashedPassword = test[0].password;
+   // }
    if(req.avatarAdded) avatarLoaded = '/public/images/users/avatar/' + email + '.jpg'
    if(req.coverAdded) coverLoaded = '/public/images/users/cover/' + email + '.jpg'
    let user = {
-      fullname: req.body.fullname || "",
-      password: hashedPassword || "",
+      fullname: req.cookies.user.fullname || "",
+      // password: hashedPassword || "",
       email: email,
       avatar: avatarLoaded,
       cover: coverLoaded,
-      role: req.session.passport.user.role,
-      isbaned: req.session.passport.user.isbaned,
-      otp: req.session.passport.user.otp,
+      // role: req.session.passport.user.role,
+      // isbaned: req.session.passport.user.isbaned,
+      // otp: req.session.passport.user.otp,
    };
    let result = await usersService.updateInfo(
       email,
       user
    );
-   req.cookies.user = user;
+   req.cookies.user.avatar = user.avatar;
+   req.cookies.user.cover = user.cover;
    if(req.session.passport){ 
-      req.session.passport.user = user;
+      req.session.passport.user.avatar = user.avatar;
+      req.session.passport.user.cover = user.cover;
    }
    res.cookie("user",req.cookies.user);
    return res.render('vwProfile/account',{
@@ -199,5 +201,38 @@ Router.post("/report",async(req,res,next)=>{
    
    const result=await usersService.reportUser(req.body.reportedEmail,req.body.reason,userReported)
    res.redirect('back')
+})
+Router.post('/change-name', async(req,res,next) => {
+   const newName = req.body.name;
+   var user = await usersService.getUserByEmail(res.locals.auth.email);
+   user = user[0];
+   var isEmail = false;
+   if(user.password == "") isEmail = true;
+   const resultChange = await usersService.changeName(res.locals.auth.email, newName);
+   req.cookies.user.fullname = newName;
+   if(req.session.passport) req.session.passport.user = req.cookies.user;
+   res.cookie("user", req.cookies.user);
+   return res.render('vwProfile/account',{
+       layout: 'profile',
+       isAlert: true,
+       icon: 'success',
+       title: 'Name changed successfully.',
+       user,isEmail
+   })
+}),
+Router.post('/change-password',async (req, res, next)=>{
+   var user = await usersService.getUserByEmail(res.locals.auth.email);
+   user = user[0];
+   var isEmail = false;
+   const password = req.body.password;
+   const hashedPassword = await bcrypt.hash(password,5);
+   const resultChange = await usersService.changePassword(res.locals.auth.email, hashedPassword);
+   return res.render('vwProfile/account',{
+       layout: 'profile', 
+       isAlert: true,
+       icon: 'success',
+       title: 'Password changed successfully.',
+       user,isEmail
+   })
 })
 export default Router;
