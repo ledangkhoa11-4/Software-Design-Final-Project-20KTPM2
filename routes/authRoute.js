@@ -136,12 +136,6 @@ Router.get('/google/callback',
   function(req, res) {
     res.redirect('/');
 });
-Router.post('/check-valid-pass', async (req, res)=>{
-    const password = req.body.password;
-    const user = await userService.findUserByEmail(res.locals.auth.email);
-    let isValid = await bcrypt.compare(password, user.Password);
-    res.json({isValid});
-  });
 Router.post('/check-exists-email', async (req, res)=>{
   const email = req.body.email;
   let exists = await userService.isEmailExists(email); 
@@ -149,9 +143,17 @@ Router.post('/check-exists-email', async (req, res)=>{
 });
 Router.post('/check-current-name', async (req, res) =>{
     const name = req.body.name;
-    let exists = await userService.isNameExists(req.body.name, name);
+    const email = req.body.email;
+    let exists = await userService.isNameExists(email, name);
     res.json({exists});
 })
+Router.post('/check-valid-pass', async (req, res)=>{
+  const password = req.body.password;
+  const user = await userService.findUserByEmail(res.locals.auth.email);
+  console.log(user);
+  let isValid = await bcrypt.compare(password, user.password);
+  res.json({isValid});
+});
 Router.post('/check-current-email', async (req, res)=>{
   const email = req.body.email;
   let exists = false;
