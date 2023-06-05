@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "start": "node node_modules/puppeteer/install.js && node index.js"
   },
   "repository": {
     "type": "git",
@@ -38,6 +38,6 @@
     "passport": "^0.6.0",
     "passport-google-oauth20": "^2.0.0",
     "passport-local": "^1.0.0",
-    "puppeteer": "^20.1.2"
+    "puppeteer": "^20.5.0"
   }
 }

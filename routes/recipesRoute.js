@@ -266,7 +266,7 @@ Router.post("/edit/:id", (req, res, next) => {
       }
       let updateIngre = await recipesService.addIngredient(obj)
    }
-   res.json(req.body)
+   res.redirect(`/recipes/${req.RecipeID}`)
 })
 
 Router.post("/reportComment",middlewares.isLogged, async (req, res, next) => {

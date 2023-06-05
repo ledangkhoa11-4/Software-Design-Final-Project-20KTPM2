@@ -30,6 +30,7 @@ app.use(
 );
 app.use(
   session({
+    name: "user_cookie",
     secret: "keyboard cat",
     resave: false,
     saveUninitialized: true,
